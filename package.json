@@ -4,12 +4,16 @@
   "description": "Semester 1, Academic year: 2024-2025",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon backend-api/server.js"
+
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.21.0"
   },
   "devDependencies": {
@@ -18,6 +22,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.28.0",
     "globals": "^15.10.0",
+    "nodemon": "^3.1.7",
     "prettier": "^3.3.3",
     "typescript-eslint": "^8.8.0"
   }
