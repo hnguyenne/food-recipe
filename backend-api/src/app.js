@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 
+const recipesRouter = require('./routes/recipes.router');
+
 const app = express();
 
 app.use(cors());
@@ -12,5 +14,7 @@ app.get('/', (req, res) => {
         message: 'OK'
     });
 });
+
+recipesRouter.setup(app);
 
 module.exports = app;
