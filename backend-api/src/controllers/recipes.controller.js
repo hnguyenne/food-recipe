@@ -26,11 +26,11 @@ function saveRecipe(req, res) {
     return res.status(201).json({});
 }
 
-function rateAndCommentRecipe(req, res) {
+function reviewRecipe(req, res) {
     return res.status(201).json({});
 }
 
-function likeComment(req, res) {
+function likeReview(req, res) {
     return res.status(201).json({});
 }
 
@@ -38,7 +38,7 @@ function getAvgRate(req, res) {
     return res.status(201).json({});
 }
 
-function getComments(req, res) {
+function getReviews(req, res) {
     return res.status(201).json({});
 }
 
@@ -50,8 +50,8 @@ module.exports = {
     addRecipe,
     updateRecipe,
     saveRecipe,
-    rateAndCommentRecipe,
-    likeComment,
     getAvgRate,
-    getComments,
+    getReviews,
+    reviewRecipe,
+    likeReview,
 };

@@ -1,0 +1,76 @@
+# Common references
+components:
+  schemas:
+    Recipe:
+      type: object
+      properties:
+        recipe_id:
+          type: integer
+        user_id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        prep_time:
+          type: integer
+        cook_time:
+          type: integer
+        servings:
+          type: integer
+        video_url:
+          type: string
+        recipe_create_at:
+          type: timestamp
+        note:
+          type: string
+        ingredients:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ingredient"
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/Step"
+        image_url:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: "#components/schemas/Tag"
+
+    Step:
+      type: object
+      properties:
+        step_id:
+          type: integer
+        recipe_id:
+          type: integer
+        step_number:
+          type: integer
+        instruction:
+          type: string
+
+    Ingredient:
+      type: object
+      properties:
+        ingredient_id:
+          type: integer
+        recipe_id:
+          type: integer
+        ingredient_name:
+          type: string
+        unit:
+          type: string
+        quantity:
+          type: integer
+
+    Tag:
+      type: object
+      properties:
+        tag_id:
+          type: integer
+        recipe_id:
+          type: integer
+        tag_name:
+          type: string
