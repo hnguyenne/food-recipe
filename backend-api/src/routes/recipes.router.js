@@ -108,7 +108,7 @@ module.exports.setup = (app) => {
      * @swagger
      * /api/v1/foodrecipe:
      *  get:
-     *      summary: Get recipes by filters:
+     *      summary: Get recipes by filters
      *      description: Retrieves a list of recipes based on filter.
      *      parameters:
      *          - in: query

@@ -31,7 +31,7 @@ components:
         tags:
           type: array
           items:
-            $ref: "#components/schemas/Tag"
+            $ref: "schemas/Tag"
 
     Tag:
       type: object
