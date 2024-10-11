@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const JSend = require('./jsend');
 
 const recipesRouter = require('./routes/recipes.router');
 const { specs, swaggerUi } = require('./docs/swagger');
@@ -11,11 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    return res.json({
-        message: 'OK'
-    });
+    return res.json(JSend.success());
 });
 
+app.use('/public', express.static('public'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 recipesRouter.setup(app);

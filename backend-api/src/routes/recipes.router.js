@@ -1,5 +1,6 @@
 const express = require('express');
 const recipesController = require('../controllers/recipes.controller');
+const imgUpload = require('../middlewares/img-upload.middleware');
 
 const router = express.Router();
 
@@ -168,8 +169,61 @@ module.exports.setup = (app) => {
      */
     router.get('/', recipesController.getRecipeByFilter);
 
-    router.get('/:id', recipesController.getRecipeById);
-    router.post('/', recipesController.addRecipe);
+    /**
+     * @swagger
+     * /api/v1/foodrecipe/{id}:
+     *  get:
+     *      summary: Get recipes by id
+     *      description: Retrieves recipe information by id
+     *      parameters:
+     *          - in: path
+     *            name: id
+     *            description: ID of the recipe
+     *            required: true
+     *            schema:
+     *            type: string
+     *      responses:
+     *          200:
+     *              description: recipe information
+     *              content:
+     *                  application/json:
+     *                      schema:
+     *                          $ref: '#/components/schemas/Recipe'                
+     *          400:
+     *              description: Recipe not found
+     *          500:
+     *              description: Internal server error
+     */
+    router.get('/:id', imgUpload, recipesController.getRecipeById);
+
+    /**
+     * @swagger
+     * /api/v1/foodrecipe:
+     *  post:
+     *      summary: Add a new recipe
+     *      description: Adds a new recipe to the database.
+     *      requestBody:
+     *          required: true
+     *          content:
+     *              multipart/form-data:
+     *                  schema:
+     *                      $ref: '#/components/schemas/Recipe'
+     *                          
+     * 
+     * 
+     *      responses:
+     *          201:
+     *              description: Recipe created successfully
+     *              content:
+     *                  application/json:
+     *                      schema:
+     *                          $ref: '#/components/schemas/Recipe'
+     *          400:
+     *              description: Invalid request parameters
+     *          500:
+     *              description: Internal server error
+     */
+    router.post('/', imgUpload, recipesController.addRecipe);
     router.put('/:id', recipesController.updateRecipe);
     
     router.put('/save/:id', recipesController.saveRecipe);
