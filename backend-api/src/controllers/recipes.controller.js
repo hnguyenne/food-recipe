@@ -1,3 +1,6 @@
+const recipesService = require('../services/recipes.service');
+const ApiError = require('../api-error');
+const Jsend = require('../jsend')
 function getLatestRecipes(req, res) {
     return res.status(201).json({  });
 }
@@ -6,16 +9,48 @@ function getPopularRecipes(req, res) {
     return res.status(201).json({});
 }
 
-function getRecipeByFilter(req, res) {
-    return res.status(201).json({});
+async function getRecipeByFilter(req, res) {
+    let recipes = [];
+
+    try{
+        recipes = await recipesService.getRecipes(req.query);
+    }
+    catch (error){
+        console.log(error);
+        return next(
+            new ApiError(500, 'There was an error while we tried to reteive recipes')
+        )
+    }
+    return res.json(Jsend.success({ recipe }))
 }
 
 function getRecipeById(req, res) {
     return res.status(201).json({});
 }
 
-function addRecipe(req, res) {
-    return res.status(201).json({});
+async function addRecipe(req, res, next) {
+    if (!req.body?.tittle || typeof req.body.tittle !== 'string'){
+        return next(new ApiError(400, 'Recipe title should not be empty'));
+    }
+    try {
+        const recipe = recipesService.addRecipe({
+            ...req.body,
+            img_url: req.file ? `/public/uploads/${req.file.filename}`: null,
+        })
+        return res.status(201).set({
+            Location: `${req.baseUrl}/${(await recipe).recipe_id}`,
+        }).json(
+            JSend.success({
+                recipe,
+            })
+        )
+    }
+    catch(error){
+        console.log(error);
+        return next(
+            new ApiError(500, 'There was an error when we tried to add your recipe')
+        )
+    }
 }
 
 function updateRecipe(req, res) {
@@ -26,11 +61,11 @@ function saveRecipe(req, res) {
     return res.status(201).json({});
 }
 
-function reviewRecipe(req, res) {
+function rateAndCommentRecipe(req, res) {
     return res.status(201).json({});
 }
 
-function likeReview(req, res) {
+function likeComment(req, res) {
     return res.status(201).json({});
 }
 
@@ -38,7 +73,7 @@ function getAvgRate(req, res) {
     return res.status(201).json({});
 }
 
-function getReviews(req, res) {
+function getComments(req, res) {
     return res.status(201).json({});
 }
 
@@ -50,8 +85,8 @@ module.exports = {
     addRecipe,
     updateRecipe,
     saveRecipe,
+    rateAndCommentRecipe,
+    likeComment,
     getAvgRate,
-    getReviews,
-    reviewRecipe,
-    likeReview,
+    getComments,
 };
