@@ -173,9 +173,9 @@ module.exports.setup = (app) => {
     router.put('/:id', recipesController.updateRecipe);
     
     router.put('/save/:id', recipesController.saveRecipe);
-    router.post('/review/:id', recipesController.reviewRecipe); 
-    router.put('/like/:id', recipesController.likeReview);
+    router.post('/review/:id', recipesController.rateAndCommentRecipe); 
+    router.put('/like/:id', recipesController.likeComment);
 
     router.get('/avg:id', recipesController.getAvgRate);
-    router.get('/review:id', recipesController.getReviews);
+    router.get('/review:id', recipesController.getComments);
 };

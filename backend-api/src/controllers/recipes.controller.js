@@ -1,6 +1,6 @@
 const recipesService = require('../services/recipes.service');
 const ApiError = require('../api-error');
-const Jsend = require('../jsend')
+const JSend = require('../jsend')
 function getLatestRecipes(req, res) {
     return res.status(201).json({  });
 }
@@ -9,7 +9,7 @@ function getPopularRecipes(req, res) {
     return res.status(201).json({});
 }
 
-async function getRecipeByFilter(req, res) {
+async function getRecipeByFilter(req, res, next) {
     let recipes = [];
 
     try{
@@ -18,10 +18,10 @@ async function getRecipeByFilter(req, res) {
     catch (error){
         console.log(error);
         return next(
-            new ApiError(500, 'There was an error while we tried to reteive recipes')
+            new ApiError(500, 'There was an error while we tried to retrieve recipes')
         )
     }
-    return res.json(Jsend.success({ recipe }))
+    return res.json(JSend.success({ recipes }))
 }
 
 function getRecipeById(req, res) {

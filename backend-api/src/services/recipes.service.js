@@ -1,4 +1,5 @@
 const knex = require("../database/knex");
+const fs = require('fs');
 
 function recipeRepository(){
     return knex('recipes')
@@ -31,19 +32,19 @@ async function addRecipe(payload) {
 }
 
 async function getRecipes(query){
-    const { name, tag, description } = query; // Get recipes by name, tag, descrition (how to cook, ingredient)
-    return contactRepository()
+    const { name, tag, description } = query; // Get recipes by name, tag, description (how to cook, ingredient)
+    return recipeRepository()
             .join('recipe_tags', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
             .join('tags', 'tag_recipe.tag_id', '=' , 'tags.tag_id')
             .where((builder) => {
                 if(name){
-                    buidler.where('name', 'like', '%${name}%');
+                    builder.where('name', 'like', '%${name}%');
                 }
                 if (tag){
                     builder.where('tag', '=', '${tag}')
                 }
                 if(description){
-                    builder.description('desciption', 'like', '%${description}%')
+                    builder.description('description', 'like', '%${description}%')
                 }
             }).select('*');
 }
@@ -54,6 +55,7 @@ async function getRecipeById(id){
         .join('tags', 'tag_recipe.tag_id', '=' , 'tags.tag_id')
         .where('recipe_id', id).select('*').first();
 }
+
 
 async function updateRecipe(id, payload){
     const updatedRecipe = await recipeRepository()
@@ -76,14 +78,14 @@ async function updateRecipe(id, payload){
         update.img_url !== updatedRecipe.img_url &&
         updatedRecipe.img_url.startsWith('/public/uploads/images/')
     ){
-        unlink('.${updatedRecipe.img_url}', (err) => {})
+        fs.unlink('.${updatedRecipe.img_url}', (err) => {})
     }
     if (
         update.video_path && updatedRecipe.video_path &&
         update.video_path !== updatedRecipe.video_path &&
         updatedRecipe.video_path.startsWith('/public/uploads/videos/')
     ){
-        unlink('.${updatedRecipe.video_path}', (err) => {})
+        fs.unlink('.${updatedRecipe.video_path}', (err) => {})
     }
     return { ...updatedRecipe, ...update }
 }
@@ -91,12 +93,12 @@ async function updateRecipe(id, payload){
 async function addRecipeTag(id, tag){ 
     const existing = await RecipeTagRepository()
                     .where('recipe_id', id)
-                    .andWhere('tag_id', tag_id)
+                    .andWhere('tag_id', tag)
                     .select('*').first()
     if (!existing){
         const tag = await RecipeTagRepository().insert({
                     recipe_id: id,
-                    tag_id: tagid
+                    tag_id: tag
                 })
     }
     return tag;
