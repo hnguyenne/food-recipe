@@ -4,7 +4,7 @@ const swaggerUi = require('swagger-ui-express');
 const options = {
     failOnErrors: true,
     definition: {
-        openapi: '3.0.0',
+        openapi: '3.1.0',
         info: {
             title: 'Food Recipe App API',
             version: '1.0.0',

@@ -2,11 +2,11 @@ const recipesService = require('../services/recipes.service');
 const ApiError = require('../api-error');
 const JSend = require('../jsend')
 function getLatestRecipes(req, res) {
-    return res.status(201).json({  });
+    return res.status(200).json({  });
 }
 
 function getPopularRecipes(req, res) {
-    return res.status(201).json({});
+    return res.status(200).json({});
 }
 
 async function getRecipeByFilter(req, res, next) {
@@ -25,7 +25,7 @@ async function getRecipeByFilter(req, res, next) {
 }
 
 function getRecipeById(req, res) {
-    return res.status(201).json({});
+    return res.status(200).json({});
 }
 
 async function addRecipe(req, res, next) {
@@ -54,11 +54,11 @@ async function addRecipe(req, res, next) {
 }
 
 function updateRecipe(req, res) {
-    return res.status(201).json({});
+    return res.status(200).json({});
 }
 
 function saveRecipe(req, res) {
-    return res.status(201).json({});
+    return res.status(200).json({});
 }
 
 function rateAndCommentRecipe(req, res) {
@@ -70,7 +70,7 @@ function likeComment(req, res) {
 }
 
 function getAvgRate(req, res) {
-    return res.status(201).json({});
+    return res.status(200).json({});
 }
 
 function getComments(req, res) {
