@@ -24,12 +24,22 @@ components:
           type: string
         video_path:
           type: string
+          readOnly: true
+        videoFile:
+          type: string
+          format: binary
+          writeOnly: true
         recipe_create_at:
           type: timestamp
         note:
           type: string
         img_url:
           type: string
+          readOnly: true
+        imgFile:
+          type: string
+          format: binary
+          writeOnly: true
         tags:
           type: array
           items:

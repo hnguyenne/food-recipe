@@ -4,7 +4,7 @@ const ApiError = require('../api-error');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './public/uploads/images');
+        cb(null, './public/uploads/videos');
     },
     filename: function (req, file, cb) {
         const uniquePrefix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -12,19 +12,19 @@ const storage = multer.diskStorage({
     },
 });
 
-function imgUpload(req, res, next) {
-    const upload = multer({ storage: storage }).single('imgFile');
+function videoUpload(req, res, next) {
+    const upload = multer({ storage: storage }).single('videoFile');
 
     upload(req, res, function (err) {
         if (err instanceof multer.MulterError) {
             return next(
-                new ApiError(400, 'An error occurred while uploading the image')
+                new ApiError(400, 'An error occurred while uploading the video')
             );
         } else if (err) {
             return next(
                 new ApiError(
                     500,
-                    'An unknown error occurred while uploading the image'
+                    'An unknown error occurred while uploading the video'
                 )
             );
         }
@@ -33,4 +33,4 @@ function imgUpload(req, res, next) {
     });
 }
 
-module.exports = imgUpload;
+module.exports = videoUpload;

@@ -56,7 +56,7 @@ async function getRecipeById(id){
     return await recipeRepository()
         .join('recipe_tag', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
         .join('tags', 'recipe_tag.tag_id', '=' , 'tags.tag_id')
-        .where('recipe_id', id).select('*').first();
+        .where('recipes.recipe_id', id).select('*').first();
 }
 
 

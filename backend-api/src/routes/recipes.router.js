@@ -216,6 +216,7 @@ module.exports.setup = (app) => {
      *      parameters:
      *          - in: path
      *            name: recipe_id
+     *            required: true
      *            description: The id of the recipe to update
      *            schema:
      *              type: integer
@@ -244,8 +245,8 @@ module.exports.setup = (app) => {
      *                                  properties:
      *                                      recipe:
      *                                          $ref: '#/components/schemas/Recipe'
-     *          400:
-     *              description: Invalid request parameters
+     *          404:
+     *              description: Recipe not found
      *          500:
      *              description: Internal server error
      */

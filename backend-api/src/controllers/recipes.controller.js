@@ -27,9 +27,9 @@ async function getRecipeByFilter(req, res, next) {
 }
 
 async function getRecipeById(req, res, next) {
-    const { id } = req.params;
+    const { recipe_id } = req.params;
     try {
-        const recipe = await recipesService.getRecipeById(id);
+        const recipe = await recipesService.getRecipeById(recipe_id);
         if (!recipe){
             return next (new ApiError (404, 'Recipe not found'));
         }
@@ -37,7 +37,7 @@ async function getRecipeById(req, res, next) {
     }
     catch (error) {
         console.log(error);
-        return next (new ApiError(500, `There was an error when we tried to retrive the recipe #${id}`))
+        return next (new ApiError(500, `There was an error when we tried to retrive the recipe #${recipe_id}`))
     }
 }
 
@@ -48,7 +48,8 @@ async function addRecipe(req, res, next) {
     try {
         const recipe = recipesService.addRecipe({
             ...req.body,
-            img_url: req.file ? `/public/uploads/${req.file.filename}`: null,
+            img_url: req.file ? `/public/uploads/images/${req.file.filename}`: null,
+            video_path: req.file  ? `/public/uploads/videos/${req.file.filename}`: null,
         })
         return res.status(201).set({
             Location: `${req.baseUrl}/${(await recipe).recipe_id}`,
@@ -67,33 +68,38 @@ async function addRecipe(req, res, next) {
 }
 
 async function updateRecipe(req, res, next) {
-    if (Object.keys(req.body).length == 0 && !req.file){
-        return next(new ApiError(400, 'Data to update cannot by empty'))
+    if (Object.keys(req.body).length === 0 && !req.files) {
+        return next(new ApiError(400, 'No data provided to update the recipe'));
     }
-    const { id } = req.params;
+
+    const { recipe_id } = req.params;
+
     try {
-        const updated = await recipesService.updateRecipe(id, { ...req.body,
-            img_url: req.file ? `/public/uploads/images/${req.file.filename}` : null
-        })
-        if (!updated) {
-            return next(new ApiError (404, 'Recipe not found'));
-        }
-        return res.json (JSend.success({
-            recipe: updated,
-        }))
+        const updatedRecipe = await recipesService.updateRecipe(recipe_id, {
+            ...req.body,
+            img_url: req.file? `/public/uploads/images/${req.file.filename}`: null,
+            video_path: req.file? `/public/uploads/videos/${req.file.filename}`: null,
+        });
+        if (!updatedRecipe) return next(new ApiError(404, 'Could not find recipe'));
+        return res.json(JSend.success({
+            recipe: updatedRecipe,
+        }));
     }
+    
     catch (error) {
         console.log(error);
-        return next (new ApiError(500, 'There was an error when we tried to update your recipe'))
+        return next(
+            new ApiError(500, 'There was an error while we tried to update the recipe')
+        )
     }
 }
 
 function saveRecipe(req, res, next) {
-    const {user, recipe } = req.body
+    const { user_id, recipe_id } = req.params
     try {
-        const favorite = recipesService.addToFavorite({user, recipe})
+        const save = recipesService.addToFavorite({user_id, recipe_id})
         return res.json (JSend.success({
-            favorite: added
+            favorite: save
         }))
         
     }
@@ -110,7 +116,7 @@ function rateAndCommentRecipe(req, res, next) {
     try{
         const review = reviewsService.addReview(...req.body)
         return res.json(JSend.success({
-            reivew
+            review
         }))
     }
     catch (error){
