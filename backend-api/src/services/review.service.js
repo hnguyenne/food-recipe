@@ -66,10 +66,10 @@ async function deleteReview(id){
     return deleted;
 }
 
-async function Like(user, review){
+async function Like(review, user){
     const like = {
-        user_id: user,
-        review_id: review
+        review_id: review,
+        user_id: user
     }
     const [id] = await likeRepository().insert(like)
     return { id, ...like }
