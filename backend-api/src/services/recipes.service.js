@@ -10,6 +10,11 @@ function RecipeTagRepository(){
 function favoriteRepository(){
     return knex('favorite')
 }
+
+function reviewRepository() {
+    return knex('reviews');
+}
+
 function readRecipe(payload){
     return {
         user_id: payload.user_id,
@@ -46,9 +51,13 @@ async function getPopularRecipes(){
     return await recipeRepository()
             .join('recipe_tag', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
             .join('tags', 'recipe_tag.tag_id', '=' , 'tags.tag_id')
-            .join('favorite', 'favorite.recipe_id', '=' , 'recipes.recipe_id')
-            .groupBy('recipe_id')
-            .orderBy('favorite.count', 'desc')
+            .join(
+                knex.raw(
+                    '(select recipe_id, count(*) as favorite_count from favorite group by recipe_id) as favorite'
+                ),
+                'favorite.recipe_id', '=', 'recipes.recipe_id'
+            )
+            .orderBy('favorite.favorite_count', 'desc')
             .select('*');
 }
 
@@ -146,7 +155,7 @@ async function deleteRecipe(id){
     if (!deleted){
         return null;
     }
-    await recipeRepository().where('review_id', id).del();
+    await recipeRepository().where('recipe_id', id).del();
     return deleted;
 }
 async function addToFavorite(user, recipe){
@@ -157,6 +166,15 @@ async function addToFavorite(user, recipe){
     const [ id ] = await favoriteRepository().insert(favorite);
     return { id, ...favorite }
 }
+
+async function getReviews(recipe_id) {
+    return await reviewRepository()
+        .join('recipes', 'recipes.recipe_id', 'reviews.recipe_id')
+        .where('recipes.recipe_id', recipe_id)
+        .select('reviews.review_id', 'reviews.rate', 'reviews.comment')
+
+}
+
 module.exports = {
     addRecipe,
     getRecipesByFilter,
@@ -168,4 +186,5 @@ module.exports = {
     addToFavorite,
     getLatestRecipes,
     getPopularRecipes,
+    getReviews,
 }

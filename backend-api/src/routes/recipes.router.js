@@ -291,7 +291,7 @@ module.exports.setup = (app) => {
      *                                  properties:
      *                                      recipe:
      *                                          $ref: '#/components/schemas/Recipe'     
-     *          400:
+     *          404:
      *              description: Invalid request parameters
      *          500:
      *              description: Internal server error
@@ -436,7 +436,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.get('/avg:recipe_id', recipesController.getAvgRate);
+    router.get('/avg/:recipe_id', recipesController.getAvgRate);
 
     /**
      * @swagger
@@ -480,5 +480,31 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.get('/review:recipe_id', recipesController.getComments);
+    router.get('/review/:recipe_id', recipesController.getComments);
+
+    /**
+     * @swagger
+     * /api/v1/foodrecipe/{recipe_id}:
+     *  delete:
+     *      summary: Delete a recipe
+     *      description: delete a recipe by its id
+     *      parameters:
+     *          - in: path
+     *            name: recipe_id
+     *            description: the id of the recipe to be deleted
+     *            schema:
+     *              type: integer
+     *            required: true
+     *      tags:
+     *          - recipes
+     *      response:
+     *          200:
+     *              description: Recipe deleted successfully
+     *          404:
+     *              description: Recipe not found
+     *          500:
+     *              description: Internal server error
+     */
+    router.delete('/:recipe_id', recipesController.deleteRecipe);
+
 };

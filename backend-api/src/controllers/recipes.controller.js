@@ -166,8 +166,29 @@ function getAvgRate(req, res) {
     return res.status(200).json({});
 }
 
-function getComments(req, res) {
-    return res.status(201).json({});
+async function getComments(req, res, next) {
+    const { recipe_id } = req.params;
+    try {
+        const comments = await reviewsService.getReviews(recipe_id);
+        return res.json(JSend.success({ comments }));
+    }
+    catch (error) {
+        console.log(error);
+        return next(new ApiError(500, 'There was an error when we tried to retrieve comments'));
+    }
+}
+
+async function deleteRecipe(req, res, next) {
+    const { recipe_id } = req.params;
+    try {
+        const deleted = await recipesService.deleteRecipe(recipe_id);
+        if (!deleted) return next(new ApiError(404, 'Could not find recipe'));
+        return res.json(JSend.success({ message: 'Recipe deleted successfully' }));
+    }
+    catch (error) {
+        console.log(error);
+        return next(new ApiError(500, 'There was an error while we tried to delete the recipe'));
+    }
 }
 
 module.exports = {
@@ -182,4 +203,5 @@ module.exports = {
     likeComment,
     getAvgRate,
     getComments,
+    deleteRecipe,
 };
