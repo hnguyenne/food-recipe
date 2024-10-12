@@ -34,6 +34,24 @@ async function addRecipe(payload) {
     return { recipe_id, ...recipe };
 }
 
+async function getLatestRecipes(){
+    return await recipeRepository()
+            .join('recipe_tag', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
+            .join('tags', 'recipe_tag.tag_id', '=' , 'tags.tag_id')
+            .orderBy('recipe_create_at', 'desc')
+            .select('*');
+}
+
+async function getPopularRecipes(){
+    return await recipeRepository()
+            .join('recipe_tag', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
+            .join('tags', 'recipe_tag.tag_id', '=' , 'tags.tag_id')
+            .join('favorite', 'favorite.recipe_id', '=' , 'recipes.recipe_id')
+            .groupBy('recipe_id')
+            .orderBy('favorite.count', 'desc')
+            .select('*');
+}
+
 async function getRecipesByFilter(query){
     const { name, tag, description } = query; // Get recipes by name, tag, description (how to cook, ingredient)
     return await recipeRepository()
@@ -147,5 +165,7 @@ module.exports = {
     addRecipeTag,
     removeRecipeTag,
     deleteRecipe,
-    addToFavorite
+    addToFavorite,
+    getLatestRecipes,
+    getPopularRecipes,
 }

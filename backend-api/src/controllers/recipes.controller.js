@@ -3,12 +3,35 @@ const reviewsService = require('../services/review.service');
 const ApiError = require('../api-error');
 const JSend = require('../jsend');
 const { application } = require('express');
-function getLatestRecipes(req, res) {
-    return res.status(200).json({  });
+
+async function getLatestRecipes(req, res, next) {
+    let recipes = [];
+
+    try{
+        recipes = await recipesService.getLatestRecipes();
+    }
+    catch (error){
+        console.log(error);
+        return next(
+            new ApiError(500, 'There was an error when we tried to retrieve recipes')
+        )
+    }
+    return res.json(JSend.success({ recipes }))
 }
 
-function getPopularRecipes(req, res) {
-    return res.status(200).json({});
+async function getPopularRecipes(req, res, next) {
+    let recipes = [];
+
+    try{
+        recipes = await recipesService.getPopularRecipes();
+    }
+    catch (error){
+        console.log(error);
+        return next(
+            new ApiError(500, 'There was an error when we tried to retrieve recipes')
+        )
+    }
+    return res.json(JSend.success({ recipes }))
 }
 
 async function getRecipeByFilter(req, res, next) {
