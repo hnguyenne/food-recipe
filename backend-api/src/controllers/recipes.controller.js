@@ -69,7 +69,7 @@ async function addRecipe(req, res, next) {
         return next(new ApiError(400, 'Recipe title should not be empty'));
     }
     try {
-        const recipe = recipesService.addRecipe({
+        const recipe = await recipesService.addRecipe({
             ...req.body,
             img_url: req.file ? `/public/uploads/images/${req.file.filename}`: null,
             video_path: req.file  ? `/public/uploads/videos/${req.file.filename}`: null,
