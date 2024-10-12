@@ -87,3 +87,5 @@ CREATE TABLE LIKE_REVIEW(
     foreign key (REVIEW_ID) references REVIEWS(REVIEW_ID) ON DELETE CASCADE,
     foreign key (USER_ID) references USERS(USER_ID) ON DELETE CASCADE
 );
+
+

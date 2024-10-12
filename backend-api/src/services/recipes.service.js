@@ -29,32 +29,33 @@ function readRecipe(payload){
 
 async function addRecipe(payload) {
     const recipe = readRecipe(payload);
+    
     const [ recipe_id ] = await recipeRepository().insert(recipe);
     return { recipe_id, ...recipe };
 }
 
-async function getRecipes(query){
+async function getRecipesByFilter(query){
     const { name, tag, description } = query; // Get recipes by name, tag, description (how to cook, ingredient)
     return await recipeRepository()
-            .join('recipe_tags', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
-            .join('tags', 'tag_recipe.tag_id', '=' , 'tags.tag_id')
+            .join('recipe_tag', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
+            .join('tags', 'recipe_tag.tag_id', '=' , 'tags.tag_id')
             .where((builder) => {
                 if(name){
-                    builder.where('name', 'like', '%${name}%');
+                    builder.where('tittle', 'like', '%${name}%');
                 }
                 if (tag){
-                    builder.where('tag', '=', '${tag}')
+                    builder.where('tag_name', '=', '${tag}')
                 }
                 if(description){
-                    builder.description('description', 'like', '%${description}%')
+                    builder.where('description', 'like', '%${description}%')
                 }
             }).select('*');
 }
 
 async function getRecipeById(id){
     return await recipeRepository()
-        .join('recipe_tags', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
-        .join('tags', 'tag_recipe.tag_id', '=' , 'tags.tag_id')
+        .join('recipe_tag', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
+        .join('tags', 'recipe_tag.tag_id', '=' , 'tags.tag_id')
         .where('recipe_id', id).select('*').first();
 }
 
@@ -140,7 +141,7 @@ async function addToFavorite(user, recipe){
 }
 module.exports = {
     addRecipe,
-    getRecipes,
+    getRecipesByFilter,
     getRecipeById,
     updateRecipe,
     addRecipeTag,

@@ -13,7 +13,7 @@ async function getRecipeByFilter(req, res, next) {
     let recipes = [];
 
     try{
-        recipes = await recipesService.getRecipes(req.query);
+        recipes = await recipesService.getRecipesByFilter(req.query);
     }
     catch (error){
         console.log(error);
@@ -54,7 +54,7 @@ async function addRecipe(req, res, next) {
 }
 
 function updateRecipe(req, res) {
-    return res.status(200).json({});
+    return res.status(201).json({});
 }
 
 function saveRecipe(req, res) {

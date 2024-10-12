@@ -6,9 +6,11 @@ components:
       properties:
         recipe_id:
           type: integer
+          readOnly: true
         user_id:
           type: integer
-        title:
+          readOnly: true
+        tittle:
           type: string
         description:
           type: string
@@ -20,19 +22,41 @@ components:
           type: integer
         instruction:
           type: string
-        video_url:
+        video_path:
           type: string
         recipe_create_at:
           type: timestamp
         note:
           type: string
-        image_url:
+        img_url:
           type: string
         tags:
           type: array
           items:
             $ref: "schemas/Tag"
-
+    PaginationMetadata:
+      type: object
+      properties:
+        totalRecords:
+          type: integer
+          default: 0
+          description: The total number of records
+        firstPage:
+          type: integer
+          default: 1
+          description: The first page
+        lastPage:
+          type: integer
+          default: 1
+          description: The last page
+        page:
+          type: integer
+          default: 1
+          description: The current page
+        limit:
+          type: integer
+          default: 5
+          description: The number of records per page
     Tag:
       type: object
       properties:
@@ -42,3 +66,56 @@ components:
           type: integer
         tag_name:
           type: string
+  
+    Review:
+      type: object
+      properties:
+        review_id:
+          type: integer
+        user_id:
+          type: integer
+        recipe_id:
+          type: integer
+        rate:
+          type: integer
+        comment:
+          type: string
+
+  responses:
+    "200NoData":
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: the response status
+                enum:
+                  - success
+              data:
+                type: object
+                nullable: true
+                default: null
+                description: the response data
+  parameters:
+    limitParam:
+      name: limit
+      description: Number of records per page
+      in: query
+      schema:
+        type: integer
+        default: 5
+        minimum: 1
+        maximum: 100
+      required: false
+
+    pageParam:
+      name: page
+      description: Page of number of records
+      in: query
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+      required: false
