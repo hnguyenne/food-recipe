@@ -7,7 +7,9 @@ function recipeRepository(){
 function RecipeTagRepository(){
     return knex('recipe_tag')
 }
-
+function favoriteRepository(){
+    return knex('favorite')
+}
 function readRecipe(payload){
     return {
         user_id: payload.user_id,
@@ -33,7 +35,7 @@ async function addRecipe(payload) {
 
 async function getRecipes(query){
     const { name, tag, description } = query; // Get recipes by name, tag, description (how to cook, ingredient)
-    return recipeRepository()
+    return await recipeRepository()
             .join('recipe_tags', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
             .join('tags', 'tag_recipe.tag_id', '=' , 'tags.tag_id')
             .where((builder) => {
@@ -50,7 +52,7 @@ async function getRecipes(query){
 }
 
 async function getRecipeById(id){
-    return recipeRepository()
+    return await recipeRepository()
         .join('recipe_tags', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
         .join('tags', 'tag_recipe.tag_id', '=' , 'tags.tag_id')
         .where('recipe_id', id).select('*').first();
@@ -72,7 +74,7 @@ async function updateRecipe(id, payload){
         delete update.video_path;
     }
     await recipeRepository()
-    .where('id', id).update(update);
+    .where('recipe_id', id).update(update);
     if (
         update.img_url && updatedRecipe.img_url &&
         update.img_url !== updatedRecipe.img_url &&
@@ -119,16 +121,23 @@ async function removeRecipeTag(id, tag){
 
 async function deleteRecipe(id){
     const deleted = await recipeRepository()
-                    .where('id', id)
+                    .where('recipe_id', id)
                     .select('img_url')
                     .first();
     if (!deleted){
         return null;
     }
-    await recipeRepository().where('id', id).del();
+    await recipeRepository().where('review_id', id).del();
     return deleted;
 }
-
+async function addToFavorite(user, recipe){
+    const favorite = {
+        user_id: user,
+        recipe_id: recipe
+    }
+    const [ id ] = await favoriteRepository().insert(favorite);
+    return { id, ...favorite }
+}
 module.exports = {
     addRecipe,
     getRecipes,
@@ -136,5 +145,6 @@ module.exports = {
     updateRecipe,
     addRecipeTag,
     removeRecipeTag,
-    deleteRecipe
+    deleteRecipe,
+    addToFavorite
 }
