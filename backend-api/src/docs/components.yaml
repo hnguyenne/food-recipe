@@ -89,6 +89,31 @@ components:
           format: date-time
           readOnly: true
 
+    User:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          readOnly: true
+        user_name:
+          type: string
+        user_email:
+          type: string
+          format: email
+        user_birthdate:
+          type: date
+        profile_pic:
+          type: string
+          readOnly: true
+        profile_file:
+          type: string
+          format: binary
+          writeOnly: true
+        user_create_at:
+          type: timestamp
+          format: date-time
+          readOnly: true
+
   responses:
     "200NoData":
       content:
@@ -106,6 +131,7 @@ components:
                 nullable: true
                 default: null
                 description: the response data
+
   parameters:
     limitParam:
       name: limit
@@ -127,3 +153,11 @@ components:
         default: 1
         minimum: 1
       required: false
+
+    userIdParam:
+      name: id
+      description: User ID
+      required: true
+      in: path
+      schema:
+        type: integer

@@ -29,16 +29,20 @@ function readToken(token){
         expires: token.expires
     }
 }
+async function CreateUser(payload){
+    const user = readAccount(payload)
+    const [id] = await accountRepository().insert(user);
+    return { id, ...user }
+}
 
-async function Login(payload, tokens){
-    const user = readAccount(payload).where('google_id', payload.google_id).select('*');
+async function Login(id, tokens){
+    const user = readAccount(payload).where('google_id', id).select('*');
     if (!user){
-        const [id] = await accountRepository().insert(user);
-        const token = readToken(tokens)
-        await TokenRepository().insert({ id, ...token })
-        return {id, ...user};
+        return null;
     }
-    return null;
+    const token = readToken(tokens)
+    await TokenRepository().insert({ id, ...token })
+    return {id, ...token};
 }
 
 async function updateToken(token){ // Update khi token hết hạn
@@ -84,6 +88,7 @@ async function updateAccount(id, payload){
 }
 
 module.exports = {
+    CreateUser,
     Login,
     updateToken,
     refreshnewToken,
