@@ -4,8 +4,7 @@ USE FOOD_RECIPE;
 -- TABLE FOR USERS
 CREATE TABLE USERS (
 	USER_ID INT auto_increment PRIMARY KEY,
-    USER_FIRST_NAME varchar(100) not null,
-    USER_LAST_NAME varchar(100) NOT NULL,
+    USER_NAME varchar(100) not null,
     USER_EMAIL varchar(100) NOT NULL UNIQUE,
     USER_BIRTHDATE date,
     PROFILE_PIC varchar(255),
