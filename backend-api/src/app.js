@@ -21,8 +21,10 @@ app.get('/', (req, res) => {
 app.use('/public', express.static('public'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
+
+recipesRouter.setup(app);
+
 app.use(resourceNotFound);
 app.use(handleError);
-recipesRouter.setup(app);
 
 module.exports = app;

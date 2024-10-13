@@ -46,6 +46,29 @@ module.exports.setup = (app) => {
      */     
     router.post('/register', imgUpload, accountController.register)
 
+
+    /**
+     * @swagger
+     * /api/v1/users/login:
+     *  post:
+     *      summary: Login an account
+     *      description: Login an account
+     *      parameters:
+     *          - in: query
+     *            name: token_id
+     *            schema:
+     *              type: integer
+     *      tags: 
+     *          - users
+     *      responses:
+     *          200:
+     *              description: login successfully
+     *          400:
+     *              description: login information is invalid
+     *          500:
+     *              description: Internal server error
+     * 
+     */
     router.post('/login', accountController.login);
 
     /**

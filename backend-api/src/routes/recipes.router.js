@@ -569,6 +569,7 @@ module.exports.setup = (app) => {
      *              description: Internal server error
      */
     router.delete('/review/:review_id', reviewsController.deleteReview);
+    
     router.all('/', methodNotAllowed);
     router.all('/:recipe_id', methodNotAllowed);
 };
