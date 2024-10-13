@@ -14,8 +14,8 @@ async function logout(req, res, next) {
         return res.json(JSend.success())
     }
     catch (error){
-        console.log(erorr);
-        return next(new ApiError(500, `Error occured while logging out`))
+        console.log(error);
+        return next(new ApiError(500, `Error occurred while logging out`))
     }
 }
 
@@ -36,7 +36,7 @@ async function register(req, res, next) {
     }
     catch (error){
         console.log(error);
-        return next(new ApiError(500, 'An error occured while create new account'))
+        return next(new ApiError(500, 'An error occurred while create new account'))
     }
 }
 
@@ -52,7 +52,7 @@ async function getProfile(req, res, next){
         return res.json(JSend.success({ user }));
     }
     catch (error){
-        console.log(erorr);
+        console.log(error);
         return next(new ApiError(500, `Error retrieving user id ${id}`))
     }
 }
@@ -74,7 +74,7 @@ async function updateProfile(req, res, next){
         return res.json(JSend.success({ user: updated, }))
     }
     catch (error){
-        console.log(erorr);
+        console.log(error);
         return next(new ApiError(500, `Error updating user id ${id}`))
     }    
 }
