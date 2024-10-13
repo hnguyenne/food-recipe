@@ -146,9 +146,6 @@ async function updateRecipe(id, payload){
     if (!update.img_url){
         delete update.img_url;
     }
-    if (!update.video_path){
-        delete update.video_path;
-    }
     await recipeRepository()
     .where('recipe_id', id).update(update);
     if (
@@ -157,13 +154,6 @@ async function updateRecipe(id, payload){
         updatedRecipe.img_url.startsWith('/public/uploads/images/')
     ){
         fs.unlink('.${updatedRecipe.img_url}', (err) => {})
-    }
-    if (
-        update.video_path && updatedRecipe.video_path &&
-        update.video_path !== updatedRecipe.video_path &&
-        updatedRecipe.video_path.startsWith('/public/uploads/videos/')
-    ){
-        fs.unlink('.${updatedRecipe.video_path}', (err) => {})
     }
     return { ...updatedRecipe, ...update }
 }
@@ -222,6 +212,7 @@ async function deleteRecipe(id){
     await recipeRepository().where('recipe_id', id).del();
     return deleted;
 }
+
 async function addToFavorite(user, recipe){
     const favorite = {
         user_id: user,
