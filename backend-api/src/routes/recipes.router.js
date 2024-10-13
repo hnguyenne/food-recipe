@@ -2,6 +2,7 @@ const express = require('express');
 const reviewsController = require('../controllers/reviews.controller');
 const recipesController = require('../controllers/recipes.controller');
 const imgUpload = require('../middlewares/img-upload.middleware');
+const { methodNotAllowed } = require('../controllers/errors.controller')
 
 const router = express.Router();
 
@@ -568,5 +569,6 @@ module.exports.setup = (app) => {
      *              description: Internal server error
      */
     router.delete('/review/:review_id', reviewsController.deleteReview);
-
+    router.all('/', methodNotAllowed);
+    router.all('/:recipe_id', methodNotAllowed);
 };

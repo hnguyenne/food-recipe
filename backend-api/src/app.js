@@ -4,7 +4,10 @@ const JSend = require('./jsend');
 
 const recipesRouter = require('./routes/recipes.router');
 const { specs, swaggerUi } = require('./docs/swagger');
-
+const {
+    resourceNotFound,
+    handleError
+} = require('./controllers/errors.controller')
 const app = express();
 
 app.use(cors());
@@ -18,6 +21,8 @@ app.get('/', (req, res) => {
 app.use('/public', express.static('public'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
+app.use(resourceNotFound);
+app.use(handleError);
 recipesRouter.setup(app);
 
 module.exports = app;

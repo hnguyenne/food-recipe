@@ -1,7 +1,7 @@
 const express = require('express');
 const accountController = require('../controllers/account.controller');
 const imgUpload = require('../middlewares/img-upload.middleware');
-
+const { methodNotAllowed } = require('../controllers/errors.controller')
 const router = express.Router();
 
 module.exports.setup = (app) => {
@@ -127,4 +127,8 @@ module.exports.setup = (app) => {
      *                  description: Internal server error
      */
     router.delete('/logout', accountController.logout);
+
+    router.all('/', methodNotAllowed);
+    router.all('/:profile_id', methodNotAllowed);
+
 };
