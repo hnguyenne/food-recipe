@@ -24,20 +24,68 @@ function readRecipe(payload){
         cook_time: payload.cook_time,
         servings: payload.servings,
         instruction: payload.instruction,
-        video_path: payload.video_path,
-        recipe_create_at: payload.recipe_create_at,
+        recipe_create_at: new Date(),
         note: payload.note,
         img_url: payload.img_url,
-        tag_id: payload.tag_id
+        tags: payload.tags || []
     }
 }
 
 async function addRecipe(payload) {
     const recipe = readRecipe(payload);
     
-    const [ recipe_id ] = await recipeRepository().insert(recipe);
-    return { recipe_id, ...recipe };
+    const trx = await knex.transaction();
+    try {
+        await trx('recipes')
+            .insert({
+                user_id: recipe.user_id,
+                tittle: recipe.tittle,
+                description: recipe.description,
+                prep_time: recipe.prep_time,
+                cook_time: recipe.cook_time,
+                servings: recipe.servings,
+                instruction: recipe.instruction,
+                recipe_create_at: recipe.recipe_create_at,
+                note: recipe.note,
+                img_url: recipe.img_url
+            })
+        const [recipe_id] = await trx('recipes')
+            .select('recipe_id')
+            .orderBy('recipe_id', 'desc')
+            .limit(1);
+
+        if (typeof payload.tags === 'string') {
+            recipe.tags = payload.tags.split(',').map(tag => tag.trim());
+        } else {
+            recipe.tags = Array.isArray(payload.tags) ? payload.tags : [];
+        }
+
+        const tagNames = recipe.tags;
+
+        const allTags = [];
+        for (const tagName of tagNames) {
+            const tag_id = await addOrGetTagId(tagName);
+            allTags.push({ tag_id, tag_name: tagName });
+        }
+
+        const RecipeTagRepository = allTags.map(tag =>({
+            recipe_id: recipe_id.recipe_id,
+            tag_id: tag.tag_id
+        }));
+            
+        await trx('recipe_tag').insert(RecipeTagRepository);
+        await trx.commit();
+
+        return { recipe_id, ...recipe, tags: allTags };
+    }
+    catch (error) {
+        await trx.rollback();
+        console.log(error);
+        throw error;
+    }
+
 }
+
 
 async function getLatestRecipes(){
     return await recipeRepository()
@@ -118,6 +166,22 @@ async function updateRecipe(id, payload){
         fs.unlink('.${updatedRecipe.video_path}', (err) => {})
     }
     return { ...updatedRecipe, ...update }
+}
+
+async function addOrGetTagId(tag){
+    const existingTag = await knex('tags')
+            .where({ tag_name: tag })
+            .select('tag_id')
+            .first();
+
+        if (existingTag) {
+            return existingTag.tag_id;
+        }
+
+        const [newTagId] = await knex('tags')
+            .insert({ tag_name: tag });
+
+        return newTagId;
 }
 
 async function addRecipeTag(id, tag){ 

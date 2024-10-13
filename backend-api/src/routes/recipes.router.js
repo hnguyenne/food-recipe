@@ -175,6 +175,12 @@ module.exports.setup = (app) => {
      *  post:
      *      summary: Add a new recipe
      *      description: Adds a new recipe to the database.
+     *      parameters:
+     *          - in: query
+     *            name: user_id
+     *            description: id of user
+     *            schema:
+     *              type: integer
      *      requestBody:
      *          required: true
      *          content:

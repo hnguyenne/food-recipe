@@ -24,6 +24,8 @@ components:
           type: string
         recipe_create_at:
           type: timestamp
+          format: date-time
+          readOnly: true
         note:
           type: string
         img_url:
@@ -64,8 +66,6 @@ components:
       type: object
       properties:
         tag_id:
-          type: integer
-        recipe_id:
           type: integer
         tag_name:
           type: string
