@@ -1,7 +1,6 @@
 const express = require('express');
 const recipesController = require('../controllers/recipes.controller');
 const imgUpload = require('../middlewares/img-upload.middleware');
-const videoUpload = require('../middlewares/video-upload.middleware');
 
 const router = express.Router();
 
@@ -206,7 +205,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.post('/', imgUpload, videoUpload, recipesController.addRecipe);
+    router.post('/', imgUpload, recipesController.addRecipe);
 
     /**
      * @swagger
@@ -251,7 +250,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.put('/:recipe_id', imgUpload, videoUpload, recipesController.updateRecipe);
+    router.put('/:recipe_id', imgUpload, recipesController.updateRecipe);
     
     /**
      * @swagger

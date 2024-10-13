@@ -72,7 +72,6 @@ async function addRecipe(req, res, next) {
         const recipe = await recipesService.addRecipe({
             ...req.body,
             img_url: req.file ? `/public/uploads/images/${req.file.filename}`: null,
-            video_path: req.file  ? `/public/uploads/videos/${req.file.filename}`: null,
         })
         return res.status(201).set({
             Location: `${req.baseUrl}/${(await recipe).recipe_id}`,
@@ -101,7 +100,6 @@ async function updateRecipe(req, res, next) {
         const updatedRecipe = await recipesService.updateRecipe(recipe_id, {
             ...req.body,
             img_url: req.file? `/public/uploads/images/${req.file.filename}`: null,
-            video_path: req.file? `/public/uploads/videos/${req.file.filename}`: null,
         });
         if (!updatedRecipe) return next(new ApiError(404, 'Could not find recipe'));
         return res.json(JSend.success({

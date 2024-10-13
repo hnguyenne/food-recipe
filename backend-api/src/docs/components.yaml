@@ -22,13 +22,6 @@ components:
           type: integer
         instruction:
           type: string
-        video_path:
-          type: string
-          readOnly: true
-        videoFile:
-          type: string
-          format: binary
-          writeOnly: true
         recipe_create_at:
           type: timestamp
         note:
