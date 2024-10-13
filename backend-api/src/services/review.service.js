@@ -14,7 +14,7 @@ function readReview(payload){
         user_id: payload.user_id,
         rate: payload.rate,
         comment: payload.comment,
-        review_create_at: payload.review_create_at
+        review_create_at: payload.review_create_at || new Date(),
     }
 }
 
@@ -24,7 +24,7 @@ async function addReview(payload){
     return { review_id, ...review };
 }
 
-async function getReivewsByFilter(query){
+async function getReviewsByFilter(query){
     const { rate, date } = query
     return await reviewRepository().
         join('users', 'user_id', '=', 'users.user_id')
@@ -77,7 +77,7 @@ async function Like(review, user){
 
 module.exports = {
     addReview,
-    getReivewsByFilter,
+    getReviewsByFilter,
     getReviewByID,
     updateReview,
     deleteReview,

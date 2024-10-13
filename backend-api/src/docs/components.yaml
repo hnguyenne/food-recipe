@@ -75,6 +75,7 @@ components:
       properties:
         review_id:
           type: integer
+          readOnly: true
         user_id:
           type: integer
         recipe_id:
@@ -83,6 +84,10 @@ components:
           type: integer
         comment:
           type: string
+        review_create_at:
+          type: timestamp
+          format: date-time
+          readOnly: true
 
   responses:
     "200NoData":

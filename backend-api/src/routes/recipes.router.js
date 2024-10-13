@@ -1,4 +1,5 @@
 const express = require('express');
+const reviewsController = require('../controllers/reviews.controller');
 const recipesController = require('../controllers/recipes.controller');
 const imgUpload = require('../middlewares/img-upload.middleware');
 
@@ -359,7 +360,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.post('/review/:recipe_id', recipesController.rateAndCommentRecipe); 
+    router.post('/review/:recipe_id', reviewsController.rateAndCommentRecipe); 
 
     /**
      * @swagger
@@ -404,7 +405,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.post('/like/:review_id', recipesController.likeComment);
+    router.post('/like/:review_id', reviewsController.likeComment);
 
     /**
      * @swagger
@@ -485,7 +486,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.get('/review/:recipe_id', recipesController.getComments);
+    router.get('/review/:recipe_id', reviewsController.getComments);
 
     /**
      * @swagger
@@ -511,5 +512,61 @@ module.exports.setup = (app) => {
      *              description: Internal server error
      */
     router.delete('/:recipe_id', recipesController.deleteRecipe);
+
+    /**
+     * @swagger
+     * /api/v1/foodrecipe/review/{review_id}:
+     *  put:
+     *      summary: Update a review
+     *      description: Update a review
+     *      parameters:
+     *          - in: path
+     *            name: review_id
+     *            description: id of the review
+     *            schema:
+     *              type: integer
+     *      requestBody:
+     *          required: true
+     *          content:
+     *              multipart/form-data:
+     *                  schema:
+     *                      $ref: '#/components/schemas/Review'
+     *      tags:
+     *          - recipes
+     *      response:
+     *          200:
+     *              description: Review updated successfully
+     *              content:
+     *                  application/json:
+     *                      schema:
+     *                          $ref: '#/components/schemas/Review'
+     *          400:
+     *              description: Invalid request parameters
+     *          500:
+     *              description: Internal server error
+     */
+    router.put('/review/:review_id', reviewsController.updateReview);
+
+    /**
+     * @swagger
+     * /api/v1/foodrecipe/review/{review_id}:
+     *  delete:
+     *      summary: Delete a review
+     *      description: Delete a review by its id
+     *      parameters:
+     *          - in: path
+     *            name: review_id
+     *            description: id of the review to delete
+     *            schema:
+     *              type: integer
+     *      tags:
+     *          - recipes
+     *      response:
+     *          200:
+     *              description: review deleted successfully
+     *          500:
+     *              description: Internal server error
+     */
+    router.delete('/review/:review_id', reviewsController.deleteReview);
 
 };
