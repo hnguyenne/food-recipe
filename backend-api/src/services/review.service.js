@@ -4,9 +4,6 @@ const fs = require('fs');
 function reviewRepository(){
     return knex('reviews')
 }
-function likeRepository(){
-    return knex('like_review')
-}
 
 function readReview(payload){
     return {
@@ -66,20 +63,10 @@ async function deleteReview(id){
     return deleted;
 }
 
-async function Like(review, user){
-    const like = {
-        review_id: review,
-        user_id: user
-    }
-    const [id] = await likeRepository().insert(like)
-    return { id, ...like }
-}
-
 module.exports = {
     addReview,
     getReviewsByFilter,
     getReviewByID,
     updateReview,
     deleteReview,
-    Like
 }

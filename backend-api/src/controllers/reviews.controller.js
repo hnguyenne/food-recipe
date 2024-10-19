@@ -18,20 +18,6 @@ function rateAndCommentRecipe(req, res, next) {
     }
 }
 
-function likeComment(req, res, next) {
-    const {review, user} = req.body
-    try {
-        const like = reviewsService.Like(review, user)
-        return res.json(JSend.success({
-            like
-        }))
-    }
-    catch(error) {
-        console.log(error)
-        return next(new ApiError(500, 'There was an error'))
-    }
-}
-
 
 async function getComments(req, res, next) {
     const { recipe_id } = req.params;
@@ -77,7 +63,6 @@ async function deleteReview(req, res, next) {
 
 module.exports = {
     rateAndCommentRecipe,
-    likeComment,
     getComments,
     updateReview,
     deleteReview,

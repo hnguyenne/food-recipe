@@ -363,50 +363,6 @@ module.exports.setup = (app) => {
      */
     router.post('/review/:recipe_id', reviewsController.rateAndCommentRecipe); 
 
-    /**
-     * @swagger
-     * /api/v1/foodrecipe/like/{review_id}:
-     *  post:
-     *      summary: Like a comment
-     *      description: Like a comment of a recipe by review ID
-     *      parameters:
-     *          - in: path
-     *            name: review_id
-     *            description: ID of the review
-     *            required: true
-     *            schema:
-     *              type: integer
-     *          - in: query
-     *            name: user_id
-     *            description: ID of user who like the review
-     *            required: true
-     *            schema:
-     *              type: integer
-     *      tags:
-     *          - recipes
-     *      response:
-     *          200:
-     *              description: Like review successfully
-     *              content:
-     *                  application/json:
-     *                      schema:
-     *                          type: object
-     *                          properties:
-     *                              status:
-     *                                  type: string
-     *                                  description: The response status
-     *                                  enum: [success]
-     *                              data:
-     *                                  type: object
-     *                                  properties:
-     *                                      comment:
-     *                                          $ref: '#/components/schemas/Review'
-     *          400:
-     *              description: Invalid request parameters
-     *          500:
-     *              description: Internal server error
-     */
-    router.post('/like/:review_id', reviewsController.likeComment);
 
     /**
      * @swagger
