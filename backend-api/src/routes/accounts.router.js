@@ -162,7 +162,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.delete('/logout/:profile_id', accountController.logout);
+    router.post('/logout', accountController.logout);
 
     router.all('/', methodNotAllowed);
     router.all('/:profile_id', methodNotAllowed);

@@ -21,7 +21,8 @@ async function login(req, res, next) {
         if (!Match){
             return next(new ApiError(401, 'Password incorrect'))
         }
-        const token = jwt.sign ({ id: user.id }, 'your_jwt_secret',  { expiresIn: '1h' }); 
+        const token = jwt.sign ({ id: user.id }, '',  { expiresIn: '1h' }); 
+        localStorage.setItem('token', token);
         return res.json({
             message: 'Logged in',
             token,
@@ -39,7 +40,8 @@ async function login(req, res, next) {
 
 }
 
-async function logout(req, res, next) { //not fixed
+function logout() { 
+    localStorage.removeItem('token');
 }
 
 async function register(req, res, next) {
