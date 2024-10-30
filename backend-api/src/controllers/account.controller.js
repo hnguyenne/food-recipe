@@ -40,15 +40,6 @@ async function login(req, res, next) {
 }
 
 async function logout(req, res, next) { //not fixed
-    const { id } = req.params;
-    try{
-        const deleted = await accountsService.logout(id);
-        return res.json(JSend.success())
-    }
-    catch (error){
-        console.log(error);
-        return next(new ApiError(500, `Error occurred while logging out`))
-    }
 }
 
 async function register(req, res, next) {
@@ -81,7 +72,6 @@ async function getProfile(req, res, next){
         const user = await accountsService.getUserbyId(id);
         if(!user){
             return next(new ApiError(404, 'User not found'));
-
         }
         return res.json(JSend.success({ user }));
     }

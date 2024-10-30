@@ -4,9 +4,7 @@ const fs = require('fs');
 function recipeRepository(){
     return knex('recipes')
 }
-function RecipeTagRepository(){
-    return knex('recipe_tag')
-}
+
 function favoriteRepository(){
     return knex('favorite')
 }
@@ -20,6 +18,7 @@ function readRecipe(payload){
         user_id: payload.user_id,
         tittle: payload.tittle,
         description: payload.description,
+        tags: payload.tags,
         prep_time: payload.prep_time,
         cook_time: payload.cook_time,
         servings: payload.servings,
@@ -27,7 +26,6 @@ function readRecipe(payload){
         recipe_create_at: new Date(),
         note: payload.note,
         img_url: payload.img_url,
-        tags: payload.tags || []
     }
 }
 
@@ -89,16 +87,12 @@ async function addRecipe(payload) {
 
 async function getLatestRecipes(){
     return await recipeRepository()
-            .join('recipe_tag', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
-            .join('tags', 'recipe_tag.tag_id', '=' , 'tags.tag_id')
             .orderBy('recipe_create_at', 'desc')
             .select('*');
 }
 
 async function getPopularRecipes(){
     return await recipeRepository()
-            .join('recipe_tag', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
-            .join('tags', 'recipe_tag.tag_id', '=' , 'tags.tag_id')
             .join(
                 knex.raw(
                     '(select recipe_id, count(*) as favorite_count from favorite group by recipe_id) as favorite'
@@ -112,25 +106,21 @@ async function getPopularRecipes(){
 async function getRecipesByFilter(query){
     const { name, tag, description } = query; // Get recipes by name, tag, description (how to cook, ingredient)
     return await recipeRepository()
-            .join('recipe_tag', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
-            .join('tags', 'recipe_tag.tag_id', '=' , 'tags.tag_id')
             .where((builder) => {
                 if(name){
-                    builder.where('tittle', 'like', '%${name}%');
+                    builder.where('tittle', 'like', `%${name}%`);
                 }
                 if (tag){
-                    builder.where('tag_name', '=', '${tag}')
+                    builder.where('tags', 'like', `%${name}%`)
                 }
                 if(description){
-                    builder.where('description', 'like', '%${description}%')
+                    builder.where('description', 'like', `%${description}%`)
                 }
             }).select('*');
 }
 
 async function getRecipeById(id){
     return await recipeRepository()
-        .join('recipe_tag', 'recipes.recipe_id', '=', 'recipe_tag.recipe_id')
-        .join('tags', 'recipe_tag.tag_id', '=' , 'tags.tag_id')
         .where('recipes.recipe_id', id).select('*').first();
 }
 
@@ -158,48 +148,6 @@ async function updateRecipe(id, payload){
     return { ...updatedRecipe, ...update }
 }
 
-async function addOrGetTagId(tag){
-    const existingTag = await knex('tags')
-            .where({ tag_name: tag })
-            .select('tag_id')
-            .first();
-
-        if (existingTag) {
-            return existingTag.tag_id;
-        }
-
-        const [newTagId] = await knex('tags')
-            .insert({ tag_name: tag });
-
-        return newTagId;
-}
-
-async function addRecipeTag(id, tag){ 
-    const existing = await RecipeTagRepository()
-                    .where('recipe_id', id)
-                    .andWhere('tag_id', tag)
-                    .select('*').first()
-    if (!existing){
-        const tag = await RecipeTagRepository().insert({
-                    recipe_id: id,
-                    tag_id: tag
-                })
-    }
-    return tag;
-}
-
-async function removeRecipeTag(id, tag){
-    const deleted = await RecipeTagRepository()
-                    .where('recipe_id', id)
-                    .andWhere('tag_id', tag).first();
-        if (!deleted){
-            return null;
-        }
-        await RecipeTagRepository()
-        .where('recipe_id', id)
-        .andWhere('tag_id', tag).del();
-    return deleted;
-}
 
 async function deleteRecipe(id){
     const deleted = await recipeRepository()
@@ -227,7 +175,6 @@ async function getReviews(recipe_id) {
         .join('recipes', 'recipes.recipe_id', 'reviews.recipe_id')
         .where('recipes.recipe_id', recipe_id)
         .select('reviews.review_id', 'reviews.rate', 'reviews.comment')
-
 }
 
 module.exports = {
@@ -235,8 +182,6 @@ module.exports = {
     getRecipesByFilter,
     getRecipeById,
     updateRecipe,
-    addRecipeTag,
-    removeRecipeTag,
     deleteRecipe,
     addToFavorite,
     getLatestRecipes,
