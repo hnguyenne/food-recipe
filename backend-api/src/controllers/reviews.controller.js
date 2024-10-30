@@ -61,9 +61,22 @@ async function deleteReview(req, res, next) {
     }
 }
 
+async function getAvgRate(req, res, next) {
+    const { recipe_id } = req.params;
+    try {
+        const rates = await reviewsService.getAvgRate(recipe_id);
+        return res.json(JSend.success({ rates }));
+    }
+    catch (error) {
+        console.log(error);
+        return next(new ApiError(500, 'There was an error when we tried to retrieve comments'));
+    }
+}
+
 module.exports = {
     rateAndCommentRecipe,
     getComments,
     updateReview,
     deleteReview,
+    getAvgRate,
 };

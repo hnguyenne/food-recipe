@@ -113,6 +113,8 @@ components:
           type: timestamp
           format: date-time
           readOnly: true
+        user_password:
+          type: string
 
   responses:
     "200NoData":
