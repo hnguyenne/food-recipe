@@ -10,7 +10,7 @@ function favoriteRepository(){
 }
 
 function reviewRepository() {
-    return knex('reviews');
+    return knex('reviews')
 }
 
 function readRecipe(payload){
@@ -45,36 +45,15 @@ async function addRecipe(payload) {
                 instruction: recipe.instruction,
                 recipe_create_at: recipe.recipe_create_at,
                 note: recipe.note,
-                img_url: recipe.img_url
+                img_url: recipe.img_url,
+                tags: recipe.tags
             })
         const [recipe_id] = await trx('recipes')
             .select('recipe_id')
             .orderBy('recipe_id', 'desc')
             .limit(1);
 
-        if (typeof payload.tags === 'string') {
-            recipe.tags = payload.tags.split(',').map(tag => tag.trim());
-        } else {
-            recipe.tags = Array.isArray(payload.tags) ? payload.tags : [];
-        }
-
-        const tagNames = recipe.tags;
-
-        const allTags = [];
-        for (const tagName of tagNames) {
-            const tag_id = await addOrGetTagId(tagName);
-            allTags.push({ tag_id, tag_name: tagName });
-        }
-
-        const RecipeTagRepository = allTags.map(tag =>({
-            recipe_id: recipe_id.recipe_id,
-            tag_id: tag.tag_id
-        }));
-            
-        await trx('recipe_tag').insert(RecipeTagRepository);
-        await trx.commit();
-
-        return { recipe_id, ...recipe, tags: allTags };
+        return { recipe_id, ...recipe };
     }
     catch (error) {
         await trx.rollback();
