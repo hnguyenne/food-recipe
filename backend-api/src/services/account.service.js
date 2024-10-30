@@ -86,7 +86,9 @@ async function updateAccount(id, payload){
     return { ...updatedAccount, ...update }
 
 }
-
+async function getUserbyEmail(email){
+    return await accountRepository().where('user_email', email).select('*').first();
+}
 module.exports = {
     CreateUser,
     Login,
@@ -94,5 +96,6 @@ module.exports = {
     refreshnewToken,
     getUserbyId,
     logout,
-    updateAccount
+    updateAccount,
+    getUserbyEmail
 }

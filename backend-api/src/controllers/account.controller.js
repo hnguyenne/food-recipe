@@ -1,13 +1,45 @@
 const accountsService = require('../services/account.service');
 const ApiError = require('../api-error');
 const JSend = require('../jsend');
-const { application, json } = require('express');
+const bcrypt = require('bcrypt'); 
+const jwt = require('jsonwebtoken');
 
 async function login(req, res, next) {
-    
+    if (!req.body?.email || typeof req.body.email !== 'string'){
+        return next(new ApiError(400, 'Email cannot be empty'))
+    }
+
+    if (!req.body?.password || typeof req.password !== 'string'){
+        return next(new ApiError(400, 'Password cannot be empty'))
+    }
+    try{
+        const user = await accountsService.getUserbyEmail(req.body.email);
+        if (!user) {
+            return next(new ApiError(404, 'Email not found'))
+        }
+        const Match = await bcrypt.compare(req.body.password, user.PASSWORD_HASH);
+        if (!Match){
+            return next(new ApiError(401, 'Password incorrect'))
+        }
+        const token = jwt.sign ({ id: user.id }, 'your_jwt_secret',  { expiresIn: '1h' }); 
+        return res.json({
+            message: 'Logged in',
+            token,
+            user: {
+                user_id: user.user_id,
+                user_email: user.user_email,
+                profile_pic: user.profile_pic
+            }
+        })
+    }
+    catch (error){
+        console.log(error);
+        return next (new ApiError(500, 'Internal server error'))
+    }
+
 }
 
-async function logout(req, res, next) {
+async function logout(req, res, next) { //not fixed
     const { id } = req.params;
     try{
         const deleted = await accountsService.logout(id);
@@ -24,8 +56,10 @@ async function register(req, res, next) {
         return next(new ApiError(400, 'Name cannot be empty'))
     }
     try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 5)
         const user = await accountsService.CreateUser({
             ...req.body,
+            PASSWORD_HASH: hashedPassword,
             profile_pic: req.file ? `/public/uploads/images/${req.file.filename}` : null
         })
         return res.status(201).set({
