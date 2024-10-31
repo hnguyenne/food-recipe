@@ -17,7 +17,7 @@ const options = {
             }
         ]
     },
-    apis: ['./backend-api/src/routes/*.js', './backend-api/src/docs/components.yaml'],
+    apis: ['./src/routes/*.js', './src/docs/components.yaml'],
     
 };
 
