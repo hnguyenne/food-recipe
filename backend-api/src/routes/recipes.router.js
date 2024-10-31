@@ -1,5 +1,4 @@
 const express = require('express');
-const reviewsController = require('../controllers/reviews.controller');
 const recipesController = require('../controllers/recipes.controller');
 const imgUpload = require('../middlewares/img-upload.middleware');
 const { methodNotAllowed } = require('../controllers/errors.controller')
@@ -329,6 +328,43 @@ module.exports.setup = (app) => {
      *              description: Internal server error
      */
     router.delete('/:recipe_id', recipesController.deleteRecipe);
+
+        /**
+     * @swagger
+     * /api/v1/reviews/avg/{recipe_id}:
+     *  get:
+     *      summary: Get average rating of a recipe
+     *      description: Get average rating of a recipe
+     *      parameters:
+     *          - in: path
+     *            name: recipe_id
+     *            description: id of the recipe
+     *            required: true
+     *            schema:
+     *              type: integer
+     *      tags:
+     *          - recipes
+     *      response:
+     *          200:
+     *              description: rating of the recipe retrieved successfully
+     *              content:
+     *                  application/json:
+     *                      schema:
+     *                          type: object
+     *                          properties:
+     *                              status:
+     *                                  type: string
+     *                                  description: The response status
+     *                                  enum: [success]
+     *                              data:
+     *                                  type: float
+     *                                  description: average rate of recipe
+     *          400:
+     *              description: Invalid request parameters
+     *          500:
+     *              description: Internal server error
+     */
+    router.get('/avg/:recipe_id', recipesController.getAvgRate);
     
     router.all('/', methodNotAllowed);
     router.all('/:recipe_id', methodNotAllowed);

@@ -1,4 +1,3 @@
-const { application } = require('express');
 const ApiError = require('../api-error');
 const jsend = require('../jsend');
 

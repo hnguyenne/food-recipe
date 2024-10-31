@@ -1,6 +1,5 @@
 const express = require('express');
 const reviewsController = require('../controllers/reviews.controller');
-const recipesController = require('../controllers/recipes.controller');
 const { methodNotAllowed } = require('../controllers/errors.controller')
 
 const router = express.Router();
@@ -41,7 +40,7 @@ module.exports.setup = (app) => {
      *            schema:
      *              type: string
      *      tags:
-     *          - recipes
+     *          - reviews
      *      responses:
      *          201:
      *              description: post review recipe successfully
@@ -68,43 +67,6 @@ module.exports.setup = (app) => {
 
     /**
      * @swagger
-     * /api/v1/reviews/avg/{recipe_id}:
-     *  get:
-     *      summary: Get average rating of a recipe
-     *      description: Get average rating of a recipe
-     *      parameters:
-     *          - in: path
-     *            name: recipe_id
-     *            description: id of the recipe
-     *            required: true
-     *            schema:
-     *              type: integer
-     *      tags:
-     *          - recipes
-     *      response:
-     *          200:
-     *              description: rating of the recipe retrieved successfully
-     *              content:
-     *                  application/json:
-     *                      schema:
-     *                          type: object
-     *                          properties:
-     *                              status:
-     *                                  type: string
-     *                                  description: The response status
-     *                                  enum: [success]
-     *                              data:
-     *                                  type: float
-     *                                  description: average rate of recipe
-     *          400:
-     *              description: Invalid request parameters
-     *          500:
-     *              description: Internal server error
-     */
-    router.get('/avg/:recipe_id', recipesController.getAvgRate);
-
-    /**
-     * @swagger
      * /api/v1/reviews/{recipe_id}:
      *  get:
      *      summary: Get comments of a recipe
@@ -118,7 +80,7 @@ module.exports.setup = (app) => {
      *          - $ref: '#/components/parameters/limitParam'
      *          - $ref: '#/components/parameters/pageParam'
      *      tags:
-     *          - recipes
+     *          - reviews
      *      responses:
      *          200:
      *              description: A list of reviews of recipe
@@ -166,7 +128,7 @@ module.exports.setup = (app) => {
      *                  schema:
      *                      $ref: '#/components/schemas/Review'
      *      tags:
-     *          - recipes
+     *          - reviews
      *      response:
      *          200:
      *              description: Review updated successfully
@@ -194,7 +156,7 @@ module.exports.setup = (app) => {
      *            schema:
      *              type: integer
      *      tags:
-     *          - recipes
+     *          - reviews
      *      response:
      *          200:
      *              description: review deleted successfully
