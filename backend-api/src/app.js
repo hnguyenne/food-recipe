@@ -9,7 +9,7 @@ const {
     handleError
 } = require('./controllers/errors.controller')
 const app = express();
-
+const session = require('express-session');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -20,7 +20,12 @@ app.get('/', (req, res) => {
 
 app.use('/public', express.static('public'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-
+app.use(session({
+    secret: '1234567890',
+    resave: false,
+    saveUninitialized: false,
+    secure: false, //http
+}))
 
 recipesRouter.setup(app);
 

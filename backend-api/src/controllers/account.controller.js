@@ -2,7 +2,6 @@ const accountsService = require('../services/account.service');
 const ApiError = require('../api-error');
 const JSend = require('../jsend');
 const bcrypt = require('bcrypt'); 
-const jwt = require('jsonwebtoken');
 
 async function login(req, res, next) {
     if (!req.body?.email || typeof req.body.email !== 'string'){
@@ -21,11 +20,10 @@ async function login(req, res, next) {
         if (!Match){
             return next(new ApiError(401, 'Password incorrect'))
         }
-        const token = jwt.sign ({ id: user.id }, '',  { expiresIn: '1h' }); 
-        localStorage.setItem('token', token);
+        req.session.isLoggedIn = true;
+        req.session.email = req.body.email;
         return res.json({
-            message: 'Logged in',
-            token,
+            message: 'Logged in successfully!',
             user: {
                 user_id: user.user_id,
                 user_email: user.user_email,
@@ -40,8 +38,14 @@ async function login(req, res, next) {
 
 }
 
-function logout() { 
-    localStorage.removeItem('token');
+function logout(req, res) { 
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect('/login');
+        }
+    })
 }
 
 async function register(req, res, next) {
