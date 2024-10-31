@@ -13,10 +13,6 @@ function methodNotAllowed(req, res, next){
     return next();
 }
 
-function resourceNotFound(req, res, next){
-    return next(new ApiError(404, 'Resource not found'))
-}
-
 function handleError(error, req, res, next){
     if (res.headersSent){
         return next (error);
@@ -32,6 +28,5 @@ function handleError(error, req, res, next){
 
 module.exports = {
     methodNotAllowed,
-    resourceNotFound,
     handleError
 }

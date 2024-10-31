@@ -53,6 +53,8 @@ async function register(req, res, next) {
         return next(new ApiError(400, 'Name cannot be empty'))
     }
     try {
+        const password = req.body.password;
+        console.log(password);
         const hashedPassword = await bcrypt.hash(req.body.password, 5)
         const user = await accountsService.CreateUser({
             ...req.body,
@@ -72,10 +74,10 @@ async function register(req, res, next) {
 }
 
 async function getProfile(req, res, next){
-    const { id } = req.params;
+    const { user_id } = req.params;
 
     try {
-        const user = await accountsService.getUserbyId(id);
+        const user = await accountsService.getUserbyId(user_id);
         if(!user){
             return next(new ApiError(404, 'User not found'));
         }
@@ -83,7 +85,7 @@ async function getProfile(req, res, next){
     }
     catch (error){
         console.log(error);
-        return next(new ApiError(500, `Error retrieving user id ${id}`))
+        return next(new ApiError(500, `Error retrieving user id ${user_id}`))
     }
 }
 

@@ -63,7 +63,7 @@ components:
           type: integer
           default: 5
           description: The number of records per page
-  
+
     Review:
       type: object
       properties:
@@ -107,7 +107,7 @@ components:
           type: timestamp
           format: date-time
           readOnly: true
-        user_password:
+        password:
           type: string
 
   responses:
@@ -151,7 +151,7 @@ components:
       required: false
 
     userIdParam:
-      name: id
+      name: user_id
       description: User ID
       required: true
       in: path

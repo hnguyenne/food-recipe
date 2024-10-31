@@ -3,9 +3,10 @@ const cors = require('cors');
 const JSend = require('./jsend');
 
 const recipesRouter = require('./routes/recipes.router');
+const accountsRouter = require('./routes/accounts.router');
+const reviewsRouter = require('./routes/reviews.router');
 const { specs, swaggerUi } = require('./docs/swagger');
 const {
-    resourceNotFound,
     handleError
 } = require('./controllers/errors.controller')
 const app = express();
@@ -25,11 +26,13 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     secure: false, //http
+    cookie: {maxAge: 60000}
 }))
 
 recipesRouter.setup(app);
+accountsRouter.setup(app);
+reviewsRouter.setup(app);
 
-app.use(resourceNotFound);
 app.use(handleError);
 
 module.exports = app;

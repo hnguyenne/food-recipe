@@ -12,7 +12,6 @@ function readAccount(payload){
     return{
         user_name: payload.user_name,
         user_email: payload.user_email,
-        google_id: payload.google_id,
         password_hash: payload.password_hash,
         profile_pic: payload.profile_pic,
         user_birthdate: payload.user_birthdate
@@ -27,7 +26,7 @@ async function CreateUser(payload){
 
 
 async function getUserbyId(id){
-    return await accountRepository().where('id', id).select('*').first();
+    return await accountRepository().where('user_id', id).select('*').first();
 }
 
 

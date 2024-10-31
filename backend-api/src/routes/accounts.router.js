@@ -44,7 +44,7 @@ module.exports.setup = (app) => {
      *              description: Internal server error
      *  
      */     
-    router.post('/register', imgUpload, accountController.register)
+    router.post('/register', imgUpload, accountController.register);
 
 
     /**
@@ -73,12 +73,17 @@ module.exports.setup = (app) => {
 
     /**
      * @swagger
-     * /api/v1/users/{id}:
+     * /api/v1/users/{user_id}:
      *  get:
      *      summary: Get profile by ID
      *      description: Get user profile by user ID
      *      parameters:
-     *          - $ref: '#/components/parameters/userIdParam'
+     *          - in: path
+     *            name: user_id
+     *            description: ID of the user
+     *            required: true
+     *            schema:
+     *              type: integer
      *      tags:
      *          - users
      *      responses:
@@ -103,7 +108,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.get('/:profile_id', accountController.getProfile);
+    router.get('/:user_id', accountController.getProfile);
 
     /**
      * @swagger
@@ -144,7 +149,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error                  
      */
-    router.put('/:profile_id', imgUpload, accountController.updateAccount);
+    router.put('/:profile_id', imgUpload, accountController.updateProfile);
 
     /**
      * @swagger
