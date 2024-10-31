@@ -1,3 +1,5 @@
+import { DEFAULT_PIC } from "@/constants";
+
 async function efetch(url, options = {}) {
     let result = {};
     let json = {};

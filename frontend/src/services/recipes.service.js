@@ -1,3 +1,5 @@
+import { DEFAULT_IMG } from "@/constants";
+
 /**
 * @param {string} url
 
@@ -30,7 +32,7 @@ function makeRecipesService() {
         data.recipes = data.recipes.map((recipe) => {
             return {
                 ...recipe,
-                img_url: recipe.img_url ?? DEFAULT_FOOD_IMG
+                img_url: recipe.img_url ?? DEFAULT_IMG
             };
         });
         return data;
@@ -42,7 +44,7 @@ function makeRecipesService() {
         data.recipes = data.recipes.map((recipe) => {
             return {
                 ...recipe,
-                img_url: recipe.img_url ?? DEFAULT_FOOD_IMG
+                img_url: recipe.img_url ?? DEFAULT_IMG
             };
         });
         return data;
@@ -54,7 +56,7 @@ function makeRecipesService() {
         data.recipes = data.recipes.map((recipe) => {
             return {
                 ...recipe,
-                img_url: recipe.img_url ?? DEFAULT_FOOD_IMG
+                img_url: recipe.img_url ?? DEFAULT_IMG
             };
         });
         return data;
@@ -64,7 +66,7 @@ function makeRecipesService() {
         const { recipe } = await efetch(`${baseUrl}/${id}`);
         return {
             ...recipe,
-            img_url: recipe.img_url ?? DEFAULT_FOOD_IMG
+            img_url: recipe.img_url ?? DEFAULT_IMG
         };
     }
 
