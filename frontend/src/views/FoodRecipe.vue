@@ -1,5 +1,6 @@
 <script setup>
-import { InputSearch } from  './InputSearch.vue';
+import InputSearch from  '@/components/InputSearch.vue';
+import { ref, computed, watch } from 'vue';
 
 const searchText = ref('');
 
@@ -28,5 +29,13 @@ watch(searchText, () => (selectedIndex.value = -1));
 <template>
     <h1>food recipe</h1>
     <InputSearch v-model="searchText"/>
-    
+    <router-link
+        :to="{
+            name: 'signup',
+        }"
+    >
+        <span class="mt-2 badge text-bg-warning">
+            <i class="fas fa-edit"> Đăng Ký</i>
+        </span>
+    </router-link>
 </template>

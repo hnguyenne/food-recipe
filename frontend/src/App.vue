@@ -1,7 +1,15 @@
 <script setup>
-import AppHeader from '@components/AppHeader.vue';
+import AppHeader from '@/components/AppHeader.vue';
 </script>
 <template>
   <AppHeader />
-  <h1>Hello, Vue.js</h1>
+  <div class="container mt-3">
+    <router-view />
+  </div>
 </template>
+
+<style>
+  body {
+    background-color: #FFF5E4;
+  }
+</style>

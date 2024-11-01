@@ -1,5 +1,5 @@
 import { createWebHistory, createRouter } from 'vue-router';
-import ContactBook from '@/views/ContactBook.vue';
+import FoodRecipe from '@/views/FoodRecipe.vue';
 
 const routes = [
     {
@@ -7,6 +7,16 @@ const routes = [
         name: 'foodrecipe',
         component: FoodRecipe,
     },
+    {
+        path: '/signup',
+        name: 'signup',
+        component: () => import('@/views/Signup.vue'),
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/Login.vue'),
+    }
 ];
 
 const router = createRouter({
