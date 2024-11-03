@@ -32,6 +32,24 @@ function goToSearch(text) {
             </div>
             <InputSearch v-model="searchText"
                 @submit="goToSearch"/>
+            <router-link
+                :to="{
+                    name: 'signup',
+                }"
+            >
+                <span class="mt-2 badge text-bg-warning">
+                    <i class="fas fa-edit"> Đăng Ký</i>
+                </span>
+            </router-link>
+                        <router-link
+                :to="{
+                    name: 'login',
+                }"
+            >
+                <span class="mt-2 badge text-bg-warning">
+                    <i class="fas fa-edit"> Đăng Nhập</i>
+                </span>
+            </router-link>
         </div>
     </nav>
 </template>

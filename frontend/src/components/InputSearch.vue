@@ -7,10 +7,11 @@ const model = defineModel({
 <template>
 <div class="input-group">
     <input
-    type="text"
-    class="form-control px-3"
-    placeholder="Find Recipes..."
-    v-model="model"
+        type="text"
+        class="form-control px-3"
+        placeholder="Find Recipes..."
+        v-model="model"
+        @keyup.enter="$emit('submit', modelValue)"
     />
     <button
         class="btn btn-outline-secondary"
