@@ -55,12 +55,22 @@
 
     <div class="mb-3">
       <button 
-        class="btn btn-primary"> Đăng ký</button>
+        class="btn"> Đăng ký</button>
     </div>
   </Form>
 </template>
 
 <style scoped>
 @import '@/assets/form.css';
+button {
+    background-color: #6A9C89;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
+    color: #ffffff;
+}
 
+button:hover {
+  background-color: #54796a;
+  color: #ffffff;
+}
 </style>

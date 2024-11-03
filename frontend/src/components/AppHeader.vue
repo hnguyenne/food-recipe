@@ -37,8 +37,8 @@ function goToSearch(text) {
                     name: 'signup',
                 }"
             >
-                <span class="mt-2 badge text-bg-warning">
-                    <i class="fas fa-edit"> Đăng Ký</i>
+                <span class="mt-2 badge button px-3 py-2">
+                    Đăng Ký
                 </span>
             </router-link>
                         <router-link
@@ -46,10 +46,23 @@ function goToSearch(text) {
                     name: 'login',
                 }"
             >
-                <span class="mt-2 badge text-bg-warning">
-                    <i class="fas fa-edit"> Đăng Nhập</i>
+                <span class="mt-2 badge button px-3 py-2">
+                    Đăng Nhập
                 </span>
             </router-link>
         </div>
     </nav>
 </template>
+<style>
+.button {
+    background-color: #6A9C89;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.button:hover {
+  background-color: #54796a;
+  color: #ffffff;
+}
+</style>

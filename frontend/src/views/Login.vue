@@ -23,15 +23,32 @@
                     class="form-control"
                 />
                 <ErrorMessage name="password" class="error-feedback"/>
-            </div> 
+            </div>
+            <div class="mb-3">
+                <button class="btn">
+                    Đăng nhập
+                </button>
+            </div>
         </form>
     </div>
 </template>
 
-<style>
+<style scoped>
 .page {
     text-align: center;
     width: 40%;
     margin: 0 auto;
+}
+
+button {
+    background-color: #6A9C89;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+button:hover {
+  background-color: #54796a;
+  color: #ffffff;
 }
 </style>
