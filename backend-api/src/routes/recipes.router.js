@@ -95,7 +95,7 @@ module.exports.setup = (app) => {
      *      description: Retrieves a list of recipes based on filter.
      *      parameters:
      *          - in: query
-     *            name: title
+     *            name: name
      *            description: title of recipes
      *            schema:
      *              type: string

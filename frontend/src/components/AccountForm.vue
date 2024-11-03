@@ -7,7 +7,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
     <div class="mb-3">
       <label for="user_name" class="form-label">Tên</label>
       <Field
-        user_name="user_name"
+        name="user_name"
         type="text"
         class="form-control"
       />

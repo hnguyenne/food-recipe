@@ -1,11 +1,11 @@
 <script setup>
-
+import { Form, Field, ErrorMessage } from 'vee-validate';
 </script>
 
 <template>
     <div class="page">
         <h4>Đăng nhập</h4>
-        <form class="mb-6">
+        <Form class="mb-6">
             <div class="mb-3">
                 <label for="user_email" class="form-label">E-mail</label>
                 <Field 
@@ -29,7 +29,7 @@
                     Đăng nhập
                 </button>
             </div>
-        </form>
+        </Form>
     </div>
 </template>
 

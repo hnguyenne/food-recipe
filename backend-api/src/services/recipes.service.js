@@ -1,5 +1,6 @@
 const knex = require("../database/knex");
 const fs = require('fs');
+const Paginator = require('./paginator');
 
 function recipeRepository(){
     return knex('recipes')
@@ -64,38 +65,85 @@ async function addRecipe(payload) {
 }
 
 
-async function getLatestRecipes(){
-    return await recipeRepository()
-            .orderBy('recipe_create_at', 'desc')
-            .select('*');
+async function getLatestRecipes(query){
+    const { page = 1, limit = 20 } = query;
+    const paginator = new Paginator(page, limit);
+    let results = await recipeRepository()
+        .orderBy('recipe_create_at', 'desc')
+        .select('*')
+        .limit(paginator.limit)
+        .offset(paginator.offset);
+    
+    let totalRecords = 0;
+    results = results.map((result) => {
+        totalRecords = result.recordCount;
+        delete result.recordCount;
+        return result;
+    });
+
+    return {
+        metadata: paginator.getMetadata(totalRecords),
+        recipes: results,
+    };
 }
 
-async function getPopularRecipes(){
-    return await recipeRepository()
-            .join(
-                knex.raw(
-                    '(select recipe_id, count(*) as favorite_count from favorite group by recipe_id) as favorite'
-                ),
-                'favorite.recipe_id', '=', 'recipes.recipe_id'
-            )
-            .orderBy('favorite.favorite_count', 'desc')
-            .select('*');
+async function getPopularRecipes(query){
+    const { page = 1, limit = 20 } = query;
+    const paginator = new Paginator(page, limit);
+    let results = await recipeRepository()
+        .join(
+            knex.raw(
+                '(select recipe_id, count(*) as favorite_count from favorite group by recipe_id) as favorite'
+            ),
+            'favorite.recipe_id', '=', 'recipes.recipe_id'
+        )
+        .orderBy('favorite.favorite_count', 'desc')
+        .select('*')
+        .limit(paginator.limit)
+        .offset(paginator.offset);
+
+    let totalRecords = 0;
+    results = results.map((result) => {
+        totalRecords = result.recordCount;
+        delete result.recordCount;
+        return result;
+    });
+
+    return {
+        metadata: paginator.getMetadata(totalRecords),
+        recipes: results,
+    };
 }
 
 async function getRecipesByFilter(query){
-    const { name, tag, description } = query; // Get recipes by name, tag, description (how to cook, ingredient)
-    return await recipeRepository()
+    const { name, tag, description, page = 1, limit = 20} = query; // Get recipes by name, tag, description (how to cook, ingredient)
+    const paginator = new Paginator(page, limit);
+    let results = await recipeRepository()
             .where((builder) => {
                 if(name){
                     builder.where('tittle', 'like', `%${name}%`);
                 }
                 if (tag){
-                    builder.where('tags', 'like', `%${name}%`)
+                    builder.where('tags', 'like', `%${tag}%`)
                 }
                 if(description){
                     builder.where('description', 'like', `%${description}%`)
                 }
-            }).select('*');
+            }).select('*')
+            .limit(paginator.limit)
+            .offset(paginator.offset);
+
+    let totalRecords = 0;
+    results = results.map((result) => {
+        totalRecords = result.recordCount;
+        delete result.recordCount;
+        return result;
+    });
+
+    return {
+        metadata: paginator.getMetadata(totalRecords),
+        recipes: results,
+    };
 }
 
 async function getRecipeById(id){

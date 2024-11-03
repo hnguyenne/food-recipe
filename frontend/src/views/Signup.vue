@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import AccountForm from '@/components/AccountForm.vue';
 
- //
 </script>
 
 <template>

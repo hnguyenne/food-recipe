@@ -6,7 +6,7 @@ import { ref } from 'vue';
 const router = useRouter();
 const searchText = ref('');
 
-function goToSearch(text) {
+function goToSearch() {
     if (searchText.value.trim()) {
         router.push({ name: 'Search', query: { text: searchText.value } });
     }

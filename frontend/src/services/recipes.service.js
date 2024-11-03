@@ -50,8 +50,8 @@ function makeRecipesService() {
         return data;
     }
 
-    async function fetchFilterRecipes(page, limit = 20) {
-        let url = `${baseUrl}/?page=${page}&limit=${limit}`;
+    async function fetchFilterRecipes(searchText, page, limit = 20) {
+        let url = `${baseUrl}/?name=${searchText}&tag=${searchText}&description=${searchText}&page=${page}&limit=${limit}`;
         const data = await efetch(url);
         data.recipes = data.recipes.map((recipe) => {
             return {
