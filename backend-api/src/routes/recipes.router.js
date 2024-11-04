@@ -331,7 +331,7 @@ module.exports.setup = (app) => {
 
         /**
      * @swagger
-     * /api/v1/reviews/avg/{recipe_id}:
+     * /api/v1/recipes/avg/{recipe_id}:
      *  get:
      *      summary: Get average rating of a recipe
      *      description: Get average rating of a recipe

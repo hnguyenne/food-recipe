@@ -63,19 +63,10 @@ async function deleteReview(id){
     return deleted;
 }
 
-async function getAvgRate(id){
-    const avgRate = await reviewRepository()
-                        .where('recipe_id', id)
-                        .avgRate('rate')
-                        .first();
-    return avgRate ? avgRate.rate : 0;
-}
-
 module.exports = {
     addReview,
     getReviewsByFilter,
     getReviewByID,
     updateReview,
     deleteReview,
-    getAvgRate,
 }

@@ -59,7 +59,7 @@ function onDeleteRecipe(id) {
 </script>
 <template>
     <div v-if="recipe" class="page">
-        <h4>Hiệu chỉnh Liên hệ</h4>
+        <h4>Hiệu chỉnh Công thức</h4>
         <RecipeForm :recipe="recipe" @submit:recipe="onUpdateRecipe" @delete:recipe="onDeleteRecipe" />
         <p>{{ message }}</p>
     </div>

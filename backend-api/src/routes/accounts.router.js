@@ -156,9 +156,7 @@ module.exports.setup = (app) => {
      * /api/v1/user/logout/{id}:
      *  delete:
      *      summary: Delete an account token for log out
-     *      description: Delete an account token for log out using ID
-     *      parameters:
-     *          - $ref: '#/components/parameters/userIdParam'
+     *      description: Delete an account token for log out
      *      tags:
      *          - users
      *      responses:

@@ -204,6 +204,14 @@ async function getReviews(recipe_id) {
         .select('reviews.review_id', 'reviews.rate', 'reviews.comment')
 }
 
+async function getAvgRate(id){
+    const avgRate = await reviewRepository()
+                        .where('recipe_id', id)
+                        .avgRate('rate')
+                        .first();
+    return avgRate ? avgRate.rate : 0;
+}
+
 module.exports = {
     addRecipe,
     getRecipesByFilter,
@@ -214,4 +222,5 @@ module.exports = {
     getLatestRecipes,
     getPopularRecipes,
     getReviews,
+    getAvgRate,
 }
