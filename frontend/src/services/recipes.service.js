@@ -24,7 +24,7 @@ async function efetch(url, options = {}) {
 
 function makeRecipesService() {
 
-    const baseUrl = '/api/v1/foodrecipes';
+    const baseUrl = '/api/v1/foodrecipe';
 
     async function fetchLatestRecipes(page, limit = 20) {
         let url = `${baseUrl}/latest/?page=${page}&limit=${limit}`;
@@ -81,6 +81,7 @@ function makeRecipesService() {
         return efetch(`${baseUrl}/${id}`, {
             method: 'PUT',
             body: recipe,
+            img_url: recipe.img_url ?? DEFAULT_IMG
         });
     }
 

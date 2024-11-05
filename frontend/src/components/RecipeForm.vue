@@ -14,12 +14,12 @@ const $emit = defineEmits(['submit:recipe', 'delete:recipe']);
 
 let validationSchema = toTypedSchema(
     z.object({
-        title: z.string().min(1, {message: "Tên công thức không được để trống"}),
+        tittle: z.string().min(1, {message: "Tên công thức không được để trống"}),
         description: z.string().min(1, {message: "Hãy thêm mô tả cho công thức của bạn"}),
         tags: z.string(),
-        prep_time: z.number(),
-        cook_time: z.number(),
-        servings: z.number(),
+        prep_time: z.number().min(0, {message: "Thời gian chuẩn bị phải là số dương"}),
+        cook_time: z.number().min(0, {message: "Thời gian nấu phải là số dương"}),
+        servings: z.number().min(1, {message: "Khẩu phần phục vụ phải lớn hơn 0"}),
         instruction: z.string().min(1, { message: "Hãy thêm hướng dẫn thực hiện"}),
         note: z.string().optional(),
         img_url: z.instanceof(File).optional(),
@@ -50,37 +50,37 @@ function deleteRecipe(){
 }
 </script>
 <template>
-    <Form @submit = "submitRecipe">
+    <Form :validation-schema="validationSchema" @submit = "submitRecipe">
         <div class="mb-3">
-            <label for="title" class="form-label">Đặt tiêu đề cho công thức của bạn</label>
-            <Field name="title" type = "text" class = "form-control" :value = "props.recipe.title">
+            <label for="tittle" class="form-label">Đặt tiêu đề cho công thức của bạn</label>
+            <Field name="tittle" type = "text" class = "form-control" :value = "props.recipe.title">
             </Field>
             <ErrorMessage name = "name" class= "error-feedback" />
 
         </div>
         <div class = "mb-3">
-            <label for="Description" class="form-label">Miêu tả công thức của bạn, bao gồm cả nguyên liệu</label>
+            <label for="description" class="form-label">Miêu tả công thức của bạn, bao gồm cả nguyên liệu</label>
             <Field name = "description" type = "text" class = "form-control" :value = "recipe.description"></Field>
             <ErrorMessage name = "description" class= "error-feedback" />
         </div>
          <div class = "mb-3">
-            <label for="Tags" class="form-label">Các nhãn để người khác tìm thấy công thức của bạn (Bánh ngọt, món chay,...)</label>
+            <label for="tags" class="form-label">Các nhãn để người khác tìm thấy công thức của bạn (Bánh ngọt, món chay,...)</label>
             <field name = "tags" type = "text" class = "form-control" :value = "recipe.tags"></field>
             <ErrorMessage name = "tags" class= "error-feedback" />
         </div>
         <div class = "mb-3">
-            <label for="Prep_time" class="form-label">Thời gian chuẩn bị nguyên liệu</label>
-            <field name = "Prep_time" type = "text" class = "form-control" :value = "recipe.prep_time"></field>
-            <ErrorMessage name = "Prep_time" class= "error-feedback" />
+            <label for="prep_time" class="form-label">Thời gian chuẩn bị nguyên liệu</label>
+            <field name = "prep_time" type = "number" class = "form-control" :value = "recipe.prep_time"></field>
+            <ErrorMessage name = "prep_time" class= "error-feedback" />
         </div>
         <div class = "mb-3">
             <label for="cook_time" class="form-label">Thời gian chế biến</label>
-            <field name = "cook_time" type = "text" class = "form-control" :value = "recipe.cook_time"></field>
+            <field name = "cook_time" type = "number" class = "form-control" :value = "recipe.cook_time"></field>
             <ErrorMessage name = "cook_time" class= "error-feedback" />
         </div>
         <div class = "mb-3">
             <label for="servings" class="form-label">Khẩu phần</label>
-            <field name = "servings" type = "text" class = "form-control" :value = "recipe.servings"></field>
+            <field name = "servings" type = "number" class = "form-control" :value = "recipe.servings"></field>
             <ErrorMessage name = "servings" class= "error-feedback" />
         </div>
         <div class = "mb-3">
@@ -94,14 +94,14 @@ function deleteRecipe(){
             <ErrorMessage name = "note" class= "error-feedback" />
         </div>
         <div class="mb-3 w-50 h-50">
-            <label for="imgfile">Thêm một hình ảnh thành phẩm nấu ăn của bạn</label>
+            <label for="imgFile">Thêm một hình ảnh thành phẩm nấu ăn của bạn</label>
             <img
                 class="img-fluid img-thumbnail"
                 :src="imgFile"
                 alt=""
                 @click="imgFileInput.click()"
             />
-            <Field name="img_file" v-slot="{ handleChange }">
+            <Field name="imgFile" v-slot="{ handleChange }">
             <input
                 type="file"
                 class="d-none"
