@@ -1,4 +1,4 @@
-<script setup> //This one is still in contactbook app and not fixed
+<script setup>
 defineProps({
     recipe: {type: object, required: true},
 })
@@ -6,28 +6,11 @@ defineProps({
 <template>
     <div>
         <div class="p-1 w-75 h-75">
-            <img class="img-fluid img-thumbnail" :src="contact.avatar" alt=""/>
+            <img class="img-fluid img-thumbnail" :src="recipe.img_url" alt=""/>
         </div>
         <div class="p-1">
-            <strong>Tên:</strong>
-            {{ recipe.title }}
-        </div>
-        <div class="p-1">
-            <strong>E-mail:</strong>
-            {{ contact.email }}
-        </div>
-        <div class="p-1">
-            <strong>Địa chỉ:</strong>
-            {{ contact.address }}
-        </div>
-        <div class="p-1">
-            <strong>Điện thoại:</strong>
-            {{ contact.phone }}
-        </div>
-        <div class="p-1">
-            <strong>Liên hệ yêu thích:&nbsp;</strong>
-            <i v-if="contact.favorite" class="fas fa-check"></i>
-            <i v-else class="fas fa-times"></i>
+            <strong></strong>
+            {{ recipe.tittle }}
         </div>
     </div>
 </template>

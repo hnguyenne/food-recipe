@@ -26,11 +26,12 @@ function goToSearch() {
                         :to="{ name: 'foodrecipe' }"
                         class="nav-link"
                     >
-                        HomePage
+                        Logo
                     </router-link>
                 </li>
             </div>
             <InputSearch v-model="searchText"
+                class=""
                 @submit="goToSearch"/>
             <router-link
                 :to="{
