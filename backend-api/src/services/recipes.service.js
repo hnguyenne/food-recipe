@@ -24,7 +24,7 @@ function readRecipe(payload){
         cook_time: payload.cook_time,
         servings: payload.servings,
         instruction: payload.instruction,
-        recipe_create_at: new Date(),
+        recipe_create_at: payload.recipe_create_at,
         note: payload.note,
         img_url: payload.img_url,
     }
@@ -44,7 +44,7 @@ async function addRecipe(payload) {
                 cook_time: recipe.cook_time,
                 servings: recipe.servings,
                 instruction: recipe.instruction,
-                recipe_create_at: recipe.recipe_create_at,
+                recipe_create_at: new Date(),
                 note: recipe.note,
                 img_url: recipe.img_url,
                 tags: recipe.tags
@@ -66,11 +66,17 @@ async function addRecipe(payload) {
 
 
 async function getLatestRecipes(query){
-    const { page = 1, limit = 20 } = query;
+    const { page = 1, limit = 20 } = query; 
     const paginator = new Paginator(page, limit);
     let results = await recipeRepository()
+        .select(
+            knex.raw('count(recipe_id) over() as recordCount'),
+            'recipes.recipe_id',
+            'tittle',
+            'img_url',
+            'recipe_create_at'
+        )
         .orderBy('recipe_create_at', 'desc')
-        .select('*')
         .limit(paginator.limit)
         .offset(paginator.offset);
     
@@ -88,7 +94,7 @@ async function getLatestRecipes(query){
 }
 
 async function getPopularRecipes(query){
-    const { page = 1, limit = 20 } = query;
+    const  {page = 1, limit = 20} = query;
     const paginator = new Paginator(page, limit);
     let results = await recipeRepository()
         .join(
@@ -97,8 +103,14 @@ async function getPopularRecipes(query){
             ),
             'favorite.recipe_id', '=', 'recipes.recipe_id'
         )
+        .select(
+            knex.raw('count(recipes.recipe_id) over() as recordCount'),
+            'recipes.recipe_id',
+            'tittle',
+            'img_url',
+            'favorite_count'
+        ) 
         .orderBy('favorite.favorite_count', 'desc')
-        .select('*')
         .limit(paginator.limit)
         .offset(paginator.offset);
 

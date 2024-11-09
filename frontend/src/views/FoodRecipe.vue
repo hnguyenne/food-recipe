@@ -23,7 +23,7 @@ const latestRecipes = useQuery({
 
 const popularRecipes = useQuery({
     queryKey: ['popularRecipes', 1],
-    queryFn: () => recipesService.fetchPopularRecipes(1, 10),
+    queryFn: () => recipesService.fetchPopularRecipes(1),
     select: (data) => {
         return data.recipes;
     },

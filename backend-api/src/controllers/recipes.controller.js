@@ -3,10 +3,18 @@ const ApiError = require('../api-error');
 const JSend = require('../jsend');
 
 async function getLatestRecipes(req, res, next) {
-    let recipes = [];
-
+    let result = {
+        recipes: [],
+        metadata: {
+            totalRecords: 0,
+            firsttPage: 1,
+            lastPage: 1,
+            page: 1,
+            limit: 5,
+        }
+    }
     try{
-        recipes = await recipesService.getLatestRecipes();
+        result = await recipesService.getLatestRecipes(req.query);
     }
     catch (error){
         console.log(error);
@@ -14,14 +22,25 @@ async function getLatestRecipes(req, res, next) {
             new ApiError(500, 'There was an error when we tried to retrieve recipes')
         )
     }
-    return res.json(JSend.success({ recipes }))
+    return res.json(JSend.success({ 
+        recipes: result.recipes,
+        metadata: result.metadata
+     }))
 }
 
 async function getPopularRecipes(req, res, next) {
-    let recipes = [];
-
+    let result = {
+        recipes: [],
+        metadata: {
+            totalRecords: 0,
+            firsttPage: 1,
+            lastPage: 1,
+            page: 1,
+            limit: 5,
+        }
+    }
     try{
-        recipes = await recipesService.getPopularRecipes();
+        result = await recipesService.getPopularRecipes(req.query);
     }
     catch (error){
         console.log(error);
@@ -29,14 +48,25 @@ async function getPopularRecipes(req, res, next) {
             new ApiError(500, 'There was an error when we tried to retrieve recipes')
         )
     }
-    return res.json(JSend.success({ recipes }))
+    return res.json(JSend.success({ 
+        recipes: result.recipes,
+        metadata: result.metadata
+     }))
 }
 
 async function getRecipeByFilter(req, res, next) {
-    let recipes = [];
-
+    let result = {
+        recipes: [],
+        metadata: {
+            totalRecords: 0,
+            firsttPage: 1,
+            lastPage: 1,
+            page: 1,
+            limit: 5,
+        }
+    }
     try{
-        recipes = await recipesService.getRecipesByFilter(req.query);
+        result = await recipesService.getRecipesByFilter(req.query);
     }
     catch (error){
         console.log(error);
@@ -44,7 +74,10 @@ async function getRecipeByFilter(req, res, next) {
             new ApiError(500, 'There was an error when we tried to retrieve recipes')
         )
     }
-    return res.json(JSend.success({ recipes }))
+    return res.json(JSend.success({ 
+        recipes: result.recipes,
+        metadata: result.metadata
+     }))
 }
 
 async function getRecipeById(req, res, next) {

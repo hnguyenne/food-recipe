@@ -60,7 +60,7 @@ function deleteRecipe(){
         </div>
         <div class = "mb-3">
             <label for="description" class="form-label">Miêu tả công thức của bạn, bao gồm cả nguyên liệu</label>
-            <Field name = "description" type = "text" class = "form-control" :value = "recipe.description"></Field>
+            <Field name = "description" as="textarea" class = "form-control" :value = "recipe.description"></Field>
             <ErrorMessage name = "description" class= "error-feedback" />
         </div>
          <div class = "mb-3">
@@ -85,7 +85,7 @@ function deleteRecipe(){
         </div>
         <div class = "mb-3">
             <label for="instruction" class="form-label">Hướng dẫn các bước thực hiện</label>
-            <field name = "instruction" type = "text" class = "form-control" :value = "recipe.instruction"></field>
+            <field name = "instruction" as="textarea" class = "form-control" :value = "recipe.instruction"></field>
             <ErrorMessage name = "instruction" class= "error-feedback" />
         </div>
         <div class = "mb-3">
