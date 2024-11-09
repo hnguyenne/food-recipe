@@ -20,8 +20,6 @@ async function login(req, res, next) {
         if (!Match){
             return next(new ApiError(401, 'Password incorrect'))
         }
-        req.session.isLoggedIn = true;
-        req.session.email = req.body.email;
         return res.json({
             message: 'Logged in successfully!',
             user: {
@@ -38,15 +36,6 @@ async function login(req, res, next) {
 
 }
 
-function logout(req, res) { 
-    req.session.destroy((err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect('/login');
-        }
-    })
-}
 
 async function register(req, res, next) {
     if (!req.body?.user_name || typeof req.body.user_name !== 'string'){
@@ -113,7 +102,6 @@ async function updateProfile(req, res, next){
 
 module.exports = {
     login,
-    logout,
     register,
     getProfile,
     updateProfile,

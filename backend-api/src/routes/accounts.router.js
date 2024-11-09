@@ -53,16 +53,38 @@ module.exports.setup = (app) => {
      *  post:
      *      summary: Login an account
      *      description: Login an account
-     *      parameters:
-     *          - in: query
-     *            name: token_id
-     *            schema:
-     *              type: integer
+     *      requestBody:
+     *          required: true
+     *          content:
+     *              multipart/form-data:
+     *                  schema:
+     *                      type: object
+     *                      properties:
+     *                          user_email:
+     *                              type: string
+     *                              format: email
+     *                          password:
+     *                              type: string
+     *                              format: password
      *      tags: 
      *          - users
      *      responses:
      *          200:
      *              description: login successfully
+     *              content:
+     *                  application/json:
+     *                      schema:
+     *                          type: object
+     *                          properties:
+     *                              status:
+     *                                  type: string
+     *                                  description: The response status
+     *                                  enum: [success]
+     *                              data:
+     *                                  type: object
+     *                                  properties:
+     *                                      User:
+     *                                          $ref: '#/components/schemas/User'
      *          400:
      *              description: login information is invalid
      *          500:
@@ -150,22 +172,6 @@ module.exports.setup = (app) => {
      *              description: Internal server error                  
      */
     router.put('/:profile_id', imgUpload, accountController.updateProfile);
-
-    /**
-     * @swagger
-     * /api/v1/user/logout/{id}:
-     *  delete:
-     *      summary: Delete an account token for log out
-     *      description: Delete an account token for log out
-     *      tags:
-     *          - users
-     *      responses:
-     *          200:
-     *              description: Account logged out
-     *          500:
-     *              description: Internal server error
-     */
-    router.post('/logout', accountController.logout);
 
     router.all('/', methodNotAllowed);
     router.all('/:profile_id', methodNotAllowed);
