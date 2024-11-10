@@ -58,14 +58,7 @@ module.exports.setup = (app) => {
      *          content:
      *              multipart/form-data:
      *                  schema:
-     *                      type: object
-     *                      properties:
-     *                          user_email:
-     *                              type: string
-     *                              format: email
-     *                          password:
-     *                              type: string
-     *                              format: password
+     *                      $ref: '#/components/schemas/UserLogin'
      *      tags: 
      *          - users
      *      responses:

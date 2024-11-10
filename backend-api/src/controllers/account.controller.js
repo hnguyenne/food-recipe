@@ -4,15 +4,16 @@ const JSend = require('../jsend');
 const bcrypt = require('bcrypt'); 
 
 async function login(req, res, next) {
-    if (!req.body?.email || typeof req.body.email !== 'string'){
+    console.log(req.body);
+    if (!req.body?.user_email || typeof req.body.user_email !== 'string'){
         return next(new ApiError(400, 'Email cannot be empty'))
     }
 
-    if (!req.body?.password || typeof req.password !== 'string'){
+    if (!req.body?.password || typeof req.body.password !== 'string'){
         return next(new ApiError(400, 'Password cannot be empty'))
     }
     try{
-        const user = await accountsService.getUserbyEmail(req.body.email);
+        const user = await accountsService.getUserbyEmail(req.body.user_email);
         if (!user) {
             return next(new ApiError(404, 'Email not found'))
         }
@@ -43,8 +44,7 @@ async function register(req, res, next) {
     }
     try {
         const password = req.body.password;
-        console.log(password);
-        const hashedPassword = await bcrypt.hash(req.body.password, 5)
+        const hashedPassword = await bcrypt.hash(password, 5)
         const user = await accountsService.CreateUser({
             ...req.body,
             PASSWORD_HASH: hashedPassword,

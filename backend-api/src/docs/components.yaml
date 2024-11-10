@@ -110,6 +110,15 @@ components:
         password:
           type: string
 
+    UserLogin:
+      type: object
+      properties:
+        user_email:
+          type: string
+          format: email
+        password:
+          type: string
+
   responses:
     "200NoData":
       content:

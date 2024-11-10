@@ -42,10 +42,18 @@ function makeAccountsService(){
         })
     }
 
+    async function login(user){
+        return efetch(`${baseUrl}/login`, {
+            method: 'POST',
+            body: user,
+        })
+    }
+
     return {
         fetchAccount,
         createAccount,
-        updateAccount
+        updateAccount,
+        login
     }
 }
 export default makeAccountsService();

@@ -12,8 +12,6 @@ let imgFileInput = useTemplateRef('img-file-input');
 let imgFile = ref(props.user.profile_pic);
 const $emit = defineEmits(['submit:user']);
 
-const today = new Date();
-
 let validationSchema = toTypedSchema(
     z.object({
         user_name: z.string().min(1, {message: "Tên không được để trống"}),
@@ -140,4 +138,5 @@ button:hover {
   background-color: #54796a;
   color: #ffffff;
 }
+
 </style>
