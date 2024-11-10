@@ -32,6 +32,19 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
                 </button>
             </div>
         </Form>
+        <div>
+            <p>
+                Bạn chưa có tài khoản?             
+                <router-link
+                    :to="{
+                        name: 'signup',
+                    }"
+                >
+                        Đăng Ký
+                </router-link>
+            </p>
+
+        </div>
     </div>
 </template>
 

@@ -74,6 +74,7 @@ function makeRecipesService() {
         return efetch(baseUrl, {
             method: 'POST',
             body: recipe,
+            img_url: recipe.img_url ?? DEFAULT_IMG
         });
     }
     

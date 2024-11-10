@@ -27,9 +27,10 @@ function makeAccountsService(){
     }
 
     async function createAccount(user){
-        return efetch(baseUrl, {
+        return efetch(`${baseUrl}/register`, {
             method: 'POST',
-            body: user
+            body: user,
+            profile_pic: user.profile_pic ?? DEFAULT_PIC
         })
     }
 
@@ -37,6 +38,7 @@ function makeAccountsService(){
         return efetch(`${baseUrl}/${id}`, {
             method: 'PUT',
             body: user,
+            profile_pic: user.profile_pic ?? DEFAULT_PIC
         })
     }
 
@@ -46,3 +48,4 @@ function makeAccountsService(){
         updateAccount
     }
 }
+export default makeAccountsService();
