@@ -102,7 +102,6 @@ async function addRecipe(req, res, next) {
     try {
         const recipe = await recipesService.addRecipe({
             ...req.body,
-            ...req.params,
             img_url: req.file ? `/public/uploads/images/${req.file.filename}`: null,
         })
         return res.status(201).set({

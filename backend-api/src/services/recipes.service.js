@@ -33,9 +33,8 @@ function readRecipe(payload){
 async function addRecipe(payload) {
     const recipe = readRecipe(payload);
     
-    const trx = await knex.transaction();
     try {
-        await trx('recipes')
+        await knex('recipes')
             .insert({
                 user_id: recipe.user_id,
                 tittle: recipe.tittle,
@@ -49,7 +48,7 @@ async function addRecipe(payload) {
                 img_url: recipe.img_url,
                 tags: recipe.tags
             })
-        const [recipe_id] = await trx('recipes')
+        const [recipe_id] = await knex('recipes')
             .select('recipe_id')
             .orderBy('recipe_id', 'desc')
             .limit(1);
@@ -57,7 +56,6 @@ async function addRecipe(payload) {
         return { recipe_id, ...recipe };
     }
     catch (error) {
-        await trx.rollback();
         console.log(error);
         throw error;
     }
