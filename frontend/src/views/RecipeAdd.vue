@@ -15,7 +15,7 @@ const addRecipeMutation = useMutation({
     onSuccess: () => {
         message.value = 'Công thức được thêm thành công.';
         queryClient.invalidateQueries(['recipes']); 
-        router.push({ name: 'Recipe' });
+        router.push({ name: 'Recipe.add' });
     },
     onError: (error) => console.log(error),
 });
