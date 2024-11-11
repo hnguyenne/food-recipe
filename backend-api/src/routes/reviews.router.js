@@ -9,7 +9,7 @@ module.exports.setup = (app) => {
 
     /**
      * @swagger
-     * /api/v1/review/{recipe_id}:
+     * /api/v1/reviews/{recipe_id}:
      *  post:
      *      summary: Review a recipe
      *      description: review a recipe by recipe_id
