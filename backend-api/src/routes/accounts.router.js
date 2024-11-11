@@ -3,6 +3,8 @@ const accountController = require('../controllers/account.controller');
 const imgUpload = require('../middlewares/img-upload.middleware');
 const { methodNotAllowed } = require('../controllers/errors.controller')
 const router = express.Router();
+const multer = require('multer');
+const upload = multer();
 
 module.exports.setup = (app) => {
     app.use('/api/v1/users', router);
@@ -84,7 +86,7 @@ module.exports.setup = (app) => {
      *              description: Internal server error
      * 
      */
-    router.post('/login', accountController.login);
+    router.post('/login', upload.none(), accountController.login);
 
     /**
      * @swagger
