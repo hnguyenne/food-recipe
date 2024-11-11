@@ -10,9 +10,9 @@ defineProps({
     popularRecipes: { type: Array, default: () => []},
 });
 
-const latestRecipes = useQuery({
+const { data: latestRecipes } = useQuery({
     queryKey: ['latestRecipes', 1],
-    queryFn: () => recipesService.fetchLatestRecipes(1, 10),
+    queryFn: () => recipesService.fetchLatestRecipes(1),
     select: (data) => {
         return data.recipes;
     },
@@ -21,7 +21,7 @@ const latestRecipes = useQuery({
     }
 })
 
-const popularRecipes = useQuery({
+const { data: popularRecipes } = useQuery({
     queryKey: ['popularRecipes', 1],
     queryFn: () => recipesService.fetchPopularRecipes(1),
     select: (data) => {
@@ -48,14 +48,14 @@ const popularRecipes = useQuery({
         </div>
         <div>
             <h2>Công thức mới nhất</h2>
-            <RecipeList v-if="latestRecipes.length > 0"
+            <RecipeList v-if="latestRecipes?.length > 0"
                 :recipes="latestRecipes"
             />
             <p v-else>Không có công thức mới</p>
         </div>
         <div>
             <h2>Công thức nổi bật</h2>
-            <RecipeList v-if="popularRecipes.length > 0"
+            <RecipeList v-if="popularRecipes?.length > 0"
                 :recipes="popularRecipes"
             />
             <p v-else>Không có công thức nổi bật</p>

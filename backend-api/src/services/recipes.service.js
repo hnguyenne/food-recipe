@@ -95,7 +95,7 @@ async function getPopularRecipes(query){
     const  {page = 1, limit = 20} = query;
     const paginator = new Paginator(page, limit);
     let results = await recipeRepository()
-        .join(
+        .leftJoin(
             knex.raw(
                 '(select recipe_id, count(*) as favorite_count from favorite group by recipe_id) as favorite'
             ),

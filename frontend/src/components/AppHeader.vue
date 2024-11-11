@@ -14,19 +14,15 @@ function goToSearch() {
 
 </script>
 <template>
-    <nav class="navbar navbar-expand bg-dark" data-bs-theme="dark">
+    <nav class="navbar navbar-expand header" data-bs-theme="light">
         <div class="container-fluid">
-            <a
-                href="/"
-                class="navbar-brand"
-            >Food Recipes Blog</a>
             <div class="me-auto navbar-nav">
                 <li class="nav-item">
                     <router-link
                         :to="{ name: 'foodrecipe' }"
                         class="nav-link"
                     >
-                        Logo
+                        <img src='/logo.png' class="custom-logo" />
                     </router-link>
                 </li>
             </div>
@@ -38,7 +34,7 @@ function goToSearch() {
                     name: 'signup',
                 }"
             >
-                <span class="mt-2 badge button px-3 py-2">
+                <span class="badge button px-3 py-3">
                     Đăng Ký
                 </span>
             </router-link>
@@ -47,7 +43,7 @@ function goToSearch() {
                     name: 'login',
                 }"
             >
-                <span class="mt-2 badge button px-3 py-2">
+                <span class="badge button px-3 py-3">
                     Đăng Nhập
                 </span>
             </router-link>
@@ -56,14 +52,23 @@ function goToSearch() {
 </template>
 <style>
 .button {
-    background-color: #6A9C89;
+    background-color: #C1D8C3;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     text-decoration: none;
     margin-left: 10px;
+    color: #2f7458;
 }
 
 .button:hover {
-  background-color: #54796a;
+  background-color: #6A9C89;
   color: #ffffff;
+}
+
+.custom-logo {
+    width: 60px;
+}
+
+.header {
+    background-color: #e45700;
 }
 </style>

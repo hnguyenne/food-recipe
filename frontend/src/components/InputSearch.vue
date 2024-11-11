@@ -5,16 +5,16 @@ const model = defineModel({
 });
 </script>
 <template>
-<div class="input-group">
+<div class="input-group w-50">
     <input
         type="text"
         class="form-control px-3"
-        placeholder="Find Recipes..."
+        placeholder="Tìm công thức..."
         v-model="model"
         @keyup.enter="$emit('submit', modelValue)"
     />
     <button
-        class="btn btn-outline-secondary"
+        class="btn btn-outline-light bg-transparent"
         type="button"
         @click="$emit('submit')"
     >
