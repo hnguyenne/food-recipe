@@ -2,20 +2,21 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import accountService from '@/services/accounts.service';
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { useMutation } from '@tanstack/vue-query';
 import LoginForm from '@/components/LoginForm.vue';
 
 const router = useRouter();
-const queryClient = useQueryClient();
 const message = ref('');
-const user = ref({});
+const userlogin = ref({});
 
 const loginMutation = useMutation({
-    mutationFn: (user) => accountService.login(user),
-    onSuccess: () => {
+    mutationFn: (userlogin) => accountService.login(userlogin),
+    onSuccess: (data) => {
         message.value = 'Đăng nhập thành công!';
-        queryClient.invalidateQueries(['users']);
-        router.push({ name: 'foodrecipe' });
+        localStorage.setItem('user_login', JSON.stringify(data.user));
+        router.push({ name: 'foodrecipe' }).then(() => {
+            window.location.reload();
+        });;
     },
     onError: (error) => {
         message.value = 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.';
@@ -23,15 +24,15 @@ const loginMutation = useMutation({
     },
 });
 
-function onLogin(user) {
-    loginMutation.mutate(user);
+function onLogin(userlogin) {
+    loginMutation.mutate(userlogin);
 }
 </script>
 
 <template>
     <div class="page">
         <h4>Đăng nhập</h4>
-        <LoginForm :user="user" @submit:user="onLogin" />
+        <LoginForm :userlogin="userlogin" @submit:userlogin="onLogin" />
         <p>{{ message }}</p>
         <div>
             <p>

@@ -91,7 +91,7 @@ async function getRecipeById(req, res, next) {
     }
     catch (error) {
         console.log(error);
-        return next (new ApiError(500, `There was an error when we tried to retrive the recipe #${recipe_id}`))
+        return next (new ApiError(500, `There was an error when we tried to retrieve the recipe #${recipe_id}`))
     }
 }
 

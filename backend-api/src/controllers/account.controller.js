@@ -21,14 +21,7 @@ async function login(req, res, next) {
         if (!Match){
             return next(new ApiError(401, 'Password incorrect'))
         }
-        return res.json({
-            message: 'Logged in successfully!',
-            user: {
-                user_id: user.user_id,
-                user_email: user.user_email,
-                profile_pic: user.profile_pic
-            }
-        })
+        return res.json(JSend.success({ user }))
     }
     catch (error){
         console.log(error);
@@ -47,7 +40,7 @@ async function register(req, res, next) {
         const hashedPassword = await bcrypt.hash(password, 5)
         const user = await accountsService.CreateUser({
             ...req.body,
-            PASSWORD_HASH: hashedPassword,
+            password_hash: hashedPassword,
             profile_pic: req.file ? `/public/uploads/images/${req.file.filename}` : null
         })
         return res.status(201).set({

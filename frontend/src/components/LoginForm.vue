@@ -4,10 +4,10 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { z } from 'zod';
 
 const props = defineProps({
-    user: { type: Object, required: true },
+    userlogin: { type: Object, required: true },
 });
 
-const $emit = defineEmits(['submit:user']);
+const $emit = defineEmits(['submit:userlogin']);
 
 let validationSchema = toTypedSchema(
     z.object({
@@ -23,7 +23,7 @@ function submitUser(values) {
             formData.append(key, values[key]);
         }
     }
-    $emit('submit:user', formData);
+    $emit('submit:userlogin', formData);
 }
 </script>
 

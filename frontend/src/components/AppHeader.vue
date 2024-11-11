@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import InputSearch from  '@/components/InputSearch.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const router = useRouter();
 const searchText = ref('');
@@ -12,6 +12,20 @@ function goToSearch() {
     }
 }
 
+const userLogin = ref('');
+
+onMounted(() => {
+  const session = localStorage.getItem('user_login');
+  if (session) {
+    userLogin.value = session;
+  }
+});
+
+function logout() {
+  localStorage.removeItem('user_login');
+  
+  userLogin.value = '';
+}
 </script>
 <template>
     <nav class="navbar navbar-expand header" data-bs-theme="light">
@@ -29,24 +43,32 @@ function goToSearch() {
             <InputSearch v-model="searchText"
                 class=""
                 @submit="goToSearch"/>
-            <router-link
-                :to="{
-                    name: 'signup',
-                }"
-            >
-                <span class="badge button px-3 py-3">
-                    Đăng Ký
+            <div v-if="userLogin">
+                <span class="badge button px-3 py-3"
+                    @click="logout">
+                    Đăng xuất
                 </span>
-            </router-link>
-                        <router-link
-                :to="{
-                    name: 'login',
-                }"
-            >
-                <span class="badge button px-3 py-3">
-                    Đăng Nhập
-                </span>
-            </router-link>
+            </div>
+            <div v-else>
+                <router-link
+                    :to="{
+                        name: 'signup',
+                    }"
+                >
+                    <span class="badge button px-3 py-3">
+                        Đăng Ký
+                    </span>
+                </router-link>
+                            <router-link
+                    :to="{
+                        name: 'login',
+                    }"
+                >
+                    <span class="badge button px-3 py-3">
+                        Đăng Nhập
+                    </span>
+                </router-link>
+            </div>
         </div>
     </nav>
 </template>

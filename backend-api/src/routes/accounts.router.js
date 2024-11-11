@@ -64,7 +64,7 @@ module.exports.setup = (app) => {
      *      tags: 
      *          - users
      *      responses:
-     *          201:
+     *          200:
      *              description: login successfully
      *              content:
      *                  application/json:

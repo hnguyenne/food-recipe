@@ -43,10 +43,14 @@ function makeAccountsService(){
     }
 
     async function login(user){
-        return efetch(`${baseUrl}/login`, {
+        const result = await efetch(`${baseUrl}/login`, {
             method: 'POST',
             body: user,
-        })
+        });
+        if (!result) {
+            throw new Error('Login failed');
+        }
+        return result;
     }
 
     return {
