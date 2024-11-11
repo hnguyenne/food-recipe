@@ -157,8 +157,11 @@ async function getRecipesByFilter(query){
 }
 
 async function getRecipeById(id){
-    return await recipeRepository()
+    let result = await recipeRepository()
         .where('recipes.recipe_id', id).select('*').first();
+    return {
+        recipe: result,
+    }
 }
 
 

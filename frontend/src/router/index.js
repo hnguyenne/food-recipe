@@ -35,10 +35,10 @@ const routes = [
         props: (route) => ({ recipeId: route.params.id })
     },
     {
-        path: '/recipes/:id',
-        name: 'Recipe',
+        path: '/recipe/:recipe_id',
+        name: 'recipe',
         component: () => import('@/views/Recipe.vue'),
-        props: (route) => ({ recipeId: route.params.recipe_id })
+        props: (route) => ({ recipeId: Number(route.params.recipe_id) })
     }
 
 ];
