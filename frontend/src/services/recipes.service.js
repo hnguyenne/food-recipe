@@ -51,7 +51,7 @@ function makeRecipesService() {
     }
 
     async function fetchFilterRecipes(searchText, page, limit = 20) {
-        let url = `${baseUrl}/?name=${searchText}&tag=${searchText}&description=${searchText}&page=${page}&limit=${limit}`;
+        let url = `${baseUrl}/?text=${searchText}&page=${page}&limit=${limit}`;
         const data = await efetch(url);
         data.recipes = data.recipes.map((recipe) => {
             return {
@@ -63,10 +63,11 @@ function makeRecipesService() {
     }
 
     async function fetchRecipe(id) {
-        const { recipe } = await efetch(`${baseUrl}/${id}`);
+        const data = await efetch(`${baseUrl}/${id}`);
+        const recipe = data.recipe;
         return {
             ...recipe,
-            img_url: recipe.img_url ?? DEFAULT_IMG
+            img_url: data.recipe.IMG_URL ?? DEFAULT_IMG
         };
     }
 

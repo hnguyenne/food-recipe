@@ -19,16 +19,22 @@ const currentPage = computed(() => {
     return page;
 });
 
+const text = computed(() => {
+    const text = route.query?.text;
+    if (!text) return '';
+    return text;
+});
+
 defineProps({
     recipes: { type: Array, default: () => []},
 });
 
+
 const { data: recipes } = useQuery({
-    queryKey: ['recipes', currentPage],
-    queryFn: () => recipesService.fetchFilterRecipes(currentPage),
+    queryKey: ['recipes', currentPage, text],
+    queryFn: () => recipesService.fetchFilterRecipes(text.value, currentPage.value, limit),
     select: (data) => {
-      console.log(data.recipes);
-        return data.recipes;
+      return data.recipes;
     },
     throwOnError: (error) => {
         console.log(error);
@@ -36,8 +42,7 @@ const { data: recipes } = useQuery({
 })
 
 function changeCurrentPage(page) {
-    const text = route.query.text;
-    router.push({ name: 'Search', query: { page, text } });
+    router.push({ name: 'Search', query: { page, text: text.value } });
 }
 
 </script>

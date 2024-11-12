@@ -6,7 +6,20 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import recipesService from '@/services/recipes.service';
 
 const router = useRouter();
-const recipe = ref({});
+const recipe = ref({
+    recipe_id: null,
+    tittle: '',
+    user_id: localStorage.getItem('user_id'),
+    description: '',
+    tags: '',
+    prep_time: null,
+    cook_time: null,
+    servings: null,
+    instruction: '',
+    recipe_create_at: new Date(),
+    note: '',
+    imgFile
+});
 const message = ref('');
 const queryClient = useQueryClient();
 

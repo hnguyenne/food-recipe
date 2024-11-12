@@ -132,7 +132,7 @@ async function getRecipesByFilter(query){
              .where((builder) => {
                 if (text) {
                     builder
-                        .where('title', 'like', `%${text}%`)
+                        .where('tittle', 'like', `%${text}%`)
                         .orWhere('tags', 'like', `%${text}%`)
                         .orWhere('description', 'like', `%${text}%`);
                 }

@@ -14,6 +14,7 @@ const { data: latestRecipes } = useQuery({
     queryKey: ['latestRecipes', 1],
     queryFn: () => recipesService.fetchLatestRecipes(1),
     select: (data) => {
+        console.log(data.recipes)
         return data.recipes;
     },
     throwOnError: (error) => {
@@ -50,7 +51,7 @@ const { data: popularRecipes } = useQuery({
             <h2>Công thức mới nhất</h2>
             <RecipeList v-if="latestRecipes?.length > 0"
                 :recipes="latestRecipes"
-                class="d-inline-flex"
+                class="d-inline-flex col-md-12"
             />
             <p v-else>Không có công thức mới</p>
         </div>
@@ -58,7 +59,7 @@ const { data: popularRecipes } = useQuery({
             <h2>Công thức nổi bật</h2>
             <RecipeList v-if="popularRecipes?.length > 0"
                 :recipes="popularRecipes"
-                class="d-inline-flex"
+                class="d-inline-flex col-md-12"
             />
             <p v-else>Không có công thức nổi bật</p>
         </div>

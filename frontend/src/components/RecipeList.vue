@@ -11,7 +11,8 @@ defineProps({
             class="list-group-item px-3"
             v-for="(recipe) in recipes"
         >
-            <RecipeCard :recipe="recipe"/>
+            <RecipeCard :recipe="recipe"
+                class="col-md-10"/>
         </li>
     </ul>
 </template>

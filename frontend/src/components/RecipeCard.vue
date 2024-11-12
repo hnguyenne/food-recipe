@@ -14,8 +14,8 @@ defineProps({
             <div>
                 {{ recipe.TITTLE ?? recipe.tittle}}
             </div>
-            <div class="p-1 w-75 h-75">
-                <img class="img-fluid img-thumbnail" :src="recipe.img_url" alt=""/>
+            <div class="p-1 w-100 h-100">
+                <img class="img-fluid img-thumbnail" :src="recipe.img_url ?? recipe.IMG_URL" alt=""/>
             </div>  
         </router-link>
 

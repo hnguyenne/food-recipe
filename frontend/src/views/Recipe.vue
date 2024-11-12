@@ -18,7 +18,8 @@ const { data: recipe } = useQuery({
     queryKey: ['recipe', props.recipeId],
     queryFn: () => recipesService.fetchRecipe(props.recipeId),
     select: (data) => {
-        data.recipe.img_url = data.img_url;
+        console.log(data.recipe)
+        data.recipe.img_url = data.recipe.IMG_URL ?? data.img_url;
         return data.recipe;
     },
     throwOnError: (error) => {
@@ -37,7 +38,7 @@ const { data: recipe } = useQuery({
             {{ recipe.RECIPE_CREATE_AT }}
         </div>
         <div class="p-1 w-75 h-75">
-            <img class="img-fluid img-thumbnail" :src="recipe.img_url" alt=""/>
+            <img class="img-fluid img-thumbnail" :src="recipe.img_url ?? recipe.IMG_URL" alt=""/>
         </div> 
         <div class = "p-1">
             {{ recipe.TAGS }}
@@ -59,7 +60,7 @@ const { data: recipe } = useQuery({
             <p>Cách thực hiện: {{ recipe.INSTRUCTION }}</p>
         </div>
         <div v-if="recipe.NOTE">
-            <i>Note: </i> {{ recipe.note }}
+            <i>Note: </i> {{ recipe.NOTE }}
         </div>
     </div>
     <div v-else>
