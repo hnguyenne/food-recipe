@@ -126,18 +126,15 @@ async function getPopularRecipes(query){
 }
 
 async function getRecipesByFilter(query){
-    const { name, tag, description, page = 1, limit = 20} = query; // Get recipes by name, tag, description (how to cook, ingredient)
+    const { text , page = 1, limit = 20} = query; // Get recipes by name, tag, description (how to cook, ingredient)
     const paginator = new Paginator(page, limit);
     let results = await recipeRepository()
-            .where((builder) => {
-                if(name){
-                    builder.where('tittle', 'like', `%${name}%`);
-                }
-                if (tag){
-                    builder.where('tags', 'like', `%${tag}%`)
-                }
-                if(description){
-                    builder.where('description', 'like', `%${description}%`)
+             .where((builder) => {
+                if (text) {
+                    builder
+                        .where('title', 'like', `%${text}%`)
+                        .orWhere('tags', 'like', `%${text}%`)
+                        .orWhere('description', 'like', `%${text}%`);
                 }
             }).select('*')
             .limit(paginator.limit)

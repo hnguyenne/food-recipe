@@ -95,18 +95,8 @@ module.exports.setup = (app) => {
      *      description: Retrieves a list of recipes based on filter.
      *      parameters:
      *          - in: query
-     *            name: name
-     *            description: title of recipes
-     *            schema:
-     *              type: string
-     *          - in: query
-     *            name: tag
-     *            description: tag of recipe like seasons, holiday, nation,...
-     *            schema:
-     *              type: string
-     *          - in: query
-     *            name: description
-     *            description: type of cook method, ingredients stored in recipe description
+     *            name: text
+     *            description: info of recipe (like name or ingredients, tags, etc)
      *            schema:
      *              type: string
      *          - $ref: '#/components/parameters/limitParam'

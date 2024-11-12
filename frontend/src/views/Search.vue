@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import recipeService from '@/services/recipes.service';
+import recipesService from '@/services/recipes.service';
 import MainPagination from '@/components/MainPagination.vue';
+import RecipeList from '@/components/RecipeList.vue';
+import { useQuery } from '@tanstack/vue-query';
 
-const recipes = ref([]);
 const route = useRoute();
 const router = useRouter();
 
@@ -18,28 +19,38 @@ const currentPage = computed(() => {
     return page;
 });
 
-async function getSearchRecipes(page) {
-  const query = route.query.text;
-  if (query) {
-    const results = await recipeService.fetchFilterRecipes(query, page, limit);
-    recipes.value = results.recipes;
-    totalPages.value = results.metadata?.lastPage ?? 1;
-  }
-}
+defineProps({
+    recipes: { type: Array, default: () => []},
+});
+
+const { data: recipes } = useQuery({
+    queryKey: ['recipes', currentPage],
+    queryFn: () => recipesService.fetchFilterRecipes(currentPage),
+    select: (data) => {
+      console.log(data.recipes);
+        return data.recipes;
+    },
+    throwOnError: (error) => {
+        console.log(error);
+    }
+})
 
 function changeCurrentPage(page) {
     const text = route.query.text;
     router.push({ name: 'Search', query: { page, text } });
 }
 
-onMounted(getSearchRecipes);
-watch(() => route.query.text, getSearchRecipes);
-
 </script>
 <template>
+  <div v-if="recipes?.length > 0">
+    <RecipeList 
+      :recipes="recipes"
+      class="d-inline-flex"
+    />
+  </div>
     <MainPagination
-                    :total-pages="totalPages"
-                    :current-page="currentPage"
-                    @update:current-page="changeCurrentPage"
-                />
+      :total-pages="totalPages"
+      :current-page="currentPage"
+      @update:current-page="changeCurrentPage"
+    />
 </template>
