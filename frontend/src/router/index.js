@@ -47,6 +47,11 @@ const routes = [
         name: 'recipe',
         component: () => import('@/views/Recipe.vue'),
         props: (route) => ({ recipeId: Number(route.params.recipe_id) })
+    },
+    {
+        path: '/account',
+        name: 'account',
+        component: () => import('@/views/Account.vue')
     }
 
 ];

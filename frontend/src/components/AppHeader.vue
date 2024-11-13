@@ -18,13 +18,17 @@ onMounted(() => {
   const session = localStorage.getItem('user_login');
   if (session) {
     userLogin.value = session;
+    console.log(userLogin);
   }
 });
 
 function logout() {
   localStorage.removeItem('user_login');
-  
   userLogin.value = '';
+}
+
+function goToAccount() {
+    router.push({ name: 'account' });
 }
 </script>
 <template>
@@ -44,9 +48,12 @@ function logout() {
                 class=""
                 @submit="goToSearch"/>
             <div v-if="userLogin">
-                <span class="badge button px-3 py-3"
-                    @click="logout">
-                    Đăng xuất
+                <span class="badge button px-3 py-3" @click="goToAccount">
+                    <i class="fas fa-user"></i>
+                    {{ userLogin.USER_NAME }}
+                </span>
+                <span class="badge button px-3 py-3" @click="logout">
+                    Đăng Xuất
                 </span>
             </div>
             <div v-else>
