@@ -129,12 +129,17 @@ module.exports.setup = (app) => {
 
     /**
      * @swagger
-     * /api/v1/users/{id}:
+     * /api/v1/users/{user_id}:
      *  put:
      *      summary: Update account by ID
      *      description: Update an account's information using ID
      *      parameters:
-     *          - $ref: '#/components/parameters/userIdParam'
+     *          - in: path
+     *            name: user_id
+     *            description: ID of the user
+     *            required: true
+     *            schema:
+     *              type: integer
      *      requestBody:
      *          content:
      *              multipart/form-data:
@@ -166,9 +171,9 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error                  
      */
-    router.put('/:profile_id', imgUpload, accountController.updateProfile);
+    router.put('/:user_id', imgUpload, accountController.updateProfile);
 
     router.all('/', methodNotAllowed);
-    router.all('/:profile_id', methodNotAllowed);
+    router.all('/:user_id', methodNotAllowed);
 
 };

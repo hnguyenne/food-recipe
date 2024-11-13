@@ -30,23 +30,23 @@ async function getUserbyId(id){
 }
 
 
-async function updateAccount(id, payload){
-    const updatedAccount = await accountRepository().where('user_id', id).select('*').first();
-    if (!updatedAccount){
+async function updateAccount(user_id, payload){
+    const account = await accountRepository().where('user_id', user_id).select('*').first();
+    if (!account){
         return null;
     }
     const update = readAccount(payload)
     if (!update.profile_pic){
         delete update.profile_pic;
     }
-    await accountRepository().where('user_id', id).update(update);
+    const updatedAccount = await accountRepository().where('user_id', user_id).update(update);
     if (update.profile_pic && updatedAccount.profile_pic &&
         update.profile_pic !== updatedAccount.profile_pic &&
-        updatedAccount.profile_pic.startsWith('public/uploads/images/account/')
+        updatedAccount.profile_pic.startsWith('public/uploads')
     ){
         fs.unlink(`.${updatedAccount.profile_pic}`, (err) => {})
     }
-    return { ...updatedAccount, ...update }
+    return { ...updatedAccount, ...update, user_id }
 
 }
 

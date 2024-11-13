@@ -51,6 +51,7 @@ function submitUser(values) {
         name="user_name"
         type="text"
         class="form-control"
+        :value="user.user_name ?? user.USER_NAME"
       />
       <ErrorMessage name="user_name" class="error-feedback"/>
 
@@ -61,6 +62,7 @@ function submitUser(values) {
         name="user_email"
         type="email"
         class="form-control"
+        :value="user.user_email ?? user.USER_EMAIL"
       />
       <ErrorMessage name="user_email" class="error-feedback"/>
     </div>
@@ -71,6 +73,7 @@ function submitUser(values) {
         name="user_birthdate"
         type="date"
         class="form-control"
+        :value="user.user_birthdate ?? user.USER_BIRTHDATE"
       />
       <ErrorMessage name="user_birthdate" class="error-feedback"/>
     </div>

@@ -40,7 +40,7 @@ async function register(req, res, next) {
         const user = await accountsService.CreateUser({
             ...req.body,
             password_hash: hashedPassword,
-            profile_pic: req.file ? `/public/uploads/images/${req.file.filename}` : null
+            profile_pic: req.file ? `/public/uploads/${req.file.filename}` : null
         })
         return res.status(201).set({
             Location: `${req.baseUrl}/${user.id}`,
@@ -56,7 +56,6 @@ async function register(req, res, next) {
 
 async function getProfile(req, res, next){
     const { user_id } = req.params;
-
     try {
         const user = await accountsService.getUserbyId(user_id);
         if(!user){
@@ -74,17 +73,17 @@ async function updateProfile(req, res, next){
     if (Object.keys(req.body).length == 0 && req.file){
         return next(new ApiError (400, 'Data cannot be empty'))
     }
-    const { user_id } = req.params;
-
+    const  {user_id}  = req.params;
+    console.log(user_id);
     try{
-        const updated = await accountsService.updateAccount(user_id, {
+        const user = await accountsService.updateAccount(user_id, {
             ...req.body,
-            profile_pic: req.file? `public/uploads/images/${req.file.filename}` : null,
+            profile_pic: req.file? `public/uploads/${req.file.filename}` : null,
         })
-        if (!updated) {
+        if (!user) {
             return next(new ApiError(404, 'User not found'))
         }
-        return res.json(JSend.success({ user: updated, }))
+        return res.json(JSend.success({ user }))
     }
     catch (error){
         console.log(error);

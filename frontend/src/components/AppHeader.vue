@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import InputSearch from  '@/components/InputSearch.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 const router = useRouter();
 const searchText = ref('');
@@ -18,7 +18,6 @@ onMounted(() => {
   const session = localStorage.getItem('user_login');
   if (session) {
     userLogin.value = session;
-    console.log(userLogin);
   }
 });
 

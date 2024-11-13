@@ -1,6 +1,27 @@
 <script setup>
-const user = JSON.parse(localStorage.getItem('user_login'));
-const userId = user ? user.USER_ID : null;
+import { useQuery } from '@tanstack/vue-query';
+import accountService from '@/services/accounts.service'
+
+const user_session = JSON.parse(localStorage.getItem('user_login'));
+const userId = user_session ? user_session.USER_ID : null;
+
+const { data: user } = useQuery({
+    queryKey: ['user', userId],
+    queryFn: () => accountService.fetchAccount(userId),
+    select: (data) => {
+        return data.user;
+    },
+    onError: (error) => {
+        console.log(error);
+        router.push({
+            name: 'notfound',
+            params: { pathMatch: route.path.split('/').slice(1) },
+            query: route.query,
+            hash: route.hash,
+        });
+    }
+});
+
 </script>
 
 <template>
@@ -23,7 +44,7 @@ const userId = user ? user.USER_ID : null;
         <router-link
                 :to="{
                     name: 'user.edit',
-                    params: { id:  userId },
+                    params: { user_id:  userId },
                 }"
                 >
                 <span class="mt-2 badge text-bg-warning">

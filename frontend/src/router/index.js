@@ -54,10 +54,10 @@ const routes = [
         component: () => import('@/views/Account.vue')
     },
     {
-        path: '/users/:id/edit',
+        path: '/users/:user_id/edit',
         name: 'user.edit',
         component: () => import('@/views/AccountEdit.vue'),
-        props: (route) => ({ userId: route.params.id })
+        props: (route) => ({ userId: route.params.user_id })
     }
 
 ];

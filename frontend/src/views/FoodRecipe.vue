@@ -33,16 +33,6 @@ const { data: popularRecipes } = useQuery({
     }
 })
 
-const userLogin = ref('');
-
-onMounted(() => {
-  const session = localStorage.getItem('user_login');
-  if (session) {
-    userLogin.value = session;
-    console.log(userLogin);
-  }
-});
-
 </script>
 <template>
     <div>
@@ -53,7 +43,7 @@ onMounted(() => {
                     name: 'Recipe.add',
                 }"
             >
-                <span v-if="userLogin" class="mt-2 badge button px-3 py-2">
+                <span class="mt-2 badge button px-3 py-2">
                     Thêm công thức mới
                 </span>
             </router-link>

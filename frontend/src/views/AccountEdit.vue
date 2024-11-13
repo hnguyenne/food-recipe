@@ -15,8 +15,11 @@ const message = ref('');
 const queryClient = useQueryClient();
 
 const { data: user } = useQuery({
-    queryKey: ['user', props.userId],
+    queryKey: ['user', user_id],
     queryFn: () => accountService.fetchAccount(user_id),
+    select: (data) => {
+        return data.user;
+    },
     onError: (error) => {
         console.log(error);
         router.push({
@@ -28,12 +31,14 @@ const { data: user } = useQuery({
     }
 });
 
-console.log(user.user_id)
 const updateAccountMutation = useMutation({
     mutationFn: (user) => accountService.updateAccount(user_id, user),
-    onSuccess: () => {
+    onSuccess: (data) => {
         message.value = 'Bạn đã thay đổi thông tin tài khoản thành công';
-        queryClient.invalidateQueries(['user', props.userId]); 
+        queryClient.invalidateQueries(['user', props.userId]);
+        router.push({ name: 'account' }).then(() => {
+            window.location.reload();
+        });;
     },
     onError: (error) => console.log(error),
 });
