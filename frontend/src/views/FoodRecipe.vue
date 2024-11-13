@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import recipesService from '@/services/recipes.service';
 import { useQuery, useMutation } from '@tanstack/vue-query';
@@ -32,6 +32,17 @@ const { data: popularRecipes } = useQuery({
         console.log(error);
     }
 })
+
+const userLogin = ref('');
+
+onMounted(() => {
+  const session = localStorage.getItem('user_login');
+  if (session) {
+    userLogin.value = session;
+    console.log(userLogin);
+  }
+});
+
 </script>
 <template>
     <div>
@@ -42,7 +53,7 @@ const { data: popularRecipes } = useQuery({
                     name: 'Recipe.add',
                 }"
             >
-                <span class="mt-2 badge button px-3 py-2">
+                <span v-if="userLogin" class="mt-2 badge button px-3 py-2">
                     Thêm công thức mới
                 </span>
             </router-link>
