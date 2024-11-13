@@ -74,10 +74,10 @@ async function updateProfile(req, res, next){
     if (Object.keys(req.body).length == 0 && req.file){
         return next(new ApiError (400, 'Data cannot be empty'))
     }
-    const { id } = req.params;
+    const { user_id } = req.params;
 
     try{
-        const updated = await accountsService.updateAccount(id, {
+        const updated = await accountsService.updateAccount(user_id, {
             ...req.body,
             profile_pic: req.file? `public/uploads/images/${req.file.filename}` : null,
         })
@@ -88,7 +88,7 @@ async function updateProfile(req, res, next){
     }
     catch (error){
         console.log(error);
-        return next(new ApiError(500, `Error updating user id ${id}`))
+        return next(new ApiError(500, `Error updating user id ${user_id}`))
     }    
 }
 
