@@ -9,7 +9,7 @@ const router = useRouter();
 const recipe = ref({
     recipe_id: null,
     tittle: '',
-    user_id: localStorage.getItem('user_id'),
+    user_id: '',
     description: '',
     tags: '',
     prep_time: null,
@@ -18,7 +18,7 @@ const recipe = ref({
     instruction: '',
     recipe_create_at: new Date(),
     note: '',
-    imgFile
+    imgFile: null
 });
 const message = ref('');
 const queryClient = useQueryClient();

@@ -12,7 +12,7 @@ defineProps({
 
 const { data: latestRecipes } = useQuery({
     queryKey: ['latestRecipes', 1],
-    queryFn: () => recipesService.fetchLatestRecipes(1),
+    queryFn: () => recipesService.fetchLatestRecipes(1,10),
     select: (data) => {
         console.log(data.recipes)
         return data.recipes;
@@ -24,7 +24,7 @@ const { data: latestRecipes } = useQuery({
 
 const { data: popularRecipes } = useQuery({
     queryKey: ['popularRecipes', 1],
-    queryFn: () => recipesService.fetchPopularRecipes(1),
+    queryFn: () => recipesService.fetchPopularRecipes(1, 10),
     select: (data) => {
         return data.recipes;
     },
@@ -35,7 +35,7 @@ const { data: popularRecipes } = useQuery({
 </script>
 <template>
     <div>
-        <h1>food recipe</h1>
+        <h1>Food Recipe</h1>
         <div>
             <router-link
                 :to="{
@@ -51,7 +51,6 @@ const { data: popularRecipes } = useQuery({
             <h2>Công thức mới nhất</h2>
             <RecipeList v-if="latestRecipes?.length > 0"
                 :recipes="latestRecipes"
-                class="d-inline-flex col-md-12"
             />
             <p v-else>Không có công thức mới</p>
         </div>
@@ -59,7 +58,6 @@ const { data: popularRecipes } = useQuery({
             <h2>Công thức nổi bật</h2>
             <RecipeList v-if="popularRecipes?.length > 0"
                 :recipes="popularRecipes"
-                class="d-inline-flex col-md-12"
             />
             <p v-else>Không có công thức nổi bật</p>
         </div>

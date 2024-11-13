@@ -26,7 +26,15 @@ const routes = [
     {
         path: '/recipes/add',
         name: 'Recipe.add',
-        component: () => import('@/views/RecipeAdd.vue')
+        component: () => import('@/views/RecipeAdd.vue'),
+        beforeEnter: () => {
+            if (!localStorage.getItem('user_login')) {
+                return {
+                    path: '/login',
+                    query: { redirect: '/recipes/add' },
+                };
+            }
+        }
     },
     {
         path: '/recipes/:id/edit',

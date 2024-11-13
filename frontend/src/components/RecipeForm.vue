@@ -22,7 +22,7 @@ let validationSchema = toTypedSchema(
         servings: z.number().min(1, {message: "Khẩu phần phục vụ phải lớn hơn 0"}),
         instruction: z.string().min(1, { message: "Hãy thêm hướng dẫn thực hiện"}),
         note: z.string().optional(),
-        img_url: z.instanceof(File).optional(),
+        imgFile: z.instanceof(File).optional(),
     })
 );
 
@@ -41,6 +41,12 @@ function submitRecipe(values) {
         if (values[key] !== undefined){
             formData.append(key, values[key]);
         }
+    }
+    const user = JSON.parse(localStorage.getItem('user_login'));
+    formData.append('user_id', user.USER_ID)
+
+    if (props.recipe.recipe_id) {
+        formData.append('recipe_id', props.recipe.recipe_id);
     }
     $emit('submit:recipe', formData);
 }
@@ -102,16 +108,16 @@ function deleteRecipe(){
                 @click="imgFileInput.click()"
             />
             <Field name="imgFile" v-slot="{ handleChange }">
-            <input
-                type="file"
-                class="d-none"
-                ref="img-file-input"
-                @change="
-                (event) => {
-                    handleChange(event);
-                    previewImgFile(event);
-                }
-            "
+                <input
+                    type="file"
+                    class="d-none"
+                    ref="img-file-input"
+                    @change="
+                    (event) => {
+                        handleChange(event);
+                        previewImgFile(event);
+                    }
+                "
             />
             </Field>
         </div>

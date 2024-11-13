@@ -30,9 +30,9 @@ const { data: recipe } = useQuery({
 </script>
 
 <template>
-    <div class="page" v-if="recipe">
-        <div>
-            {{ recipe.TITTLE }}
+    <div class="page col-10 mx-auto" v-if="recipe">
+        <div class="font-weight-bold">
+            <h1>{{ recipe.TITTLE }}</h1>
         </div>
         <div>
             {{ recipe.RECIPE_CREATE_AT }}
@@ -67,3 +67,8 @@ const { data: recipe } = useQuery({
         <p>Loading...</p>
     </div>
 </template>
+<style scoped>
+.page {
+
+}
+</style>

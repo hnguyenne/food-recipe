@@ -6,13 +6,12 @@ defineProps({
 });
 </script>
 <template>
-    <ul>
+    <ul class="row">
         <li
-            class="list-group-item px-3"
+            class="list-group-item px-3 col-md-2 col-sm-4"
             v-for="(recipe) in recipes"
         >
-            <RecipeCard :recipe="recipe"
-                class="col-md-10"/>
+            <RecipeCard :recipe="recipe"/>
         </li>
     </ul>
 </template>
