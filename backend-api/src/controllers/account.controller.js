@@ -4,7 +4,6 @@ const JSend = require('../jsend');
 const bcrypt = require('bcrypt'); 
 
 async function login(req, res, next) {
-    console.log(req.body);
     if (!req.body?.user_email || typeof req.body.user_email !== 'string'){
         return next(new ApiError(400, 'Email cannot be empty'))
     }

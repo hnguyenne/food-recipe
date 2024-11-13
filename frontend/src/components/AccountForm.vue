@@ -95,7 +95,7 @@ function submitUser(values) {
       <ErrorMessage name="retype_password" class="error-feedback"/>
     </div>
     <div class="mb-3 w-50 h-50">
-        <label for="imgFile">Thêm avatar của bạn</label>
+        <label for="imgFile">Avatar</label>
         <img
             class="img-fluid img-thumbnail"
             :src="imgFile"
