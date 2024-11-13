@@ -129,7 +129,7 @@ module.exports.setup = (app) => {
      *                      $ref: '#/components/schemas/Review'
      *      tags:
      *          - reviews
-     *      response:
+     *      responses:
      *          200:
      *              description: Review updated successfully
      *              content:
@@ -157,7 +157,7 @@ module.exports.setup = (app) => {
      *              type: integer
      *      tags:
      *          - reviews
-     *      response:
+     *      responses:
      *          200:
      *              description: review deleted successfully
      *          500:

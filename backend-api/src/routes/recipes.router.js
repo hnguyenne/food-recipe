@@ -219,8 +219,8 @@ module.exports.setup = (app) => {
      *                      $ref: '#/components/schemas/Recipe'
      *      tags:
      *          - recipes
-     *      response:
-     *          201:
+     *      responses:
+     *          200:
      *              description: Recipe updated successfully
      *              content:
      *                  application/json:
@@ -246,19 +246,19 @@ module.exports.setup = (app) => {
     /**
      * @swagger
      * /api/v1/foodrecipe/save/{recipe_id}:
-     *  put:
+     *  post:
      *      summary: Save a recipe by recipe_id
      *      description: Save a recipe by id. This is used to mark a recipe as saved for future reference.
      *      parameters:
-     *          - in: path
-     *            name: recipe_id
-     *            description: ID of the recipe
-     *            required: true
-     *            schema:
-     *              type: integer
      *          - in: query
      *            name: user_id
      *            description: ID of the user
+     *            required: true
+     *            schema:
+     *              type: integer
+     *          - in: path
+     *            name: recipe_id
+     *            description: ID of the recipe
      *            required: true
      *            schema:
      *              type: integer
@@ -303,7 +303,7 @@ module.exports.setup = (app) => {
      *            required: true
      *      tags:
      *          - recipes
-     *      response:
+     *      responses:
      *          200:
      *              description: Recipe deleted successfully
      *          404:
@@ -328,7 +328,7 @@ module.exports.setup = (app) => {
      *              type: integer
      *      tags:
      *          - recipes
-     *      response:
+     *      responses:
      *          200:
      *              description: rating of the recipe retrieved successfully
      *              content:

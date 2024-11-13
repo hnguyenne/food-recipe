@@ -74,7 +74,6 @@ async function updateProfile(req, res, next){
         return next(new ApiError (400, 'Data cannot be empty'))
     }
     const  {user_id}  = req.params;
-    console.log(user_id);
     try{
         const user = await accountsService.updateAccount(user_id, {
             ...req.body,

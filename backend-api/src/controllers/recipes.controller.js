@@ -134,7 +134,7 @@ async function updateRecipe(req, res, next) {
         });
         if (!updatedRecipe) return next(new ApiError(404, 'Could not find recipe'));
         return res.json(JSend.success({
-            recipe: updatedRecipe,
+            updatedRecipe,
         }));
     }
     
@@ -147,9 +147,10 @@ async function updateRecipe(req, res, next) {
 }
 
 function saveRecipe(req, res, next) {
-    const { user_id, recipe_id } = req.params
+    const user_id = req.query.user_id
+    const recipe_id = req.params.recipe_id
     try {
-        const save = recipesService.addToFavorite({user_id, recipe_id})
+        const save = recipesService.addToFavorite(user_id, recipe_id)
         return res.json (JSend.success({
             favorite: save
         }))

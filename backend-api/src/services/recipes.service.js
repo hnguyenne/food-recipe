@@ -24,7 +24,6 @@ function readRecipe(payload){
         cook_time: payload.cook_time,
         servings: payload.servings,
         instruction: payload.instruction,
-        recipe_create_at: payload.recipe_create_at,
         note: payload.note,
         img_url: payload.img_url,
     }
@@ -162,19 +161,19 @@ async function getRecipeById(id){
 }
 
 
-async function updateRecipe(id, payload){
-    const updatedRecipe = await recipeRepository()
-                        .where('recipe_id', id)
+async function updateRecipe(recipe_id, payload){
+    const recipe = await recipeRepository()
+                        .where('recipe_id', recipe_id)
                         .select('*').first();
-    if (!updatedRecipe) {
+    if (!recipe) {
         return null;
     }
     const update = readRecipe(payload)
     if (!update.img_url){
         delete update.img_url;
     }
-    await recipeRepository()
-    .where('recipe_id', id).update(update);
+    const updatedRecipe = await recipeRepository()
+    .where('recipe_id', recipe_id).update(update);
     if (
         update.img_url && updatedRecipe.img_url &&
         update.img_url !== updatedRecipe.img_url &&
@@ -182,7 +181,8 @@ async function updateRecipe(id, payload){
     ){
         fs.unlink('.${updatedRecipe.img_url}', (err) => {})
     }
-    return { ...updatedRecipe, ...update }
+    console.log(update);
+    return { ...updatedRecipe, ...update, recipe_id }
 }
 
 
@@ -198,10 +198,10 @@ async function deleteRecipe(id){
     return deleted;
 }
 
-async function addToFavorite(user, recipe){
+async function addToFavorite(user_id, recipe_id){
     const favorite = {
-        user_id: user,
-        recipe_id: recipe
+        user_id,
+        recipe_id,
     }
     const [ id ] = await favoriteRepository().insert(favorite);
     return { id, ...favorite }
