@@ -2,12 +2,13 @@ const reviewsService = require('../services/review.service');
 const ApiError = require('../api-error');
 const JSend = require('../jsend');
 
-function rateAndCommentRecipe(req, res, next) {
-    if (!req.body){
+async function rateAndCommentRecipe(req, res, next) {
+    if (!req.body?.recipe_id || typeof req.body.recipe_id !== 'string'){
         return next(new ApiError(400, 'Data cannot be empty'))
     }
     try{
-        const review = reviewsService.addReview(...req.body)
+        const review = await reviewsService.addReview({...req.body});
+        console.log(review);
         return res.json(JSend.success({
             review
         }))

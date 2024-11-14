@@ -1,6 +1,8 @@
 const express = require('express');
 const reviewsController = require('../controllers/reviews.controller');
-const { methodNotAllowed } = require('../controllers/errors.controller')
+const { methodNotAllowed } = require('../controllers/errors.controller');
+const multer = require('multer');
+const upload = multer();
 
 const router = express.Router();
 
@@ -9,40 +11,20 @@ module.exports.setup = (app) => {
 
     /**
      * @swagger
-     * /api/v1/reviews/{recipe_id}:
+     * /api/v1/reviews:
      *  post:
      *      summary: Review a recipe
      *      description: review a recipe by recipe_id
-     *      parameters:
-     *          - in: path
-     *            name: recipe_id
-     *            description: ID of recipe
-     *            required: true
-     *            schema:
-     *              type: integer
-     *          - in: query
-     *            name: user_id
-     *            description: ID of user
-     *            required: true
-     *            schema:
-     *              type: integer
-     *          - in: query
-     *            name: rate
-     *            description: Rate of the recipe
-     *            required: true
-     *            schema:
-     *              type: integer
-     *              minimum: 1
-     *              maximum: 5, default
-     *          - in: query
-     *            name: comment
-     *            description: Comment part of the review of recipe
-     *            schema:
-     *              type: string
+     *      requestBody:
+     *          required: true
+     *          content: 
+     *              multipart/form-data:
+     *                  schema:
+     *                      $ref: '#/components/schemas/Review'
      *      tags:
      *          - reviews
      *      responses:
-     *          201:
+     *          200:
      *              description: post review recipe successfully
      *              content:
      *                  application/json:
@@ -63,7 +45,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.post('/:recipe_id', reviewsController.rateAndCommentRecipe); 
+    router.post('/', upload.none() ,reviewsController.rateAndCommentRecipe); 
 
     /**
      * @swagger

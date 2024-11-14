@@ -17,21 +17,44 @@ function readReview(payload){
 
 async function addReview(payload){
     const review = readReview(payload);
-    const [ review_id ] = await reviewRepository().insert(review);
-    return { review_id, ...review };
+    try {
+        await knex('reviews')
+            .insert({
+                recipe_id: review.recipe_id,
+                user_id: review.user_id,
+                rate: review.rate,
+                comment: review.comment,
+                review_create_at: new Date(),
+            });
+        const [ review_id ] = await knex('reviews')
+            .select('review_id')
+            .orderBy('review_id', 'desc')
+            .limit(1);
+        return { review_id, ...review };
+    }
+    catch (error) {
+        console.error(error);
+        throw new Error("Error adding review");
+    }
+
 }
 
-async function getReviewsByFilter(recipe_id){
-    const reviews = await reviewRepository().
+async function getReviewsByFilter(query){
+    const { rate, date } = query
+    return await reviewRepository().
         join('users', 'reviews.user_id', '=', 'users.user_id')
-            .where('recipe_id', recipe_id)
-            .select('*');
-
-    return reviews;
+        .where((builder) => {
+            if(rate){
+                builder.where('rate', '=', `${rate}`)
+            }
+            if (date) {
+                builder.where('date' , '>', `${date}`)
+            }
+        }).select('*');
 }
 
 async function getReviewByID(id) {
-    return reviewRepository().join('users', 'review.user_id', '=', 'users.user_id')
+    return reviewRepository().join('users', 'user_id', '=', 'users.user_id')
     .where('review_id', id).select('*').first()
     
 }

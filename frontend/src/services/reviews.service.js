@@ -24,8 +24,8 @@ function makeReviewsService() {
 
     const baseUrl = '/api/v1/reviews';
 
-    async function addReviews(recipe_id, review) {
-        return efetch(`${baseUrl}/?recipe_id=${recipe_id}`, {
+    async function addReview(review) {
+        return efetch(`${baseUrl}`, {
             method: 'POST',
             body: review,
         });
@@ -57,7 +57,7 @@ function makeReviewsService() {
     }
 
     return {
-        addReviews,
+        addReview,
         getReviews,      
         getAvgRate,
         deleteReview,

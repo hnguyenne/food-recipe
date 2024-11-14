@@ -1,12 +1,15 @@
+@ -1,127 +1,114 @@
 <script setup>
+import recipesService from '@/services/recipes.service';
 import reviewsService from '@/services/reviews.service';
+import ReviewForm from '@/components/ReviewForm.vue';
 import ReviewList from '@/components/ReviewList.vue';
 import { computed, ref } from 'vue';
-import recipesService from '@/services/recipes.service';
 import { useQuery, useMutation } from '@tanstack/vue-query';
 const user_session = JSON.parse(localStorage.getItem('user_login'));
 const userId = user_session ? user_session.USER_ID : null;
 const message = ref('');
+
 
 const props = defineProps({
     recipeId: {
@@ -22,6 +25,8 @@ const props = defineProps({
         default: () => [],
     }
 })
+
+const newReview = ref({})
 
 
 const { data: recipe } = useQuery({
@@ -119,6 +124,9 @@ function onAddtoFavorite(){
     <div v-else>
         <p>Loading...</p>
     </div>
+    <ReviewForm :newReview="newReview"
+        :recipeId="props.recipeId"
+        @submit:newReview="onAddReview"/>
     <ReviewList 
         :reviews="reviews"    
     />
