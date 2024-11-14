@@ -39,18 +39,10 @@ async function addReview(payload){
 
 }
 
-async function getReviewsByFilter(query){
-    const { rate, date } = query
+async function getReviewsByFilter(recipe_id){
     return await reviewRepository().
         join('users', 'reviews.user_id', '=', 'users.user_id')
-        .where((builder) => {
-            if(rate){
-                builder.where('rate', '=', `${rate}`)
-            }
-            if (date) {
-                builder.where('date' , '>', `${date}`)
-            }
-        }).select('*');
+        .where('recipe_id', recipe_id).select('*');
 }
 
 async function getReviewByID(id) {

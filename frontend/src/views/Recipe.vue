@@ -6,9 +6,11 @@ import ReviewForm from '@/components/ReviewForm.vue';
 import ReviewList from '@/components/ReviewList.vue';
 import { computed, ref } from 'vue';
 import { useQuery, useMutation } from '@tanstack/vue-query';
+
 const user_session = JSON.parse(localStorage.getItem('user_login'));
 const userId = user_session ? user_session.USER_ID : null;
 const message = ref('');
+const message_review = ref('');
 
 
 const props = defineProps({
@@ -23,15 +25,34 @@ const props = defineProps({
     reviews: {
         type: Array,
         default: () => [],
+    },
+    newReview: {
+        type: Object,
+        default: () => ({})
     }
 })
 
-const newReview = ref({})
+const addReviewMutation = useMutation({
+    mutationFn: (newReview) => reviewsService.addReview(newReview),
+    onSuccess: () => {
+        message_review.value = 'Review added successfully!';
+    },
+    onError: (error) => {
+        console.error(error);
+    }
+})
+
+function onAddReview(newReview){
+    newReview.append('recipe_id', props.recipeId);
+    newReview.append('user_id', userId);
+    addReviewMutation.mutate(newReview);
+}
+
 
 
 const { data: recipe } = useQuery({
     queryKey: ['recipe', props.recipeId],
-    queryFn: () => recipesService.fetchRecipe(props.recipeId),
+    queryFn: () => recipesService.fetchRecipe(props?.recipeId),
     select: (data) => {
         console.log(data.recipe)
         data.recipe.img_url = data.recipe.IMG_URL ?? data.img_url;
@@ -48,7 +69,8 @@ const { data: reviews } = useQuery({
     queryKey: ['reviews', props.recipeId],
     queryFn: () => reviewsService.getReviews(props.recipeId),
     select: (data) => {
-        return data.reviews;
+        console.log(data)
+        return data.comments;
     },
     throwOnError: (error) => {
         console.error(error);
@@ -128,7 +150,7 @@ function onAddtoFavorite(){
         :recipeId="props.recipeId"
         @submit:newReview="onAddReview"/>
     <ReviewList 
-        :reviews="reviews"    
+        :reviews="reviews"
     />
 </template>
 <style scoped>

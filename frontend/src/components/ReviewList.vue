@@ -1,17 +1,17 @@
 <script setup>
-import RecipeCard from '@/components/RecipeCard.vue'
+import ReviewCard from '@/components/ReviewCard.vue'
 
 defineProps({
-    recipes: { type: Array, default: () => [] },
+    reviews: { type: Array, default: () => [] },
 });
 </script>
 <template>
     <ul class="row">
         <li
-            class="list-group-item px-3 col-md-2 col-sm-4"
-            v-for="(recipe) in recipes"
+            class="list-group-item px-3 col-md-12"
+            v-for="(review) in reviews"
         >
-            <RecipeCard :recipe="recipe"/>
+            <ReviewCard :review="review"/>
         </li>
     </ul>
 </template>

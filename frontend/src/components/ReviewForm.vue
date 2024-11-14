@@ -4,7 +4,6 @@ import { Form, Field } from 'vee-validate';
 
 const props = defineProps({
     newReview: { type: Object, required: true },
-    recipeId: { type: String, required: true },
 });
 
 const $emit = defineEmits(['submit:newReview']);
@@ -15,10 +14,6 @@ function submitReview(values) {
         if (values[key] !== undefined){
             formData.append(key, values[key]);
         }
-        const user = JSON.stringify(localStorage.getItem('user_login'));
-        const user_id = user.user_id ?? user.USER_ID;
-        formData.append('user_id', user_id);
-        formData.append('recipe_id', props.recipeId);
     }
     $emit('submit:newReview', formData);
 }
