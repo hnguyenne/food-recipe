@@ -51,15 +51,20 @@ async function getReviewByID(id) {
     
 }
 
-async function updateReview(id, payload) {
-    const updatedReview = await reviewRepository().where('review_id', id)
+async function getUserReview(user_id, recipe_id) {
+    return reviewRepository().join('users', 'reviews.user_id', '=', 'users.user_id')
+    .where('users.user_id', user_id).where('recipe_id', recipe_id).select('*').first() 
+}
+
+async function updateReview(review_id, payload) {
+    const updatedReview = await reviewRepository().where('review_id', review_id)
                             .select('*').first();
     if (!updatedReview) {
         return null;
     }
     const update = readReview(payload);
-    await reviewRepository().where('review_id', id).update(update)
-    return { ...updatedReview, ...update}
+    await reviewRepository().where('review_id', review_id).update(update)
+    return {review_id, ...update}
 }
 
 async function deleteReview(id){
@@ -79,4 +84,5 @@ module.exports = {
     getReviewByID,
     updateReview,
     deleteReview,
+    getUserReview,
 }

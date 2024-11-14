@@ -4,7 +4,8 @@ defineProps({
 })
 </script>
 <template>
-    <div class="col-md-10">
+    <div class="col-md-12">
+        {{  review.USER_NAME }}:
         {{  review.RATE }}
         <p>{{  review.COMMENT }}</p>
     </div>

@@ -22,7 +22,6 @@ const rate = ref(1);
 
 <template>
     <div class="mt-2">
-        <h3>Thêm nhận xét của bạn</h3>
         <Form class="mb-6"@submit = "submitReview">
             <div class="mb-3">
                 <label for="rate">Điểm số </label>

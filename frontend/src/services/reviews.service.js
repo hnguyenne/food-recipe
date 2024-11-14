@@ -50,9 +50,16 @@ function makeReviewsService() {
     }
 
     async function updateReview(review_id, review) {
+        console.log(review_id,review);
         return efetch(`${baseUrl}/${review_id}`, {
             method: 'PUT',
             body: review,
+        });
+    }
+
+    async function getUserReview(userId, recipeId) {
+        return efetch(`${baseUrl}/${recipeId}/${userId}`, {
+            method: 'GET',
         });
     }
 
@@ -62,6 +69,7 @@ function makeReviewsService() {
         getAvgRate,
         deleteReview,
         updateReview,  
+        getUserReview,
     };
 }
 export default makeReviewsService();

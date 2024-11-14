@@ -4,7 +4,8 @@ import recipesService from '@/services/recipes.service';
 import reviewsService from '@/services/reviews.service';
 import ReviewForm from '@/components/ReviewForm.vue';
 import ReviewList from '@/components/ReviewList.vue';
-import { computed, ref } from 'vue';
+import ReviewUpdate from '@/components/ReviewUpdate.vue';
+import { computed, ref, toRaw } from 'vue';
 import { useQuery, useMutation } from '@tanstack/vue-query';
 
 const user_session = JSON.parse(localStorage.getItem('user_login'));
@@ -26,9 +27,13 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    review_id: {
+        type: Number,
+        default: null
+    },
     newReview: {
         type: Object,
-        default: () => ({})
+        default: () => {}
     }
 })
 
@@ -48,13 +53,33 @@ function onAddReview(newReview){
     addReviewMutation.mutate(newReview);
 }
 
+const { data: reviews } = useQuery({
+    queryKey: ['reviews', props.recipeId],
+    queryFn: () => reviewsService.getReviews(props.recipeId),
+    select: (data) => {
+        return data.comments;
+    },
+    throwOnError: (error) => {
+        console.error(error);
+    },
+    enabled:!!props.recipeId,
+})
 
+const { data: userReview } = useQuery({
+    queryKey: ['userReview', userId, props.recipeId],
+    queryFn: () => reviewsService.getUserReview(userId, props.recipeId),
+    select: (data) => {
+        return data.review;
+    },
+    throwOnError: (error) => {
+        console.error(error);
+    },
+})
 
 const { data: recipe } = useQuery({
     queryKey: ['recipe', props.recipeId],
     queryFn: () => recipesService.fetchRecipe(props?.recipeId),
     select: (data) => {
-        console.log(data.recipe)
         data.recipe.img_url = data.recipe.IMG_URL ?? data.img_url;
         return data.recipe;
     },
@@ -64,19 +89,6 @@ const { data: recipe } = useQuery({
     enabled: !!props.recipeId,
 })
 
-
-const { data: reviews } = useQuery({
-    queryKey: ['reviews', props.recipeId],
-    queryFn: () => reviewsService.getReviews(props.recipeId),
-    select: (data) => {
-        console.log(data)
-        return data.comments;
-    },
-    throwOnError: (error) => {
-        console.error(error);
-    },
-    enabled:!!props.recipeId,
-})
 
 
 const addToFavoritesMutation = useMutation({
@@ -89,6 +101,7 @@ const addToFavoritesMutation = useMutation({
         message.value = 'Failed to save to favorites.';
     },
 });
+
 function onAddtoFavorite(){
     addToFavoritesMutation.mutate(props.recipeId)
 }
@@ -146,9 +159,17 @@ function onAddtoFavorite(){
     <div v-else>
         <p>Loading...</p>
     </div>
-    <ReviewForm :newReview="newReview"
-        :recipeId="props.recipeId"
-        @submit:newReview="onAddReview"/>
+    <div v-if="userReview">
+        <h2>Thay đổi giá của bạn:</h2>
+        <ReviewUpdate :reviewId="userReview.REVIEW_ID"
+            :recipeId="props.recipeId"
+            :userId="userId"/>
+    </div>
+    <div v-else>
+        <h2>Thêm đánh giá của bạn</h2>
+        <ReviewForm :newReview="newReview"
+            @submit:newReview="onAddReview"/>
+    </div>
     <ReviewList 
         :reviews="reviews"
     />

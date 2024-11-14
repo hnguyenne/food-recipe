@@ -43,8 +43,8 @@ const updateAccountMutation = useMutation({
     onError: (error) => console.log(error),
 });
 
-function onUpdateAccount(recipe) {
-    updateAccountMutation.mutate(recipe);
+function onUpdateAccount(account) {
+    updateAccountMutation.mutate(account);
 }
 
 

@@ -34,8 +34,9 @@ async function getComments(req, res, next) {
 
 async function updateReview(req, res, next) {
     const { review_id } = req.params;
+    console.log(req.body);
     try {
-        const updatedReview = await reviewsService.updateReview(review_id, ...req.body);
+        const updatedReview = await reviewsService.updateReview(review_id, {...req.body});
         if (!updatedReview) {
             return next(new ApiError(404, 'Review not found'));
         }
@@ -62,6 +63,21 @@ async function deleteReview(req, res, next) {
     }
 }
 
+async function getUserReview(req, res, next) {
+    const { user_id, recipe_id } = req.params;
+    try {
+        const review = await reviewsService.getUserReview(user_id, recipe_id);
+        if (!review) {
+            return null;
+        }
+        return res.json(JSend.success({ review }));
+    }
+    catch (error) {
+        console.log(error);
+        return next(new ApiError(500, 'There was an error when we tried to retrieve user review'));
+    }
+}
+
 
 
 module.exports = {
@@ -69,4 +85,5 @@ module.exports = {
     getComments,
     updateReview,
     deleteReview,
+    getUserReview,
 };

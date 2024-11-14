@@ -49,6 +49,49 @@ module.exports.setup = (app) => {
 
     /**
      * @swagger
+     * /api/v1/reviews:
+     *  get:
+     *      summary: get user'review
+     *      description: get review by recipe_id and user_id
+     *      parameters:
+     *          - in: path
+     *            name: recipe_id
+     *            description: recipe id
+     *            schema:
+     *              type: integer
+     *          - in: path
+     *            name: user_id
+     *            description: user id
+     *            schema:
+     *              type: integer
+     *      tags:
+     *          - reviews
+     *      responses:
+     *          200:
+     *              description: get user's review of this recipe successfully
+     *              content:
+     *                  application/json:
+     *                      schema:
+     *                          type: object
+     *                          properties:
+     *                              status:
+     *                                  type: string
+     *                                  description: The response status
+     *                                  enum: [success]
+     *                              data:
+     *                                  type: object
+     *                                  properties:
+     *                                      review:
+     *                                          $ref: '#/components/schemas/Review'
+     *          400:
+     *              description: Invalid request parameters
+     *          500:
+     *              description: Internal server error
+     */
+    router.get('/:recipe_id/:user_id',reviewsController.getUserReview); 
+
+    /**
+     * @swagger
      * /api/v1/reviews/{recipe_id}:
      *  get:
      *      summary: Get comments of a recipe
@@ -119,7 +162,7 @@ module.exports.setup = (app) => {
      *          500:
      *              description: Internal server error
      */
-    router.put('/:review_id', reviewsController.updateReview);
+    router.put('/:review_id', upload.none(), reviewsController.updateReview);
 
     /**
      * @swagger
