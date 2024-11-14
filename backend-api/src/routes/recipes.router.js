@@ -313,9 +313,9 @@ module.exports.setup = (app) => {
      */
     router.delete('/:recipe_id', recipesController.deleteRecipe);
 
-        /**
+    /**
      * @swagger
-     * /api/v1/recipes/avg/{recipe_id}:
+     * /api/v1/foodrecipe/avg/{recipe_id}:
      *  get:
      *      summary: Get average rating of a recipe
      *      description: Get average rating of a recipe

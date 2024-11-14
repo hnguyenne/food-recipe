@@ -163,10 +163,10 @@ function saveRecipe(req, res, next) {
 }
 
 async function getAvgRate(req, res, next) {
-    const recipe_id = req.params;
+    const recipe_id = req.params.recipe_id;
     try {
-        const rates = await recipesService.getAvgRate(recipe_id);
-        return res.json(JSend.success({ rates }));
+        const Rate = await recipesService.getAvgRate(recipe_id);
+        return res.json(JSend.success({ Rate }));
     }
     catch (error) {
         console.log(error);

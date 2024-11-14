@@ -7,6 +7,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query';
 
 const props = defineProps({
     recipeId: { type: String, required: true },
+    recipe: {
+        type: Object,
+        default: () => {},
+    }
 });
 const router = useRouter();
 
@@ -17,6 +21,10 @@ const queryClient = useQueryClient();
 const { data: recipe } = useQuery({
     queryKey: ['recipe', props.recipeId],
     queryFn: () => recipesService.fetchRecipe(props.recipeId),
+    select: (data) => {
+        console.log(data.recipe)
+        return data.recipe;
+    },
     onError: (error) => {
         console.log(error);
         router.push({
@@ -27,12 +35,11 @@ const { data: recipe } = useQuery({
         });
     }
 });
-
 const updateRecipeMutation = useMutation({
-    mutationFn: (recipe) => recipesService.updateRecipe(recipe.get('id'), recipe),
+    mutationFn: (recipe) => recipesService.updateRecipe(props.recipeId, recipe),
     onSuccess: () => {
         message.value = 'Công thức đã được thay đổi.';
-        queryClient.invalidateQueries(['contact', props.recipeId]); 
+        queryClient.invalidateQueries(['recipe_id', props.recipeId]); 
     },
     onError: (error) => console.log(error),
 });

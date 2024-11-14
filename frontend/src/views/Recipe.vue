@@ -62,6 +62,16 @@ const { data: recipe } = useQuery({
         <div v-if="recipe.NOTE">
             <i>Note: </i> {{ recipe.NOTE }}
         </div>
+        <router-link
+                :to="{
+                    name: 'recipe.edit',
+                    params: { recipe_id:  recipe.recipe_id },
+                }"
+                >
+                <span class="mt-2 badge text-bg-warning">
+                    <i class="fas fa-edit"> Hiệu chỉnh</i>
+                </span>
+        </router-link>
     </div>
     <div v-else>
         <p>Loading...</p>

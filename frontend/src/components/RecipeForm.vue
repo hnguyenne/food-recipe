@@ -9,7 +9,7 @@ const props = defineProps({
 });
 
 let imgFileInput = useTemplateRef('img-file-input');
-let imgFile = ref(props.recipe.img_url);
+let imgFile = ref(props.recipe.IMG_URL);
 const $emit = defineEmits(['submit:recipe', 'delete:recipe']);
 
 let validationSchema = toTypedSchema(
@@ -46,57 +46,57 @@ function submitRecipe(values) {
     formData.append('user_id', user.USER_ID)
 
     if (props.recipe.recipe_id) {
-        formData.append('recipe_id', props.recipe.recipe_id);
+        formData.append('recipe_id', recipe.recipe_id);
     }
     $emit('submit:recipe', formData);
 }
 
 function deleteRecipe(){
-    $emit('delete:recipe', props.recipe.recipe_id)
+    $emit('delete:recipe', recipe.recipe_id)
 }
 </script>
 <template>
     <Form :validation-schema="validationSchema" @submit = "submitRecipe">
         <div class="mb-3">
             <label for="tittle" class="form-label">Đặt tiêu đề cho công thức của bạn</label>
-            <Field name="tittle" type = "text" class = "form-control" :value = "props.recipe.title">
+            <Field name="tittle" type = "text" class = "form-control" :value = "recipe.tittle ?? recipe.TITTLE">
             </Field>
             <ErrorMessage name = "name" class= "error-feedback" />
 
         </div>
         <div class = "mb-3">
             <label for="description" class="form-label">Miêu tả công thức của bạn, bao gồm cả nguyên liệu</label>
-            <Field name = "description" as="textarea" class = "form-control" :value = "recipe.description"></Field>
+            <Field name = "description" as="textarea" class = "form-control" :value = "recipe.description ?? recipe.DESCRIPTION"></Field>
             <ErrorMessage name = "description" class= "error-feedback" />
         </div>
          <div class = "mb-3">
             <label for="tags" class="form-label">Các nhãn để người khác tìm thấy công thức của bạn (Bánh ngọt, món chay,...)</label>
-            <field name = "tags" type = "text" class = "form-control" :value = "recipe.tags"></field>
+            <field name = "tags" type = "text" class = "form-control" :value = "recipe.tags ?? recipe.TAGS"></field>
             <ErrorMessage name = "tags" class= "error-feedback" />
         </div>
         <div class = "mb-3">
             <label for="prep_time" class="form-label">Thời gian chuẩn bị nguyên liệu</label>
-            <field name = "prep_time" type = "number" class = "form-control" :value = "recipe.prep_time"></field>
+            <field name = "prep_time" type = "number" class = "form-control" :value = "recipe.prep_time ?? recipe.PREP_TIME"></field>
             <ErrorMessage name = "prep_time" class= "error-feedback" />
         </div>
         <div class = "mb-3">
             <label for="cook_time" class="form-label">Thời gian chế biến</label>
-            <field name = "cook_time" type = "number" class = "form-control" :value = "recipe.cook_time"></field>
+            <field name = "cook_time" type = "number" class = "form-control" :value = "recipe.cook_time ?? recipe.COOK_TIME"></field>
             <ErrorMessage name = "cook_time" class= "error-feedback" />
         </div>
         <div class = "mb-3">
             <label for="servings" class="form-label">Khẩu phần</label>
-            <field name = "servings" type = "number" class = "form-control" :value = "recipe.servings"></field>
+            <field name = "servings" type = "number" class = "form-control" :value = "recipe.servings ?? recipe.SERVINGS"></field>
             <ErrorMessage name = "servings" class= "error-feedback" />
         </div>
         <div class = "mb-3">
             <label for="instruction" class="form-label">Hướng dẫn các bước thực hiện</label>
-            <field name = "instruction" as="textarea" class = "form-control" :value = "recipe.instruction"></field>
+            <field name = "instruction" as="textarea" class = "form-control" :value = "recipe.instruction ?? recipe.INSTRUCTION"></field>
             <ErrorMessage name = "instruction" class= "error-feedback" />
         </div>
         <div class = "mb-3">
             <label for="note" class="form-label">Những điểm cần lưu ý</label>
-            <field name = "note" type = "text" class = "form-control" :value = "recipe.note"></field>
+            <field name = "note" type = "text" class = "form-control" :value = "recipe.note ?? recipe.NOTE"></field>
             <ErrorMessage name = "note" class= "error-feedback" />
         </div>
         <div class="mb-3 w-50 h-50">
@@ -124,7 +124,7 @@ function deleteRecipe(){
         <div class="mb-3">
             <button class="btn btn-primary"><i class="fas fa-save"></i>Lưu công thức</button>
             <button
-                v-if="recipe.recipe_id"
+                v-if="recipe.RECIPE_ID"
                 type="button"
                 class="ms-2 btn btn-danger"
                 @click="deleteRecipe">

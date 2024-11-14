@@ -37,10 +37,10 @@ const routes = [
         }
     },
     {
-        path: '/recipes/:id/edit',
+        path: '/recipe/:recipe_id/edit',
         name: 'recipe.edit',
         component: () => import('@/views/RecipeEdit.vue'),
-        props: (route) => ({ recipeId: route.params.id })
+        props: (route) => ({ recipeId: route.params.recipe_id })
     },
     {
         path: '/recipe/:recipe_id',
