@@ -71,14 +71,12 @@ module.exports.setup = (app) => {
      *  get:
      *      summary: Get comments of a recipe
      *      description: Get reviews of a recipe with recipe id
-     *      parameter:
+     *      parameters:
      *          - in: path
      *            name: recipe_id
      *            description: Id of the recipe
      *            schema:
-     *              type: integer    
-     *          - $ref: '#/components/parameters/limitParam'
-     *          - $ref: '#/components/parameters/pageParam'
+     *              type: integer  
      *      tags:
      *          - reviews
      *      responses:
@@ -100,8 +98,6 @@ module.exports.setup = (app) => {
      *                                          type: array
      *                                          items:
      *                                              $ref: '#/components/schemas/Review'
-     *                                      metadata:
-     *                                          $ref: '#/components/schemas/PaginationMetadata'
      *          400:
      *              description: Invalid request parameters
      *          500:

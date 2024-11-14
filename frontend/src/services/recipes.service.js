@@ -56,7 +56,7 @@ function makeRecipesService() {
         data.recipes = data.recipes.map((recipe) => {
             return {
                 ...recipe,
-                img_url: recipe.img_url ?? DEFAULT_IMG
+                img_url: recipe.IMG_URL ?? DEFAULT_IMG
             };
         });
         return data;

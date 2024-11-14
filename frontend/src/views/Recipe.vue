@@ -1,7 +1,9 @@
 <script setup>
-import { computed } from 'vue';
 import recipesService from '@/services/recipes.service';
-import { useQuery, useMutation } from '@tanstack/vue-query';
+import reviewsService from '@/services/reviews.service';
+import { useQuery } from '@tanstack/vue-query';
+import ReviewList from '@/components/ReviewList.vue';
+
 
 const props = defineProps({
     recipeId: {
@@ -11,8 +13,13 @@ const props = defineProps({
     recipe: {
         type: Object,
         default: () => {},
+    },
+    reviews: {
+        type: Array,
+        default: () => [],
     }
 })
+
 
 const { data: recipe } = useQuery({
     queryKey: ['recipe', props.recipeId],
@@ -27,6 +34,19 @@ const { data: recipe } = useQuery({
     },
     enabled: !!props.recipeId,
 })
+
+const { data: reviews } = useQuery({
+    queryKey: ['reviews', props.recipeId],
+    queryFn: () => reviewsService.getReviews(props.recipeId),
+    select: (data) => {
+        return data.reviews;
+    },
+    throwOnError: (error) => {
+        console.error(error);
+    },
+    enabled:!!props.recipeId,
+})
+
 </script>
 
 <template>
@@ -76,9 +96,9 @@ const { data: recipe } = useQuery({
     <div v-else>
         <p>Loading...</p>
     </div>
+    <ReviewList 
+        :reviews="reviews"    
+    />
 </template>
 <style scoped>
-.page {
-
-}
 </style>

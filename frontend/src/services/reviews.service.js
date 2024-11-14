@@ -32,7 +32,7 @@ function makeReviewsService() {
     }
 
     async function getReviews(recipe_id) {
-        return efetch(`${baseUrl}/?recipe_id=${recipe_id}`, {
+        return efetch(`${baseUrl}/${recipe_id}`, {
             method: 'GET',
         });
     }

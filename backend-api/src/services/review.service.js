@@ -21,22 +21,17 @@ async function addReview(payload){
     return { review_id, ...review };
 }
 
-async function getReviewsByFilter(query){
-    const { rate, date } = query
-    return await reviewRepository().
-        join('users', 'user_id', '=', 'users.user_id')
-        .where((builder) => {
-            if(rate){
-                builder.where('rate', '=', `${rate}`)
-            }
-            if (date) {
-                builder.where('date' , '>', `${date}`)
-            }
-        }).select('*');
+async function getReviewsByFilter(recipe_id){
+    const reviews = await reviewRepository().
+        join('users', 'reviews.user_id', '=', 'users.user_id')
+            .where('recipe_id', recipe_id)
+            .select('*');
+
+    return reviews;
 }
 
 async function getReviewByID(id) {
-    return reviewRepository().join('users', 'user_id', '=', 'users.user_id')
+    return reviewRepository().join('users', 'review.user_id', '=', 'users.user_id')
     .where('review_id', id).select('*').first()
     
 }

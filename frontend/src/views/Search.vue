@@ -34,6 +34,7 @@ const { data: recipes } = useQuery({
     queryKey: ['recipes', currentPage, text],
     queryFn: () => recipesService.fetchFilterRecipes(text.value, currentPage.value, limit),
     select: (data) => {
+      console.log(data.recipes);
       return data.recipes;
     },
     throwOnError: (error) => {
