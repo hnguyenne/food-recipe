@@ -199,6 +199,11 @@ async function deleteRecipe(id){
 }
 
 async function addToFavorite(user_id, recipe_id){
+    const exist = favoriteRepository().select('*').where('user_id', user_id).andWhere('recipe_id', recipe_id);
+    if (exist){
+        console.log("Favorite already exist")
+        return null;
+    }
     const favorite = {
         user_id,
         recipe_id,

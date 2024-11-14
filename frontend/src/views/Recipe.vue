@@ -1,9 +1,12 @@
 <script setup>
-import recipesService from '@/services/recipes.service';
 import reviewsService from '@/services/reviews.service';
-import { useQuery } from '@tanstack/vue-query';
 import ReviewList from '@/components/ReviewList.vue';
-
+import { computed, ref } from 'vue';
+import recipesService from '@/services/recipes.service';
+import { useQuery, useMutation } from '@tanstack/vue-query';
+const user_session = JSON.parse(localStorage.getItem('user_login'));
+const userId = user_session ? user_session.USER_ID : null;
+const message = ref('');
 
 const props = defineProps({
     recipeId: {
@@ -35,6 +38,7 @@ const { data: recipe } = useQuery({
     enabled: !!props.recipeId,
 })
 
+
 const { data: reviews } = useQuery({
     queryKey: ['reviews', props.recipeId],
     queryFn: () => reviewsService.getReviews(props.recipeId),
@@ -46,6 +50,21 @@ const { data: reviews } = useQuery({
     },
     enabled:!!props.recipeId,
 })
+
+
+const addToFavoritesMutation = useMutation({
+    mutationFn: (recipeId) => recipesService.addToFavorite(userId, recipeId),
+    onSuccess: () => {
+        message.value = 'Công thức đã được thêm vào danh sách yêu thích của bạn';
+    },
+    onError: (error) => {
+        console.log( error);
+        message.value = 'Failed to save to favorites.';
+    },
+});
+function onAddtoFavorite(){
+    addToFavoritesMutation.mutate(props.recipeId)
+}
 
 </script>
 
@@ -82,7 +101,11 @@ const { data: reviews } = useQuery({
         <div v-if="recipe.NOTE">
             <i>Note: </i> {{ recipe.NOTE }}
         </div>
-        <router-link
+        <div v-if="userId">
+            <button @click="onAddtoFavorite">Thêm vào danh sách yêu thích</button>
+            <p>{{  message }}</p>
+        </div>
+        <router-link v-if="recipe.USER_ID == userId"
                 :to="{
                     name: 'recipe.edit',
                     params: { recipe_id:  recipe.recipe_id },

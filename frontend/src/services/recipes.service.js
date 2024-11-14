@@ -92,6 +92,12 @@ function makeRecipesService() {
             method: 'DELETE',
         });
     }
+
+    async function addToFavorite(user_id, recipe_id){
+        return efetch(`${baseUrl}/save/${recipe_id}?user_id=${user_id}`, {
+            method: 'POST',
+        })
+    }
     return {
         fetchLatestRecipes,
         fetchPopularRecipes,
@@ -100,6 +106,7 @@ function makeRecipesService() {
         createRecipe,
         updateRecipe,
         deleteRecipe,
+        addToFavorite
     };
 }
 export default makeRecipesService();
