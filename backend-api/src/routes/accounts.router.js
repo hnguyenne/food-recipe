@@ -172,7 +172,48 @@ module.exports.setup = (app) => {
      *              description: Internal server error                  
      */
     router.put('/:user_id', imgUpload, accountController.updateProfile);
-
+    /**
+     * @swagger
+     * /api/v1/users/{user_id}/favorite:
+     *  get:
+     *      summary: user's favorite recipes
+     *      description: Get all user's favorite recipes
+     *      parameters:
+     *          - in: path
+     *            name: user_id
+     *            description: Id of the user
+     *            required: true
+     *            schema:
+     *              type: integer
+     *      tags:
+     *          - users
+     *      responses:
+     *          200: 
+     *              description: List of user's favorite recipes
+     *              content:
+     *                  application/json:
+     *                      schema:
+     *                          type: object
+     *                          properties:
+     *                              status:
+     *                                  type: string
+     *                                  description: The response status
+     *                                  enum: [success]
+     *                              data:
+     *                                  type: object
+     *                                  properties: 
+     *                                      recipes:
+     *                                          type: array
+     *                                          items:
+     *                                              $ref: '#/components/schemas/Recipe'
+     *          400:
+     *              description: Invalid request parameters
+     *          404:
+     *              description: Not found
+     *          500:
+     *              description: Internal server error
+     */
+    router.get('/:user_id/favorite', accountController.getUserFavorite)
     router.all('/', methodNotAllowed);
     router.all('/:user_id', methodNotAllowed);
 

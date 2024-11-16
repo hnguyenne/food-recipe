@@ -227,6 +227,12 @@ async function getAvgRate(recipe_id){
     return avgRate || { avgRate : 0};
 }
 
+async function getFavorite(user_id) {
+    return await favoriteRepository().join('recipes', 'favorite.recipe_id', 'recipes.recipe_id')
+                                .where('user_id', user_id)
+                                .select('*');
+}
+
 module.exports = {
     addRecipe,
     getRecipesByFilter,
@@ -238,4 +244,5 @@ module.exports = {
     getPopularRecipes,
     getReviews,
     getAvgRate,
+    getFavorite
 }

@@ -90,9 +90,25 @@ async function updateProfile(req, res, next){
     }    
 }
 
+async function getUserFavorite(req, res, next) {
+    const { user_id } = req.params;
+    try {
+        const favorite = await accountsService.getFavorite(user_id);
+        if (!favorite){
+            return next(new ApiError(404, "User not found"));
+        }
+        return res.json(JSend.success({ favorite }))
+    }
+    catch (error){
+        console.log(error);
+        return next (new ApiError(500, `Error retrieving favorite list of user ${user_id}`))
+    }
+    
+}
 module.exports = {
     login,
     register,
     getProfile,
     updateProfile,
+    getUserFavorite
 };
