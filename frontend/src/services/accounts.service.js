@@ -53,11 +53,23 @@ function makeAccountsService(){
         return result;
     }
 
+    async function getFavorite(user_id) {
+        const { recipes } = await efetch(`${baseUrl}/${user_id}/favorite`, {
+            method: 'GET',
+            body: recipes,
+        });
+        if (!recipes){
+            throw new Error('Fetching failed');
+        }
+        return recipes;
+    }
+
     return {
         fetchAccount,
         createAccount,
         updateAccount,
-        login
+        login,
+        getFavorite
     }
 }
 export default makeAccountsService();

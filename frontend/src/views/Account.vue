@@ -1,7 +1,7 @@
 <script setup>
 import { useQuery } from '@tanstack/vue-query';
 import accountService from '@/services/accounts.service'
-
+import RecipeList from '@/components/RecipeList.vue';
 const user_session = JSON.parse(localStorage.getItem('user_login'));
 const userId = user_session ? user_session.USER_ID : null;
 
@@ -21,7 +21,16 @@ const { data: user } = useQuery({
         });
     }
 });
-
+const { data: favorites } = useQuery({
+    queryKey: ['user', userId],
+    queryFn: () => accountService.getFavorite(userId),
+    select: (data) => {
+        return data.recipes;
+    },
+    throwOnError: (error) => {
+        console.log(error);
+    }
+})
 </script>
 
 <template>
@@ -51,5 +60,10 @@ const { data: user } = useQuery({
                     <i class="fas fa-edit"> Hiệu chỉnh</i>
                 </span>
         </router-link>
+        <div>
+            <h3>Danh sách các công thức yêu thích của bạn</h3>
+        </div>
+        <RecipeList v-if="favorites?.length > 0" :recipe="favorites"/>
+        <p v-else> Bạn chưa lưu công thức nào, hãy tìm các công thức mới để thêm vào danh sách</p>
     </div>
 </template>
