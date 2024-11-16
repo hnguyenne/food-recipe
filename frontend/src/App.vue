@@ -11,5 +11,6 @@ import AppHeader from '@/components/AppHeader.vue';
 <style>
   body {
     background-color: #FFF5E4;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 </style>

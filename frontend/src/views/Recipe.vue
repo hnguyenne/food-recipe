@@ -114,7 +114,7 @@ function onAddtoFavorite(){
             <h1>{{ recipe.TITTLE }}</h1>
         </div>
         <div>
-            {{ recipe.RECIPE_CREATE_AT }}
+            Được tạo vào {{ new Date(recipe.RECIPE_CREATE_AT).toLocaleString('vi-VN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) }}
         </div>
         <div class="p-1 w-75 h-75">
             <img class="img-fluid img-thumbnail" :src="recipe.img_url ?? recipe.IMG_URL" alt=""/>
@@ -155,24 +155,24 @@ function onAddtoFavorite(){
                     <i class="fas fa-edit"> Hiệu chỉnh</i>
                 </span>
         </router-link>
+        <div v-if="userReview" class="mt-5">
+            <h2>Thay đổi giá của bạn:</h2>
+            <ReviewUpdate :reviewId="userReview.REVIEW_ID"
+                :recipeId="props.recipeId"
+                :userId="userId"/>
+        </div>
+        <div v-else class="mt-5">
+            <h2>Thêm đánh giá của bạn</h2>
+            <ReviewForm :newReview="newReview"
+                @submit:newReview="onAddReview"/>
+        </div>
+        <ReviewList 
+            :reviews="reviews"
+        />
     </div>
     <div v-else>
         <p>Loading...</p>
     </div>
-    <div v-if="userReview">
-        <h2>Thay đổi giá của bạn:</h2>
-        <ReviewUpdate :reviewId="userReview.REVIEW_ID"
-            :recipeId="props.recipeId"
-            :userId="userId"/>
-    </div>
-    <div v-else>
-        <h2>Thêm đánh giá của bạn</h2>
-        <ReviewForm :newReview="newReview"
-            @submit:newReview="onAddReview"/>
-    </div>
-    <ReviewList 
-        :reviews="reviews"
-    />
 </template>
 <style scoped>
 </style>

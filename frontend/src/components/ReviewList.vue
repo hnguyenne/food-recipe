@@ -8,7 +8,7 @@ defineProps({
 <template>
     <ul class="row">
         <li
-            class="list-group-item px-3 col-md-12"
+            class="list-group-item col-md-12"
             v-for="(review) in reviews"
         >
             <ReviewCard :review="review"/>

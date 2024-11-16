@@ -37,9 +37,10 @@ function goToAccount() {
                 <li class="nav-item">
                     <router-link
                         :to="{ name: 'foodrecipe' }"
-                        class="nav-link"
+                        class="nav-link d-flex"
                     >
                         <img src='/logo.png' class="custom-logo" />
+                        <h2 class="mt-3 mx-3 text-light">Food Recipe</h2>
                     </router-link>
                 </li>
             </div>
@@ -81,7 +82,6 @@ function goToAccount() {
 <style>
 .button {
     background-color: #C1D8C3;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
     text-decoration: none;
     margin-left: 10px;
     color: #2f7458;

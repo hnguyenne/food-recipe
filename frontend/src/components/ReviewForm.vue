@@ -21,7 +21,7 @@ const rate = ref(1);
 </script>
 
 <template>
-    <div class="mt-2">
+    <div class="mt-2 col-10">
         <Form class="mb-6"@submit = "submitReview">
             <div class="mb-3">
                 <label for="rate">Điểm số </label>
@@ -47,7 +47,6 @@ const rate = ref(1);
 <style scoped>
 button {
     background-color: #6A9C89;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
     text-decoration: none;
     color: #ffffff;
 }

@@ -133,7 +133,6 @@ function submitUser(values) {
 @import '@/assets/form.css';
 button {
     background-color: #6A9C89;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
     text-decoration: none;
     color: #ffffff;
 }

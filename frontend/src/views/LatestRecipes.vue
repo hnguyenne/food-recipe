@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import recipesService from '@/services/recipes.service';
 import MainPagination from '@/components/MainPagination.vue';
@@ -19,23 +19,17 @@ const currentPage = computed(() => {
     return page;
 });
 
-const text = computed(() => {
-    const text = route.query?.text;
-    if (!text) return '';
-    return text;
-});
-
 defineProps({
     recipes: { type: Array, default: () => []},
 });
 
 
-const { data: recipes } = useQuery({
-    queryKey: ['recipes', currentPage, text],
-    queryFn: () => recipesService.fetchFilterRecipes(text.value, currentPage.value, limit),
+const { data: latestRecipes } = useQuery({
+    queryKey: ['latestRecipes', currentPage],
+    queryFn: () => recipesService.fetchLatestRecipes(currentPage.value, limit),
     select: (data) => {
-      console.log(data.recipes);
-      return data.recipes;
+        console.log(data.recipes)
+        return data.recipes;
     },
     throwOnError: (error) => {
         console.log(error);
@@ -43,14 +37,14 @@ const { data: recipes } = useQuery({
 })
 
 function changeCurrentPage(page) {
-    router.push({ name: 'Search', query: { page, text: text.value } });
+    router.push({ name: 'latestRecipe', query: { page } });
 }
 
 </script>
 <template>
-  <div v-if="recipes?.length > 0">
+  <div v-if="latestRecipes?.length > 0">
     <RecipeList 
-      :recipes="recipes"
+      :recipes="latestRecipes"
       class="d-inline-flex"
     />
   </div>

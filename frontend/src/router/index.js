@@ -24,6 +24,16 @@ const routes = [
         component: () => import('@/views/Search.vue'),
     },
     {
+        path: '/recipes/latest',
+        name: 'latestRecipe',
+        component: () => import('@/views/LatestRecipes.vue'),
+    },
+    {
+        path: '/recipes/popular',
+        name: 'popularRecipe',
+        component: () => import('@/views/PopularRecipes.vue'),
+    },
+    {
         path: '/recipes/add',
         name: 'Recipe.add',
         component: () => import('@/views/RecipeAdd.vue'),

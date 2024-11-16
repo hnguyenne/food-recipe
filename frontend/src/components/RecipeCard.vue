@@ -4,7 +4,7 @@ defineProps({
 })
 </script>
 <template>
-    <div class="col-md-10">
+    <div class="col-md-10 effect">
         <router-link
             :to="{
                 name: 'recipe',
@@ -24,7 +24,18 @@ defineProps({
 <style scoped>
 .title {
     font-weight: bold;
+}
+
+a { 
     text-decoration: none;
     color: black;
+}
+
+.effect {
+    transition:cubic-bezier() 0.5s ease;
+}
+
+.effect:hover {
+    transform:scale(1.02);
 }
 </style>

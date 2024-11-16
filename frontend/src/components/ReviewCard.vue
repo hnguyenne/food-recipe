@@ -4,10 +4,11 @@ defineProps({
 })
 </script>
 <template>
-    <div class="col-md-12">
-        {{  review.USER_NAME }}:
+    <div>
+        <strong>{{  review.USER_NAME }}:</strong>
         {{  review.RATE }}
         <p>{{  review.COMMENT }}</p>
+        <hr>
     </div>
 </template>
 <style scoped>
