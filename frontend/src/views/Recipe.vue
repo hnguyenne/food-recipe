@@ -6,6 +6,7 @@ import ReviewForm from '@/components/ReviewForm.vue';
 import ReviewList from '@/components/ReviewList.vue';
 import ReviewUpdate from '@/components/ReviewUpdate.vue';
 import { computed, ref, toRaw } from 'vue';
+import { useQueryClient } from '@tanstack/vue-query';
 import { useQuery, useMutation } from '@tanstack/vue-query';
 
 const user_session = JSON.parse(localStorage.getItem('user_login'));
@@ -13,6 +14,7 @@ const userId = user_session ? user_session.USER_ID : null;
 const message = ref('');
 const message_review = ref('');
 
+const queryClient = useQueryClient();
 
 const props = defineProps({
     recipeId: {
@@ -41,6 +43,7 @@ const addReviewMutation = useMutation({
     mutationFn: (newReview) => reviewsService.addReview(newReview),
     onSuccess: () => {
         message_review.value = 'Review added successfully!';
+        queryClient.invalidateQueries(['reviews', props.recipeId]);
     },
     onError: (error) => {
         console.error(error);
@@ -98,7 +101,7 @@ const addToFavoritesMutation = useMutation({
     },
     onError: (error) => {
         console.log( error);
-        message.value = 'Failed to save to favorites.';
+        message.value = 'Không thể thêm vào danh sách yêu thích';
     },
 });
 
@@ -122,7 +125,7 @@ function onAddtoFavorite(){
         <div class = "p-1">
             {{ recipe.TAGS }}
         </div>
-        <div class = "p-1">
+        <div class = "p-1" style="white-space: pre-line">
             <h3>Thông tin chi tiết: </h3>
             {{ recipe.DESCRIPTION }}
         </div>
@@ -135,14 +138,14 @@ function onAddtoFavorite(){
         <div class = "p-1">
             <p>Lượng khẩu phần: {{ recipe.SERVINGS }}</p>
         </div>
-        <div class = "p-1">
+        <div class = "p-1" style="white-space: pre-line">
             <p>Cách thực hiện: {{ recipe.INSTRUCTION }}</p>
         </div>
         <div v-if="recipe.NOTE">
             <i>Note: </i> {{ recipe.NOTE }}
         </div>
         <div v-if="userId">
-            <button @click="onAddtoFavorite">Thêm vào danh sách yêu thích</button>
+            <button @click="onAddtoFavorite" class="badge text-bg-warning border border-0">Thêm vào danh sách yêu thích</button>
             <p>{{  message }}</p>
         </div>
         <router-link v-if="recipe.USER_ID == userId"
