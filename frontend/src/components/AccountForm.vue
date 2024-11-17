@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 let imgFileInput = useTemplateRef('img-file-input');
-let imgFile = ref(props.user.PROFILE_PIC ?? props.user.profile_pic ?? DEFAULT_PIC);
+let imgFile = ref(props.user.profile_pic ?? props.user.PROFILE_PIC ?? DEFAULT_PIC);
 const $emit = defineEmits(['submit:user']);
 
 
@@ -100,7 +100,7 @@ function submitUser(values) {
       <ErrorMessage name="retype_password" class="error-feedback"/>
     </div>
     <div class="mb-3 w-50 h-50">
-        <label for="imgFile">Avatar</label>
+        <label for="imgFile">Avatar{{ imgFile }}</label>
         <img
             class="img-fluid img-thumbnail"
             :src="imgFile"
