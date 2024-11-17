@@ -106,6 +106,12 @@ function makeRecipesService() {
 
     }
 
+    async function getAvgRate(recipe_id) {
+        return efetch(`${baseUrl}/avg/${recipe_id}`, {
+            method: 'GET',
+        });
+    }
+
     return {
         fetchLatestRecipes,
         fetchPopularRecipes,
@@ -116,8 +122,7 @@ function makeRecipesService() {
         deleteRecipe,
         addToFavorite,
         deleteFromFavorite,
+        getAvgRate,
     };
 }
 export default makeRecipesService();
-
-//saveRecipe has not implemented

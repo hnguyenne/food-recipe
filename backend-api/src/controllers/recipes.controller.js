@@ -1,7 +1,6 @@
 const recipesService = require('../services/recipes.service');
 const ApiError = require('../api-error');
 const JSend = require('../jsend');
-const { compareSync } = require('bcrypt');
 
 async function getLatestRecipes(req, res, next) {
     let result = {

@@ -232,7 +232,7 @@ async function getReviews(recipe_id) {
 async function getAvgRate(recipe_id){
     const avgRate = await reviewRepository().where('recipe_id',recipe_id).select(
                             knex.raw('AVG(rate) as avgRate')
-    )
+    ).first();
                         
     return avgRate || { avgRate : 0};
 }

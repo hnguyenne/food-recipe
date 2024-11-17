@@ -3,6 +3,9 @@ import { ref } from 'vue';
 import { useMutation } from '@tanstack/vue-query';
 import ReviewForm from '@/components/ReviewForm.vue';
 import reviewsService from '@/services/reviews.service';
+import { useQueryClient } from '@tanstack/vue-query';
+
+const queryClient = useQueryClient();
 
 const message_review = ref('');
 const props = defineProps({
@@ -27,6 +30,7 @@ const props = defineProps({
 const updateReviewMutation = useMutation({
     mutationFn: (newReview) => reviewsService.updateReview(props.reviewId, newReview),
     onSuccess: () => {
+        queryClient.invalidateQueries(['reviews', props.recipeId]);
         message_review.value = 'Review updated successfully!';
     },
     onError: (error) => {

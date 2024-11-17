@@ -72,6 +72,7 @@ const { data: userReview } = useQuery({
     queryKey: ['userReview', userId, props.recipeId],
     queryFn: () => reviewsService.getUserReview(userId, props.recipeId),
     select: (data) => {
+        queryClient.invalidateQueries(['reviews', userId]);
         return data.review;
     },
     throwOnError: (error) => {
@@ -109,12 +110,29 @@ function onAddtoFavorite(){
     addToFavoritesMutation.mutate(props.recipeId)
 }
 
+const { data: avg } = useQuery({
+    queryKey: ['avg', props.recipeId],
+    queryFn: () => recipesService.getAvgRate(props?.recipeId),
+    select: (data) => {
+        return data.Rate.avgRate;
+    },
+    throwOnError: (error) => {
+        console.error(error);
+    },
+    enabled: !!props.recipeId,
+})
+
 </script>
 
 <template>
     <div class="page col-10 offset-1" v-if="recipe">
         <div class="font-weight-bold">
             <h1>{{ recipe.TITTLE }}</h1>
+        </div>
+        <div>
+            Đánh giá: 
+            <span v-if="avg" class="badge rounded-pill text-bg-success">{{  avg }}</span>
+            <span v-else>Chưa có đánh giá</span>
         </div>
         <div>
             Được tạo vào {{ new Date(recipe.RECIPE_CREATE_AT).toLocaleString('vi-VN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) }}
