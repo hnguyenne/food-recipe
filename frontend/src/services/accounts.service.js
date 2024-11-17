@@ -1,4 +1,5 @@
 import { DEFAULT_PIC } from "@/constants";
+import { DEFAULT_IMG } from "@/constants";
 
 async function efetch(url, options = {}) {
     let result = {};
@@ -54,12 +55,11 @@ function makeAccountsService(){
     }
 
     async function getFavorite(user_id) {
-        const { data } = await efetch(`${baseUrl}/${user_id}/favorite`);
-        console.log(data.favorite);
-        data.favorite = data.favorite.map((favorite) => {
+        const data = await efetch(`${baseUrl}/${user_id}/favorite`);
+        data.recipes = data.recipes.map((recipe) => {
             return {
-                ...favorite,
-                img_url: recipe.img_url ?? DEFAULT_IMG
+                ...recipe,
+                img_url: recipe.img_url ?? recipe.IMG_URL ?? DEFAULT_IMG
             };
         });
         return data;

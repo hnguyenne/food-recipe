@@ -4,6 +4,7 @@ import RecipeCard from '@/components/RecipeCard.vue'
 defineProps({
     recipes: { type: Array, default: () => [] },
 });
+
 </script>
 <template>
     <ul class="row">

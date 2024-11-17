@@ -40,10 +40,4 @@ a {
 .effect:hover {
     transform:scale(1.02);
 }
-
-.container{
-    background-color: white;
-    margin: auto;
-    border-radius: 20px;
-}
 </style>

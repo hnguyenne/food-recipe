@@ -97,7 +97,7 @@ async function getUserFavorite(req, res, next) {
         if (!favorite){
             return next(new ApiError(404, "User not found"));
         }
-        return res.json(JSend.success({ favorite }))
+        return res.json(JSend.success({ recipes: favorite.recipes }))
     }
     catch (error){
         console.log(error);

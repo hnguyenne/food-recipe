@@ -109,7 +109,7 @@ function onAddtoFavorite(){
 </script>
 
 <template>
-    <div class="page col-10 mx-auto container" v-if="recipe">
+    <div class="page col-10 offset-1" v-if="recipe">
         <div class="font-weight-bold">
             <h1>{{ recipe.TITTLE }}</h1>
         </div>
@@ -176,10 +176,3 @@ function onAddtoFavorite(){
         <p>Loading...</p>
     </div>
 </template>
-<style scoped>
-.container{
-    margin:auto;
-    border-radius: 20px;
-    background-color: white;
-}
-</style>

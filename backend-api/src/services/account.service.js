@@ -54,9 +54,12 @@ async function updateAccount(user_id, payload){
 }
 
 async function getFavorite(user_id) {
-    return await favoriteRepository().join('recipes', 'favorite.recipe_id', 'recipes.recipe_id')
+    const results = await favoriteRepository().join('recipes', 'favorite.recipe_id', 'recipes.recipe_id')
                                 .where('favorite.user_id', user_id)
                                 .select('*');
+    return {
+        recipes : results,
+    }
 }
 async function getUserbyEmail(email){
     return await accountRepository().where('user_email', email).select('*').first();
