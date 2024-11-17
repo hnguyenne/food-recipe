@@ -3,13 +3,14 @@ import { ref, useTemplateRef, computed } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import { z } from 'zod';
+import { DEFAULT_IMG } from '@/constants';
 
 const props = defineProps({
     recipe: { type: Object, required: true },
 });
 
 let imgFileInput = useTemplateRef('img-file-input');
-let imgFile = ref(props.recipe.IMG_URL);
+let imgFile = ref(props.recipe.IMG_URL ?? DEFAULT_IMG);
 const $emit = defineEmits(['submit:recipe', 'delete:recipe']);
 
 let validationSchema = toTypedSchema(

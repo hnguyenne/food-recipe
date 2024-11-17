@@ -10,8 +10,9 @@ const props = defineProps({
 });
 
 let imgFileInput = useTemplateRef('img-file-input');
-let imgFile = ref(props.user.PROFILE_PIC ?? DEFAULT_PIC);
+let imgFile = ref(props.user.PROFILE_PIC ?? props.user.profile_pic ?? DEFAULT_PIC);
 const $emit = defineEmits(['submit:user']);
+
 
 let validationSchema = toTypedSchema(
     z.object({
@@ -20,7 +21,7 @@ let validationSchema = toTypedSchema(
         user_birthdate: z.string().min(1, {message: "Không để trống ngày sinh"}),
         password: z.string().min(6, {message: "Mật khẩu phải ít nhất 6 kí tự"}),
         retype_password: z.string().min(6, {message: "Mật khẩu phải ít nhất 6 kí tự"}),
-        profile_pic: z.instanceof(File).optional(),
+        imgFile: z.instanceof(File).optional(),
     })
 );
 

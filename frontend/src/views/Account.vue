@@ -42,13 +42,13 @@ const { data: favorites } = useQuery({
             <h2>Tên người dùng: {{ user?.USER_NAME }}</h2>
         </div>
         <div class="p-1 w-75 h-75">
-            <img class="img-fluid img-thumbnail" :src="user.profile_pic ?? user.PROFILE_PIC ?? DEFAULT_PIC" alt=""/>
+            <img class="img-fluid img-thumbnail" :src="user.profile_pic ?? DEFAULT_PIC" alt=""/>
         </div>
         <div>
             <p>Email: {{ user?.USER_EMAIL }}</p>
         </div>
         <div>
-            <p>Ngày tháng năm sinh: {{ user?.USER_BIRTH_DATE }}</p>
+            <p>Ngày tháng năm sinh: {{ new Date(user?.USER_BIRTHDATE).toISOString().split('T')[0].split('-').reverse().join('-') }}</p>
         </div>
         <div>
             <p>Thời gian lập tài khoản: {{ new Date(user?.USER_CREATE_AT).toLocaleString('vi-VN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) }}</p>
