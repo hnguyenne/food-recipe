@@ -1,6 +1,7 @@
 const recipesService = require('../services/recipes.service');
 const ApiError = require('../api-error');
 const JSend = require('../jsend');
+const { compareSync } = require('bcrypt');
 
 async function getLatestRecipes(req, res, next) {
     let result = {
@@ -162,6 +163,22 @@ function saveRecipe(req, res, next) {
     }
 }
 
+function removefromFavorite(req, res, next){
+    const user_id = req.query.user_id;
+    const recipe_id = req.params.recipe_id;
+    try {
+        const removed = recipesService.removeFavorite(user_id, recipe_id);
+        if (!removed){
+            return next(new ApiError(404, 'Favorite recipe not found'))
+        }
+        return res.json(JSend.success({message: 'Favorite removed successfully'}))
+    }
+    catch (error){
+        console.log(error);
+        return next(new ApiError(500, 'An error occured'))
+    }
+}
+
 async function getAvgRate(req, res, next) {
     const recipe_id = req.params.recipe_id;
     try {
@@ -197,4 +214,5 @@ module.exports = {
     saveRecipe,
     getAvgRate,
     deleteRecipe,
+    removefromFavorite
 };

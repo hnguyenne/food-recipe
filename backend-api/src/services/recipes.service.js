@@ -212,6 +212,16 @@ async function addToFavorite(user_id, recipe_id){
     return { id, ...favorite }
 }
 
+async function removeFavorite(user_id, recipe_id){
+    const exist = await favoriteRepository().where('user_id', user_id).andWhere('recipe_id', recipe_id).select('*').first();
+    if (!exist){
+        console.log("Not found")
+        return null;
+    }
+    await favoriteRepository().where('user_id', user_id).andWhere('recipe_id', recipe_id).del();
+    return exist;
+}
+
 async function getReviews(recipe_id) {
     return await reviewRepository()
         .join('recipes', 'recipes.recipe_id', 'reviews.recipe_id')
@@ -238,4 +248,5 @@ module.exports = {
     getPopularRecipes,
     getReviews,
     getAvgRate,
+    removeFavorite
 }

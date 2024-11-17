@@ -54,14 +54,15 @@ function makeAccountsService(){
     }
 
     async function getFavorite(user_id) {
-        const { recipes } = await efetch(`${baseUrl}/${user_id}/favorite`, {
-            method: 'GET',
-            body: recipes,
+        const { data } = await efetch(`${baseUrl}/${user_id}/favorite`);
+        console.log(data.favorite);
+        data.favorite = data.favorite.map((favorite) => {
+            return {
+                ...favorite,
+                img_url: recipe.img_url ?? DEFAULT_IMG
+            };
         });
-        if (!recipes){
-            throw new Error('Fetching failed');
-        }
-        return recipes;
+        return data;
     }
 
     return {

@@ -25,9 +25,10 @@ const { data: favorites } = useQuery({
     queryKey: ['user', userId],
     queryFn: () => accountService.getFavorite(userId),
     select: (data) => {
-        return data.recipes;
+        console.log(data.favorite)
+        return data.favorite;
     },
-    throwOnError: (error) => {
+    OnError: (error) => {
         console.log(error);
     }
 })

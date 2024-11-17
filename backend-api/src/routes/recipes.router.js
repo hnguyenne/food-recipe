@@ -349,7 +349,36 @@ module.exports.setup = (app) => {
      *              description: Internal server error
      */
     router.get('/avg/:recipe_id', recipesController.getAvgRate);
-    
+    /**
+     * @swagger
+     * /api/v1/foodrecipe/remove/{recipe_id}:
+     *  delete:
+     *      summary: Remove a favorite recipe
+     *      description: Remove a recipe from a user's favorite list
+     *      parameters:
+     *          - in: query
+     *            name: user_id
+     *            description: ID of the user
+     *            required: true
+     *            schema:
+     *              type: integer
+     *          - in: path
+     *            name: recipe_id
+     *            description: ID of the recipe
+     *            required: true
+     *            schema:
+     *              type: integer
+     *      tags:
+     *          - recipes
+     *      responses:
+     *          200:
+     *              description: Recipe removed from favorite
+     *          404: 
+     *              description: Recipe not found
+     *          500: 
+     *              description: Interal server error
+     */
+    router.delete('/remove/:recipe_id', recipesController.removefromFavorite)
     router.all('/', methodNotAllowed);
     router.all('/:recipe_id', methodNotAllowed);
 };
