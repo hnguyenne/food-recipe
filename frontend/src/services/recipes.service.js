@@ -88,6 +88,7 @@ function makeRecipesService() {
     }
 
     async function deleteRecipe(id) {
+        console.log(id);
         return efetch(`${baseUrl}/${id}`, {
             method: 'DELETE',
         });

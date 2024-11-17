@@ -53,7 +53,7 @@ function submitRecipe(values) {
 }
 
 function deleteRecipe(){
-    $emit('delete:recipe', recipe.recipe_id)
+    $emit('delete:recipe', props.recipe.RECIPE_ID  ?? props.recipe.recipe_id)
 }
 </script>
 <template>

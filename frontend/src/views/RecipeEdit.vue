@@ -47,7 +47,7 @@ const updateRecipeMutation = useMutation({
 const deleteRecipeMutation = useMutation({
     mutationFn: (id) => recipesService.deleteRecipe(id),
     onSuccess: () => {
-        router.push({ name: 'recipe' });
+        router.push({ name: 'foodrecipe' });
     },
     onError: (error) => console.log(error),
 });
