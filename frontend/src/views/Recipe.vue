@@ -176,17 +176,20 @@ const { data: avg } = useQuery({
                     <i class="fas fa-edit"> Hiệu chỉnh</i>
                 </span>
         </router-link>
-        <div v-if="userReview" class="mt-5">
-            <h2>Thay đổi giá của bạn:</h2>
-            <ReviewUpdate :reviewId="userReview.REVIEW_ID"
-                :recipeId="props.recipeId"
-                :userId="userId"/>
+        <div v-if="userId">
+            <div v-if="userReview" class="mt-5">
+                <h2>Thay đổi giá của bạn:</h2>
+                <ReviewUpdate :reviewId="userReview.REVIEW_ID"
+                    :recipeId="props.recipeId"
+                    :userId="userId"/>
+            </div>
+            <div v-else class="mt-5">
+                <h2>Thêm đánh giá của bạn</h2>
+                <ReviewForm :newReview="newReview"
+                    @submit:newReview="onAddReview"/>
+            </div>
         </div>
-        <div v-else class="mt-5">
-            <h2>Thêm đánh giá của bạn</h2>
-            <ReviewForm :newReview="newReview"
-                @submit:newReview="onAddReview"/>
-        </div>
+
         <hr>
         <h2>Các nhận xét của công thức này</h2>
         <ReviewList 
