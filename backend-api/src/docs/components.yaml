@@ -99,7 +99,7 @@ components:
         profile_pic:
           type: string
           readOnly: true
-        profile_file:
+        imgFile:
           type: string
           format: binary
           writeOnly: true

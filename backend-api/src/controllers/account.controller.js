@@ -43,7 +43,7 @@ async function register(req, res, next) {
             profile_pic: req.file ? `/public/uploads/${req.file.filename}` : null
         })
         return res.status(201).set({
-            Location: `${req.baseUrl}/${user.id}`,
+            Location: `${req.baseUrl}/${user.user_id}`,
         }).json(JSend.success({
             user,
         }))

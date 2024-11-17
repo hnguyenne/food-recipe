@@ -33,7 +33,7 @@ const { data: user } = useQuery({
 
 const updateAccountMutation = useMutation({
     mutationFn: (user) => accountService.updateAccount(user_id, user),
-    onSuccess: (data) => {
+    onSuccess: () => {
         message.value = 'Bạn đã thay đổi thông tin tài khoản thành công';
         queryClient.invalidateQueries(['user', props.userId]);
         router.push({ name: 'account' }).then(() => {
