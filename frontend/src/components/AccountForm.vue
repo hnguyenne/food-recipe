@@ -3,14 +3,14 @@ import { ref, useTemplateRef, computed } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import { z } from 'zod';
-import { DEFAULT_IMG } from '@/constants';
+import { DEFAULT_PIC } from '@/constants';
 
 const props = defineProps({
     user: { type: Object, required: true },
 });
 
 let imgFileInput = useTemplateRef('img-file-input');
-let imgFile = ref(props.user.PROFILE_PIC ?? DEFAULT_IMG);
+let imgFile = ref(props.user.PROFILE_PIC ?? DEFAULT_PIC);
 const $emit = defineEmits(['submit:user']);
 
 let validationSchema = toTypedSchema(
@@ -107,24 +107,24 @@ function submitUser(values) {
             @click="imgFileInput.click()"
         />
         <Field name="imgFile" v-slot="{ handleChange }">
-        <input
-            type="file"
-            class="d-none"
-            ref="img-file-input"
-            @change="
-            (event) => {
-                handleChange(event);
-                previewImgFile(event);
-            }
+          <input
+              type="file"
+              class="d-none"
+              ref="img-file-input"
+              @change="
+              (event) => {
+                  handleChange(event);
+                  previewImgFile(event);
+              }
             "
-          />
+        />
           </Field>
       </div>
 
 
     <div class="mb-3">
       <button 
-        class="btn"> Đăng ký</button>
+        class="btn">Xác nhận</button>
     </div>
   </Form>
 </template>

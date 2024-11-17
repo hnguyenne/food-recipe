@@ -109,7 +109,7 @@ function onAddtoFavorite(){
 </script>
 
 <template>
-    <div class="page col-10 mx-auto" v-if="recipe">
+    <div class="page col-10 mx-auto container" v-if="recipe">
         <div class="font-weight-bold">
             <h1>{{ recipe.TITTLE }}</h1>
         </div>
@@ -166,6 +166,8 @@ function onAddtoFavorite(){
             <ReviewForm :newReview="newReview"
                 @submit:newReview="onAddReview"/>
         </div>
+        <hr>
+        <h2>Các nhận xét của công thức này</h2>
         <ReviewList 
             :reviews="reviews"
         />
@@ -175,4 +177,9 @@ function onAddtoFavorite(){
     </div>
 </template>
 <style scoped>
+.container{
+    margin:auto;
+    border-radius: 20px;
+    background-color: white;
+}
 </style>

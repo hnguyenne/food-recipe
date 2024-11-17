@@ -1,10 +1,12 @@
 <script setup>
+import { DEFAULT_IMG } from '@/constants';
+
 defineProps({
     recipe: {type: Object, required: true},
 })
 </script>
 <template>
-    <div class="col-md-10 effect">
+    <div class="col-md-10 effect container">
         <router-link
             :to="{
                 name: 'recipe',
@@ -37,5 +39,11 @@ a {
 
 .effect:hover {
     transform:scale(1.02);
+}
+
+.container{
+    background-color: white;
+    margin: auto;
+    border-radius: 20px;
 }
 </style>
