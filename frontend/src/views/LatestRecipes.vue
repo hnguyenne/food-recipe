@@ -28,7 +28,9 @@ const { data: latestRecipes } = useQuery({
     queryKey: ['latestRecipes', currentPage],
     queryFn: () => recipesService.fetchLatestRecipes(currentPage.value, limit),
     select: (data) => {
-        console.log(data.recipes)
+      console.log (data.metadata)
+        totalPages.value = data.metadata?.lastPage || 1
+        console.log(totalPages.value)
         return data.recipes;
     },
     throwOnError: (error) => {

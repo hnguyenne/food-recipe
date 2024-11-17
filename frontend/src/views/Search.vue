@@ -34,6 +34,7 @@ const { data: recipes } = useQuery({
     queryKey: ['recipes', currentPage, text],
     queryFn: () => recipesService.fetchFilterRecipes(text.value, currentPage.value, limit),
     select: (data) => {
+      totalPages.value = data.metadata?.lastPage || 1
       console.log(data.recipes);
       return data.recipes;
     },

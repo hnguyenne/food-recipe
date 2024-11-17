@@ -28,6 +28,7 @@ const { data: popularRecipes } = useQuery({
     queryKey: ['popularRecipes', currentPage],
     queryFn: () => recipesService.fetchLatestRecipes(currentPage.value, limit),
     select: (data) => {
+        totalPages.value = data.metadata?.lastPage || 1
         console.log(data.recipes)
         return data.recipes;
     },
