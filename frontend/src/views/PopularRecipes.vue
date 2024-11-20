@@ -43,9 +43,9 @@ function changeCurrentPage(page) {
 
 </script>
 <template>
-  <div v-if="popularRecipesRecipes?.length > 0">
+  <div v-if="popularRecipes?.length > 0">
     <RecipeList 
-      :recipes="popularRecipesRecipes"
+      :recipes="popularRecipes"
       class="d-inline-flex"
     />
   </div>
