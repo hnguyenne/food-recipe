@@ -1,4 +1,4 @@
-This is a group project. I commit this project to this account because the account hong-nguyen-13 of mine can not be used in the future(I created it by student email)
+This is a group project. I commit this project to this account because the account hong-nguyen13 of mine can not be used in the future(I created it by student email)
 
 # CT313H: WEB TECHNOLOGIES AND SERVICES
 
